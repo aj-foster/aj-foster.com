@@ -18,3 +18,6 @@ gem "middleman-autoprefixer"
 
 # Syntax Highlighting
 gem "middleman-syntax"
+
+# For building the feed
+gem "builder"
