@@ -1,11 +1,17 @@
 module Helpers
 
-  def get_articles
-    sitemap.where(layout: "article")
+  def get_articles(count = 0)
+    articles = sitemap.where(layout: "article")
       .order_by(:date)
       .all
       .select{ |a| a.data.published.nil? || a.data.published }
       .reverse
+
+    if count == 0
+      return articles
+    else
+      return articles.first(count)
+    end
   end
 
   def meta_page_image
