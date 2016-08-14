@@ -11,6 +11,9 @@
 # Page options, layouts, aliases and proxies
 ###
 
+# Enable a feed.
+page "/feed.xml", :layout => false
+
 # Per-page layout changes:
 #
 # With no layout
