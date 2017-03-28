@@ -8,12 +8,12 @@
     %main.row{role: "main"}
       .cell.well
         .g
-          %section.g-b.g-b--m--2of3
+          %section.g-b
             - if current_page.data.title
               %h1#title= current_page.data.title
             = yield
 
-          %aside.g-b.g-b--m--1of3
+          %aside.g-b
             - if content_for? :aside
               = yield_content :aside
 
