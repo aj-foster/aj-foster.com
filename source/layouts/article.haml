@@ -8,40 +8,32 @@
     %main.row{role: "main"}
       .cell.well
         .g
-          %section.g-b.g-b--m--2of3.article
+          %section.g-b.article
             - if current_page.data.title
               %h1#title= current_page.data.title
             - if current_page.data.description
-              %p
-                %em= current_page.data.description
-            ~ yield
-
-          %aside.g-b.g-b--m--1of3
-            %h3 About this Post
-            - if current_page.data.date
               %p.mbf
-                %strong Published:
-                = current_page.data.date.strftime("%B %-d, %Y")
+                %em= current_page.data.description
+            - if current_page.data.date
+              %p.tss
+                Published
+                %strong= current_page.data.date.strftime("%B %-d, %Y")
                 - if (!current_page.data.published.nil? && !current_page.data.published)
                   (Draft)
-            - if current_page.data.category
-              %p
-                %strong Category:
-                = current_page.data.category
-            - if current_page.data.notes
-              %p
-                %strong Notes:
-                = current_page.data.notes
+                - if current_page.data.category
+                  as a
+                  %strong= current_page.data.category + '.'
+            ~ yield
 
-            .g.mtm
-              .g-b.g-b--1of3.tac
-                %a.icon{href: "https://github.com/aj-foster", title: "GitHub profile"}
-                  <svg><use xlink:href="#icon-github"></use></svg>
-              .g-b.g-b--1of3.tac
-                %a.icon{href: "https://twitter.com/austin_j_foster", title: "Twitter profile"}
-                  <svg><use xlink:href="#icon-twitter"></use></svg>
-              .g-b.g-b--1of3.tac
-                %a.icon.email{href: "#", title: "Email me"}
-                  <svg><use xlink:href="#icon-email"></use></svg>
+          %footer.mtm.g
+            .g-b.g-b--1of3.tac
+              %a.icon{href: "https://github.com/aj-foster", title: "GitHub profile"}
+                <svg><use xlink:href="#icon-github"></use></svg>
+            .g-b.g-b--1of3.tac
+              %a.icon{href: "https://twitter.com/austin_j_foster", title: "Twitter profile"}
+                <svg><use xlink:href="#icon-twitter"></use></svg>
+            .g-b.g-b--1of3.tac
+              %a.icon.email{href: "#", title: "Email me"}
+                <svg><use xlink:href="#icon-email"></use></svg>
 
     = partial "layouts/footer"
