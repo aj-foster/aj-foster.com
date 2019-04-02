@@ -1,10 +1,10 @@
 .mbl
   %h1#title AJ Foster
-  %p Hello there! I'm AJ, a developer at <a href="https://www.codeschool.com/">Code School</a>, lifelong student of mathematics, and FIRST (robotics) volunteer.
+  %p Hello there! I'm AJ, a developer at <a href="https://www.pluralsight.com/">Pluralsight</a>, lifelong student of mathematics, and FIRST (robotics) volunteer.
 
 .mbl
   %h3 A little about me...
-  %p.mbf My interests include things like Ruby on Rails, server management and automation, and Mathematics. My work history involves WordPress themeing, back-end web programming, and system management. Offline, you might occassionally find me at a FIRST robotics event as a volunteer.
+  %p.mbf My interests include software development and Mathematics. My work history involves developing websites and implementing software challenges for others who are learning. Offline, you might occassionally find me at a FIRST robotics event as a volunteer.
   %p= link_to "Read a little more...", "/about"
 
 .mbl
@@ -13,6 +13,4 @@
     %p
       %a{href: article.url}= article.data.title
       %br/
-      %strong.tss= article.data.date.strftime("%B %-d, %Y")
-      &mdash;
       = article.data.description
