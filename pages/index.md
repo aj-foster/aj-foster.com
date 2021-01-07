@@ -1,16 +1,14 @@
 ---
-title: Welcome
+title: Hello
 ---
 
-*Hello, world!*
+# Hello there
 
-If you are seeing this page through your web browser, you have successfully
-created a new Serum project.
+I'm AJ, a software developer at Pluralsight.
+My interests in education and software lead me to...
 
-## What's Next?
+- Create interactive content on Pluralsight's Skills platform
+- Volunteer with _FIRST_ Tech Challenge events and teams
+- Build things that move around the room or light up the screen
 
-[The official Serum website](https://dalgona.github.io/Serum/docs) provides
-a comprehensive set of documentation that will help you customize this website
-further.
-
-Thank you for using Serum!
+Contact me if you are interested in teaching a technical skill, building robots, or making something in the [Elixir](https://elixir-lang.org/) programming language.
