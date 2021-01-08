@@ -27,25 +27,17 @@ defmodule Site.Sass do
   end
 
   def handle_info({:file_event, _, {path, _events}}, state) do
-    IO.inspect(path)
+    case Path.extname(path) do
+      ".sass" ->
+        IO.puts("[Sass] Processing #{path}")
+        do_sass()
 
-    case Path.basename(path) do
-      "_" <> _rest ->
+      ".scss" ->
+        IO.puts("[Sass] Processing #{path}")
+        do_sass()
+
+      _ ->
         :noop
-
-      file ->
-        case Path.extname(file) do
-          ".sass" ->
-            IO.puts("[Sass] Processing #{path}")
-            do_sass(path)
-
-          ".scss" ->
-            IO.puts("[Sass] Processing #{path}")
-            do_sass(path)
-
-          _ ->
-            :noop
-        end
     end
 
     {:noreply, state}
@@ -56,24 +48,34 @@ defmodule Site.Sass do
   # Ignore warning about Sass.compile_file/1; it's a NIF that dialyzer doesn't understand.
   @dialyzer {:nowarn_function, do_sass: 1}
 
-  defp do_sass(path) do
-    file_no_extension =
-      path
-      |> Path.basename()
-      |> Path.rootname()
+  defp do_sass() do
+    File.cwd!()
+    |> Path.join(["styles/", "*.{sass,scss}"])
+    |> Path.absname()
+    |> Path.wildcard()
+    |> Enum.each(fn
+      "_" <> _rest ->
+        nil
 
-    destination =
-      File.cwd!()
-      |> Path.join("assets/css")
-      |> Path.join(file_no_extension <> ".css")
-      |> Path.absname()
+      path ->
+        file_no_extension =
+          path
+          |> Path.basename()
+          |> Path.rootname()
 
-    with {:ok, sass} <- Sass.compile_file(path),
-         :ok <- File.write(destination, sass) do
-      IO.puts("[Sass] Wrote #{destination}")
-    else
-      error ->
-        IO.inspect(error, label: "[Sass] Error")
-    end
+        destination =
+          File.cwd!()
+          |> Path.join("assets/css")
+          |> Path.join(file_no_extension <> ".css")
+          |> Path.absname()
+
+        with {:ok, sass} <- Sass.compile_file(path),
+             :ok <- File.write(destination, sass) do
+          IO.puts("[Sass] Wrote #{destination}")
+        else
+          error ->
+            IO.inspect(error, label: "[Sass] Error")
+        end
+    end)
   end
 end
