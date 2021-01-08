@@ -1,5 +1,7 @@
 ---
 title: Résumé
+group: main
+label: About
 ---
 
 ### Academics

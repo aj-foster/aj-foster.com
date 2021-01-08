@@ -2,6 +2,7 @@
 title: Sample Post
 date: 2019-01-01
 tags: hello, sample
+preview: This is an example post preview
 ---
 
 This is a sample blog post.

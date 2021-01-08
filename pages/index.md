@@ -1,5 +1,7 @@
 ---
 title: Hello
+group: main
+label: Home
 ---
 
 # Hello there
