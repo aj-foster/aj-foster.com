@@ -1,5 +1,13 @@
+// Base
 @import "./base/normalize";
+@import "./base/vars";
+@import "./base/base";
 
-body {
-  font-family: 'Raleway', sans-serif;
-}
+// Components
+@import "./components/cell";
+@import "./components/listing";
+@import "./components/logo";
+@import "./components/nav";
+
+// Pages
+@import "./pages/home";

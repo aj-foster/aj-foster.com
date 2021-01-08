@@ -1,0 +1,45 @@
+body {
+  font-family: $tf-family;
+  font-weight: $tf-weight;
+  line-height: $tf-height;
+}
+
+a {
+  color: $cl-primary;
+}
+
+// Light and Dark Modes
+
+:root {
+  --ajBackgroundColor: #{$cl-dark-1};
+  --ajBorderColor: #{$cl-dark-2};
+  --ajTextColor: #{$cl-light-1};
+}
+
+body {
+  background-color: $cl-dark-1;
+  color: $cl-light-1;
+}
+
+@media screen and (prefers-color-scheme: light) {
+  :root {
+    --ajBackgroundColor: #{$cl-light-1};
+    --ajBorderColor: #{$cl-light-2};
+    --ajTextColor: #{$cl-dark-1};
+  }
+
+  body {
+    background-color: $cl-light-1;
+    color: $cl-dark-1;
+  }
+}
+
+// Border Box Fix
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}

@@ -1,0 +1,19 @@
+.cell {
+  margin: auto;
+  max-width: 50rem;
+  padding: 0px 1rem;
+}
+
+.well {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.with-aside {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.with-aside > section {
+  flex-grow: 1;
+}

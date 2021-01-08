@@ -9,10 +9,41 @@
     <% end %>
     <link rel="stylesheet" href="<%= asset "css/app.css" %>">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&family=Raleway:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
   </head>
+<%= if @page[:label] do %>
+  <body class="page--<%= String.downcase(@page.label) %>">
+<% else %>
   <body>
-    <%= include "nav" %>
-    <%= @contents %>
+<% end %>
+    <div class="cell well with-aside">
+    <%= if @page[:group] == "main" do %>
+      <%= include "aj" %>
+    <% end %>
+      <section>
+        <%= include "nav" %>
+        <%= @contents %>
+      </section>
+    </div>
+
+<%= if @page[:label] == "Home" do %>
+    <div class="cell well">
+      <h2>Writing</h2>
+    <%= for post <- @all_posts do %>
+      <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = post.date %>
+      <a href="<%= post.url %>" class="listing">
+        <div class="date">
+          <div class="month"><%= month %></div>
+          <div class="day"><%= day %></div>
+          <div class="year"><%= year %></div>
+        </div>
+        <div class="text">
+          <div class="title"><%= post.title %></div>
+          <div class="description"><%= post.extras["preview"] %></div>
+        </div>
+      </a>
+    <% end %>
+    </div>
+<% end %>
   </body>
 </html>

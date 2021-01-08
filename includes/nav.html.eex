@@ -1,5 +1,12 @@
-<ul>
-  <li><a href="<%= base() %>">Home</a></li>
-  <li><a href="<%= base("about") %>">About</a></li>
-  <li><a href="<%= base("posts") %>">Posts</a></li>
-</ul>
+<% label = @page[:label] %>
+<nav class="nav">
+  <ul>
+    <%= unless label == "Home" do %>
+      <li><a href="<%= base() %>">Home</a></li>
+    <% end %>
+    <%= unless label == "About" do %>
+      <li><a href="<%= base("about") %>">About</a></li>
+    <% end %>
+    <li><a href="https://github.com/aj-foster/">GitHub</a></li>
+  </ul>
+</nav>

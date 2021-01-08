@@ -1,0 +1,43 @@
+.listing {
+  align-items: center;
+  border: 1px solid var(--ajBorderColor);
+  color: var(--ajTextColor);
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 1.25rem 2rem;
+  text-decoration: none;
+  transition: border-color 0.2s;
+
+  &:active, &:focus, &:hover {
+    border-color: $cl-primary;
+  }
+}
+
+.listing .date {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  margin-right: 2rem;
+  text-align: center;
+}
+
+.listing .day {
+  font-family: 'Oranienbaum';
+  font-size: 2.25rem;
+}
+
+.listing .year {
+  line-height: 0.625;
+}
+
+.listing .title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+@media screen and (prefers-color-scheme: light) {
+  .listing {
+    box-shadow: 0px 2px 4px 0px transparentize($cl-dark-1, 0.8);
+  }
+}
