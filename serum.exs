@@ -5,8 +5,10 @@
   base_url: "/",
   author: "AJ Foster",
   author_email: "public@aj-foster.com",
+  posts_path: "",
   plugins: [
     {Serum.Plugins.LiveReloader, only: :dev},
-    {Serum.Plugins.PreviewGenerator, args: [length: [chars: 150]]}
+    {Serum.Plugins.PreviewGenerator, args: [length: [chars: 150]]},
+    {Site.Subdirectory, []}
   ]
 }
