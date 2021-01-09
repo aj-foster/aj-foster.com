@@ -30,10 +30,20 @@
   line-height: 0.625;
 }
 
+.listing .text {
+  min-width: 0;
+}
+
 .listing .title {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 0.25rem;
+}
+
+.listing .description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media screen and (prefers-color-scheme: light) {
