@@ -26,7 +26,7 @@ defmodule Site.Subdirectory do
   """
   @spec processed_page(Serum.Page.t(), any) :: {:ok, Serum.Page.t()}
   def processed_page(page, _args) do
-    case Regex.run(~r/\/(.*)\.md$/, page.file) |> IO.inspect() do
+    case Regex.run(~r/\/(.*)\.md$/, page.file) do
       [_full_match, "index"] ->
         {:ok, page}
 
@@ -34,7 +34,6 @@ defmodule Site.Subdirectory do
         page =
           Map.update!(page, :output, &update_page_path/1)
           |> Map.update!(:url, &update_page_url/1)
-          |> IO.inspect()
 
         {:ok, page}
 
