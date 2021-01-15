@@ -8,8 +8,9 @@
   posts_path: "",
   date_format: "{Mshort} {0D}, {YYYY}",
   plugins: [
+    {Site.Subdirectory, []},
     {Serum.Plugins.LiveReloader, only: :dev},
     {Serum.Plugins.PreviewGenerator, args: [length: [chars: 150]]},
-    {Site.Subdirectory, []}
+    {Site.Map, args: [for: [:pages, :posts]]}
   ]
 }

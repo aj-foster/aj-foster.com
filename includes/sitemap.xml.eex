@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<%= for page <- pages do %>
+  <url>
+    <loc><%= server_root %><%= page.url %></loc>
+  <%= if page.url == "/" do %>
+    <priority>1.0</priority>
+    <lastmod><%= to_string(Date.utc_today()) %></lastmod>
+  <% else %>
+    <priority>0.7</priority>
+  <% end %>
+    <changefreq>monthly</changefreq>
+  </url>
+<% end %>
+<%= for post <- posts do %>
+  <url>
+    <loc><%= server_root %><%= post.url %></loc>
+    <priority>0.5</priority>
+    <lastmod><%= post.raw_date |> elem(0) |> Date.from_erl!() |> to_string() %></lastmod>
+  </url>
+<% end %>
+</urlset>

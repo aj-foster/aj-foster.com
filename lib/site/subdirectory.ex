@@ -19,7 +19,9 @@ defmodule Site.Subdirectory do
   def elixir, do: "~> 1.11"
   def serum, do: "~> 1.5"
   def description, do: "Make each post a subdirectory instead of a .html file"
-  def implements, do: [processed_page: 2, processed_post: 2]
+
+  def implements,
+    do: [processed_page: 2, processed_pages: 2, processed_post: 2, processed_posts: 2]
 
   @doc """
   Alter the output file and URL of a processed page to use the desired scheme.
@@ -28,6 +30,7 @@ defmodule Site.Subdirectory do
   def processed_page(page, _args) do
     case Regex.run(~r/\/(.*)\.md$/, page.file) do
       [_full_match, "index"] ->
+        page = Map.update!(page, :url, &Path.dirname/1)
         {:ok, page}
 
       [_full_match, _name] ->
@@ -69,6 +72,15 @@ defmodule Site.Subdirectory do
       |> String.trim_trailing(".html")
 
     Path.join(first, second) <> "/"
+  end
+
+  @doc """
+  Update the global cache of page data so the new URLs can be used in later plugins.
+  """
+  @spec processed_pages([Serum.Page.t()], any) :: {:ok, [Serum.Page.t()]}
+  def processed_pages(pages, _args) do
+    Serum.GlobalBindings.put(:all_pages, pages)
+    {:ok, pages}
   end
 
   @doc """
@@ -119,5 +131,14 @@ defmodule Site.Subdirectory do
       |> String.trim_trailing(".html")
 
     Path.join(first, second) <> "/"
+  end
+
+  @doc """
+  Update the global cache of page data so the new URLs can be used in later plugins.
+  """
+  @spec processed_posts([Serum.Page.t()], any) :: {:ok, [Serum.Page.t()]}
+  def processed_posts(posts, _args) do
+    Serum.GlobalBindings.put(:all_posts, posts)
+    {:ok, posts}
   end
 end
