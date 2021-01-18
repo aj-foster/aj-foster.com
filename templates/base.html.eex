@@ -17,7 +17,7 @@
 <% else %>
   <body>
 <% end %>
-    <div class="cell well with-aside">
+    <div class="cell well">
     <%= if @page[:group] == "main" do %>
       <%= include "aj" %>
     <% end %>

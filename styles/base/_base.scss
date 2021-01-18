@@ -13,7 +13,8 @@ a {
 :root {
   --ajBackgroundColor: #{$cl-dark-background};
   --ajBorderColor: #{$cl-dark-border};
-  --ajTextColor: #{$cl-light-1};
+  --ajTextColor: #{$cl-dark-text};
+  --ajLogoColor: #{$cl-light-1};
 }
 
 body {
@@ -26,6 +27,7 @@ body {
     --ajBackgroundColor: #{$cl-light-background};
     --ajBorderColor: #{$cl-light-border};
     --ajTextColor: #{$cl-light-text};
+    --ajLogoColor: #{$cl-light-text};
   }
 
   body {

@@ -22,3 +22,10 @@
     color: $cl-primary;
   }
 }
+
+@media screen and (max-width: $bp-collapse) {
+  .nav {
+    margin-right: -1rem;
+    text-align: center;
+  }
+}

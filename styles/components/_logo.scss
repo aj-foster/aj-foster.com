@@ -1,9 +1,26 @@
 .logo {
-  color: var(--ajTextColor);
-  margin-left: 5rem;
+  background-color: var(--ajBackgroundColor);
+  color: var(--ajLogoColor);
+  float: right;
+  padding-left: 6rem;
+  padding-left: unquote("min(12.5%, 6rem)");;
   margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 12rem;
+  width: unquote("min(25%, 12rem)");
 }
 
 .logo svg {
   fill: currentColor;
+  height: auto;
+  width: 100%;
+}
+
+@media screen and (max-width: $bp-collapse) {
+  .logo {
+    float: none;
+    margin: auto;
+    padding: 0px;
+    width: 3rem;
+  }
 }
