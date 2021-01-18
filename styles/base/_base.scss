@@ -11,26 +11,26 @@ a {
 // Light and Dark Modes
 
 :root {
-  --ajBackgroundColor: #{$cl-dark-1};
-  --ajBorderColor: #{$cl-dark-2};
+  --ajBackgroundColor: #{$cl-dark-background};
+  --ajBorderColor: #{$cl-dark-border};
   --ajTextColor: #{$cl-light-1};
 }
 
 body {
-  background-color: $cl-dark-1;
-  color: $cl-light-1;
+  background-color: $cl-dark-background;
+  color: $cl-dark-text;
 }
 
 @media screen and (prefers-color-scheme: light) {
   :root {
-    --ajBackgroundColor: #{$cl-light-1};
-    --ajBorderColor: #{$cl-light-2};
-    --ajTextColor: #{$cl-dark-1};
+    --ajBackgroundColor: #{$cl-light-background};
+    --ajBorderColor: #{$cl-light-border};
+    --ajTextColor: #{$cl-light-text};
   }
 
   body {
-    background-color: $cl-light-1;
-    color: $cl-dark-1;
+    background-color: $cl-light-background;
+    color: $cl-light-text;
   }
 }
 

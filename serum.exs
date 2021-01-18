@@ -8,6 +8,7 @@
   posts_path: "",
   date_format: "{Mshort} {0D}, {YYYY}",
   plugins: [
+    {Site.Highlight, []},
     {Site.Subdirectory, []},
     {Serum.Plugins.LiveReloader, only: :dev},
     {Serum.Plugins.PreviewGenerator, args: [length: [chars: 150]]},

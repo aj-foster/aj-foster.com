@@ -4,11 +4,25 @@ $cl-primary: #4E9AC5;
 
 $cl-light-1: #FFFFFF;
 $cl-light-2: #F3F3F3;
+$cl-light-3: #D7D7D7;
 
 $cl-dark-1: #1B1E20;
 $cl-dark-2: #818181;
 
+$cl-light-background: $cl-light-1;
+$cl-dark-background: $cl-dark-1;
+
+$cl-light-border: $cl-light-2;
+$cl-dark-border: $cl-dark-2;
+
+$cl-light-text: $cl-dark-1;
+$cl-dark-text: $cl-light-3;
+
 // Typography
 $tf-family: 'Raleway', sans-serif;
+$tf-family-mono: Menlo, Monaco, 'Courier New', monospace;
 $tf-height: 1.5;
 $tf-weight: 300;
+
+$tf-size-base: 1rem;
+$tf-size-mono: 0.875rem;
