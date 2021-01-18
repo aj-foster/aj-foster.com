@@ -29,15 +29,15 @@ By default, you have over a thousand commands you can run, with functionalities 
 
 When you start a new terminal session, your current location or "working directory" is your home folder, such as /home/someuser. You can run `pwd` to find out where you are, `cd` to change directories, and `ls` to list the files in your current location.
 
-<p class="tac pam bcs ram">
-    <img src="/images/2015/term1.png" title="Navigating Filesystems" alt="Basic Filesystem Navigation in Terminal">
+<p class="image">
+    <img src="https://assets.aj-foster.com/assets/2015/term1.png" title="Navigating Filesystems" alt="Basic Filesystem Navigation in Terminal">
     <span class="tsxs">Basic Filesystem Navigation in Terminal</span>
 </p>
 
 As you can see, the commands are like small building blocks you can put together to do interesting things. Some commands have arguments associated with them: for example, `cd <location>` changes directory to the specified location. Commands might have flags as well: for example, `ls -l` gives you more information about the files in your current directory.
 
-<p class="tac pam bcs ram">
-    <img src="/images/2015/term2.png" title="Commands with Arguments and Flags" alt="Example Commands with Arguments and Flags">
+<p class="image">
+    <img src="https://assets.aj-foster.com/assets/2015/term2.png" title="Commands with Arguments and Flags" alt="Example Commands with Arguments and Flags">
     <span class="tsxs">Example Commands with Arguments and Flags</span>
 </p>
 
@@ -45,8 +45,8 @@ With frequent use, you will memorize most of the basic commands you need to work
 
 If you run `man pwd`, you'll see the manual page for the `pwd` command. At the top is a short description of what it does. Further down, you can see all of the arguments, flags, and options the command might accept. For `pwd`, there are only two possible flags that change the behavior depending on how your filesystem is structured. *Note: Man pages are displayed in a terminal program called `less`. You can use the up/down arrows to scroll. To exit, press Q.*
 
-<p class="tac pam bcs ram">
-    <img src="/images/2015/term3.png" title="Man Pages" alt="Manual Page for the pwd Command">
+<p class="image">
+    <img src="https://assets.aj-foster.com/assets/2015/term3.png" title="Man Pages" alt="Manual Page for the pwd Command">
     <span class="tsxs">Manual Page for the pwd Command</span>
 </p>
 
@@ -77,3 +77,17 @@ If you are interested in learning more, check out some of these advanced topics:
 * [The $PATH variable](http://en.wikipedia.org/wiki/PATH_%28variable%29), which tells your terminal where to look for commands.
 * [Changing your prompt](http://itsmetommy.com/2011/02/09/changing-your-shell-prompt/), because doing so is strangely satisfying.
 * [Basics of Shell Scripting](https://supportweb.cs.bham.ac.uk/docs/tutorials/docsystem/build/tutorials/unixscripting/unixscripting.html), because shell (terminal language) scripts can do pretty much anything.
+
+<style>
+    .image {
+        border: 2px solid var(--ajBorderColor);
+        margin: auto;
+        max-width: 40rem;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .image > img {
+        max-width: 100%;
+    }
+</style>

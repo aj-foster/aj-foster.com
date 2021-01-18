@@ -32,12 +32,12 @@ Objectively speaking, Git is a *program* that keeps track of the changes you mak
 
 Think of Git as a ledger that keeps track of your work. While you work on the files in a code project, lines are added, modified, and deleted. Much like the [written representation of a chess game](http://en.wikipedia.org/wiki/Algebraic_notation_%28chess%29), if you know the initial state of a file and how its contents are changed over time, you can reconstruct the changes.
 
-{:.gs-ledger}
 | Date | Commit |
 | ---- | ------ |
 | A few days ago | Created a new file called `myScript.sh` with contents “...” |
 | Yesterday      | Changed `rm -rf` to `rm -r` on line 6 of `myScript.sh`.     |
 | Today          | Added `# This script does...` between lines 1 and 2 in `myScript.sh`. |
+{: .gs-ledger}
 
 As you work and edit your files, you periodically "commit" those changes. Each commit has a message attached to it, where you describe the changes you've made. Later on, you can look back at the commits you've made using `git log` to see your progress.
 
@@ -171,10 +171,11 @@ I highly suggest you check out [this resource from Code School](https://try.gith
 
 <style>
     .gs-ledger {
+        border-collapse: collapse;
         margin: 0 auto 1em;
     }
     .gs-ledger td {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--ajBorderColor);
         padding: 0.5em 0.5em 0;
     }
 </style>

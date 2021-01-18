@@ -28,61 +28,65 @@ To stop this annoying dance of new windows, I wrote some code. You should **use 
 
 It's all based on the following script, which you would put some place safe (that won't move):
 
-~~~bash
-#!/bin/bash
-
-# Get the location of the file to edit from Git.
-FILE_TO_EDIT="$1"
-
-# If the file we're editing is a commit message, we can assume Atom is set up
-# to insert the magic token when the editor closes. Otherwise, we need to let
-# Atom tell Git when it is done.
-#
-if [[ $(basename "$FILE_TO_EDIT") == "COMMIT_EDITMSG" ]]
-then
-  # Tell Atom to open the file in an existing window.
-  atom "$FILE_TO_EDIT"
-
-  # Wait for Atom to write the magic marker - ##ATOM EDIT COMPLETE## - to signal
-  # that the editor has been closed.
-  #
-  tail -f "$FILE_TO_EDIT" | while read LOGLINE
-  do
-    [[ "$LOGLINE" == "##ATOM EDIT COMPLETE##" ]] && pkill -P $$ tail
-  done
-
-else
-  # Tell Atom to open the file in a new window and report when it is finished.
-  atom --wait "$FILE_TO_EDIT"
-fi
-~~~
+<pre>
+<code>
+<span style="color: #75715e">#!/bin/bash</span>&#32;
+&#32;
+<span style="color: #75715e"># Get the location of the file to edit from Git.</span>&#32;
+<span style="color: #f8f8f2">FILE_TO_EDIT</span><span style="color: #f92672">=</span><span style="color: #e6db74">"</span><span style="color: #f8f8f2">$1</span><span style="color: #e6db74">"</span>&#32;
+&#32;
+<span style="color: #75715e"># If the file we're editing is a commit message, we can assume Atom is set up</span>&#32;
+<span style="color: #75715e"># to insert the magic token when the editor closes. Otherwise, we need to let</span>&#32;
+<span style="color: #75715e"># Atom tell Git when it is done.</span>&#32;
+<span style="color: #75715e">#</span>&#32;
+<span style="color: #66d9ef">if</span>&#32;<span style="color: #f92672">[[</span>&#32;<span style="color: #66d9ef">$(</span>basename <span style="color: #e6db74">"</span><span style="color: #f8f8f2">$FILE_TO_EDIT</span><span style="color: #e6db74">"</span><span style="color: #66d9ef">)</span>&#32;<span style="color: #f92672">==</span>&#32;<span style="color: #e6db74">"COMMIT_EDITMSG"</span>&#32;<span style="color: #f92672">]]</span>&#32;
+<span style="color: #66d9ef">then</span>&#32;
+  <span style="color: #75715e"># Tell Atom to open the file in an existing window.</span>&#32;
+  atom <span style="color: #e6db74">"</span><span style="color: #f8f8f2">$FILE_TO_EDIT</span><span style="color: #e6db74">"</span>&#32;
+  &#32;
+  <span style="color: #75715e"># Wait for Atom to write the magic marker - ##ATOM EDIT COMPLETE## - to signal</span>&#32;
+  <span style="color: #75715e"># that the editor has been closed.</span>&#32;
+  <span style="color: #75715e">#</span>&#32;
+  tail -f <span style="color: #e6db74">"</span><span style="color: #f8f8f2">$FILE_TO_EDIT</span><span style="color: #e6db74">"</span>&#32;<span style="color: #f8f8f2">|</span>&#32;<span style="color: #66d9ef">while</span>&#32;<span style="color: #f8f8f2">read</span> LOGLINE
+  <span style="color: #66d9ef">do</span>&#32;
+    <span style="color: #f92672">[[</span>&#32;<span style="color: #e6db74">"</span><span style="color: #f8f8f2">$LOGLINE</span><span style="color: #e6db74">"</span>&#32;<span style="color: #f92672">==</span>&#32;<span style="color: #e6db74">"##ATOM EDIT COMPLETE##"</span>&#32;<span style="color: #f92672">]]</span>&#32;<span style="color: #f92672">&amp;&amp;</span> pkill -P <span style="color: #f8f8f2">$$</span> tail
+  <span style="color: #66d9ef">done</span>&#32;
+&#32;
+<span style="color: #66d9ef">else</span>&#32;
+  <span style="color: #75715e"># Tell Atom to open the file in a new window and report when it is finished.</span>&#32;
+  atom --wait <span style="color: #e6db74">"</span><span style="color: #f8f8f2">$FILE_TO_EDIT</span><span style="color: #e6db74">"</span>&#32;
+<span style="color: #66d9ef">fi</span>
+</code>
+</pre>
 
 For now, let's pretend that script is located in `/usr/local/bin/git-commit-atom.sh`. You'll need to make sure the script is executable by using `chmod +x /usr/local/bin/git-commit-atom.sh` By setting this script as our editor, Git will interact with it instead of Atom directly. Before we do that, however, we need Atom to write a magic token to the end of the commit message when we've finished editing it. To do that, insert this into your Atom Init Script:
 
-~~~coffee
-# This writes a magic token to the end of a commit message. We expect this to
-# be run when the commit message editor has been closed.
-#
-commit_msg_notifier = (path) ->
-  process = require("child_process")
-  process.exec("echo \"##ATOM EDIT COMPLETE##\" >> " + path.replace /(\s)/g, '\\$1')
-
-# The following looks at all new editors. If the editor is for a COMMIT_EDITMSG
-# file, it sets up a callback for a magic token to be written when the editor
-# is closed.
-#
-setup_commit_msg_notifier = (editor) ->
-  if editor.buffer?.file?.getBaseName() == "COMMIT_EDITMSG"
-    path = editor.buffer.file.getPath()
-    editor.onDidDestroy ->
-      commit_msg_notifier(path)
-
-  # Return this, else weird things may happen. Anyone understand why?
-  true
-
-# Set up for all editors to be screened for commit messages.
-atom.workspace.observeTextEditors(setup_commit_msg_notifier)
-~~~
+<pre>
+<code>
+<span style="color: #75715e"># This writes a magic token to the end of a commit message. We expect this to</span>&#32;
+<span style="color: #75715e"># be run when the commit message editor has been closed.</span>&#32;
+<span style="color: #75715e">#</span>&#32;
+<span style="color: #f8f8f2">commit_msg_notifier = </span><span style="color: #a6e22e">(path) -&gt;</span>&#32;
+  <span style="color: #f8f8f2">process = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">"child_process"</span><span style="color: #f8f8f2">)</span>&#32;
+  <span style="color: #a6e22e">process</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">exec</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">"echo \"##ATOM EDIT COMPLETE##\" &gt;&gt; "</span>&#32;<span style="color: #f92672">+</span>&#32;<span style="color: #a6e22e">path</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">replace</span>&#32;<span style="color: #f92672">/</span><span style="color: #f8f8f2">(</span><span style="color: #960050; background-color: #1e0010">\</span><span style="color: #a6e22e">s</span><span style="color: #f8f8f2">)</span><span style="color: #f92672">/</span><span style="color: #a6e22e">g</span><span style="color: #f8f8f2">,</span>&#32;<span style="color: #e6db74">'\\$1'</span><span style="color: #f8f8f2">)</span>&#32;
+&#32;
+<span style="color: #75715e"># The following looks at all new editors. If the editor is for a COMMIT_EDITMSG</span>&#32;
+<span style="color: #75715e"># file, it sets up a callback for a magic token to be written when the editor</span>&#32;
+<span style="color: #75715e"># is closed.</span>&#32;
+<span style="color: #75715e">#</span>&#32;
+<span style="color: #f8f8f2">setup_commit_msg_notifier = </span><span style="color: #a6e22e">(editor) -&gt;</span>&#32;
+  <span style="color: #66d9ef">if</span>&#32;<span style="color: #a6e22e">editor</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">buffer</span><span style="color: #f92672">?</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">file</span><span style="color: #f92672">?</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">getBaseName</span><span style="color: #f8f8f2">()</span>&#32;<span style="color: #f92672">==</span>&#32;<span style="color: #e6db74">"COMMIT_EDITMSG"</span>&#32;
+    <span style="color: #f8f8f2">path = </span><span style="color: #a6e22e">editor</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">buffer</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">file</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">getPath</span><span style="color: #f8f8f2">()</span>&#32;
+    <span style="color: #a6e22e">editor</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">onDidDestroy</span>&#32;<span style="color: #a6e22e">-&gt;</span>&#32;
+      <span style="color: #a6e22e">commit_msg_notifier</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">path</span><span style="color: #f8f8f2">)</span>&#32;
+&#32;
+  <span style="color: #75715e"># Return this, else weird things may happen. Anyone understand why?</span>&#32;
+  <span style="color: #66d9ef">true</span>&#32;
+&#32;
+<span style="color: #75715e"># Set up for all editors to be screened for commit messages.</span>&#32;
+<span style="color: #a6e22e">atom</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">workspace</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">observeTextEditors</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">setup_commit_msg_notifier</span><span style="color: #f8f8f2">)</span>
+</code>
+</pre>
 
 After reloading Atom (restart the application or use View > Developer > Reload Window) we should be ready to try it out. Use this to try it out on one git repo:
 

@@ -65,9 +65,11 @@ int main (int argc, char **argv) {
 
 In Ruby:
 
-~~~ruby
-puts `/path/to/fib 42`
-~~~
+<pre>
+<code>
+<span style="color: #f8f8f2">puts</span>&#32;<span style="color: #e6db74">`/path/to/fib 42`</span>
+</code>
+</pre>
 
 The backticks (\`\`) are just one way of making system calls in Ruby. This method assumes that you've already compiled the C code on your system, and you have a path to the executable handy.
 
@@ -88,23 +90,24 @@ gcc -shared -o fib.so fib
 
 `ffi.rb`
 
-~~~ruby
-#!/usr/bin/env ruby
-
-require 'ffi'
-
-module FibTest
-  extend FFI::Library
-
-  ffi_lib 'c'
-  ffi_lib './fib.so'
-
-  attach_function :fib, [ :int ], :int
-end
-
-result = FibTest.fib(ARGV[0].to_i)
-puts "Result: " + result.to_s
-~~~
+<pre>
+<code>
+<span style="color: #75715e">#!/usr/bin/env ruby</span>&#32;
+<span style="color: #f8f8f2">require </span><span style="color: #e6db74">'ffi'</span>&#32;
+&#32;
+<span style="color: #66d9ef">module </span><span style="color: #f8f8f2">FibTest</span>&#32;
+  <span style="color: #66d9ef">extend</span>&#32;<span style="color: #66d9ef">FFI</span><span style="color: #f92672">::</span><span style="color: #66d9ef">Library</span>&#32;
+  &#32;
+  <span style="color: #f8f8f2">ffi_lib</span>&#32;<span style="color: #e6db74">'c'</span>&#32;
+  <span style="color: #f8f8f2">ffi_lib</span>&#32;<span style="color: #e6db74">'./fib.so'</span>&#32;
+  &#32;
+  <span style="color: #f8f8f2">attach_function</span>&#32;<span style="color: #e6db74">:fib</span><span style="color: #f8f8f2">,</span>&#32;<span style="color: #f92672">[</span>&#32;<span style="color: #e6db74">:int</span>&#32;<span style="color: #f92672">]</span><span style="color: #f8f8f2">,</span>&#32;<span style="color: #e6db74">:int</span>&#32;
+<span style="color: #66d9ef">end</span>&#32;
+&#32;
+<span style="color: #f8f8f2">result</span>&#32;<span style="color: #f92672">=</span>&#32;<span style="color: #66d9ef">FibTest</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">fib(</span><span style="color: #66d9ef">ARGV</span><span style="color: #f92672">[</span><span style="color: #ae81ff">0</span><span style="color: #f92672">].</span><span style="color: #f8f8f2">to_i)</span>&#32;
+<span style="color: #f8f8f2">puts</span>&#32;<span style="color: #e6db74">"Result: "</span>&#32;<span style="color: #f92672">+</span>&#32;<span style="color: #f8f8f2">result</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">to_s</span>
+</code>
+</pre>
 
 As you can see, the `fib()` function is attached to and callable from the Ruby object. It doesn't much matter what the `fib()` function does beyond that.
 
@@ -118,33 +121,35 @@ This is going to look a bit messy, but let's see how it works:
 
 `inline.rb`
 
-~~~ruby
-#!/usr/bin/env ruby
+<pre>
+<code>
+<span style="color: #75715e">#!/usr/bin/env ruby</span>&#32;
+<span style="color: #f8f8f2">require</span>&#32;<span style="color: #e6db74">'inline'</span>&#32;
+&#32;
+<span style="color: #66d9ef">class</span>&#32;<span style="color: #a6e22e">FibTest</span>&#32;
+  <span style="color: #f8f8f2">inline</span>&#32;<span style="color: #66d9ef">do</span>&#32;<span style="color: #f92672">|</span><span style="color: #f8f8f2">builder</span><span style="color: #f92672">|</span>&#32;
+    <span style="color: #f8f8f2">builder</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">prefix</span>&#32;<span style="color: #e6db74">"</span>&#32;
+<span style="color: #e6db74">      int fib_inner (int n) {</span>&#32;
+&#32;
+<span style="color: #e6db74">        if (n &lt; 2)</span>&#32;
+<span style="color: #e6db74">          return n;</span>&#32;
+&#32;
+<span style="color: #e6db74">        return fib_inner(n - 1) + fib_inner(n - 2);</span>&#32;
+<span style="color: #e6db74">      }"</span>&#32;
+&#32;
+    <span style="color: #f8f8f2">builder</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">c</span>&#32;<span style="color: #e6db74">"</span>&#32;
+<span style="color: #e6db74">      int fib (int n) {</span>&#32;
+<span style="color: #e6db74">        return fib_inner(n);</span>&#32;
+<span style="color: #e6db74">      }"</span>&#32;
+  <span style="color: #66d9ef">end</span>&#32;
+<span style="color: #66d9ef">end</span>&#32;
+&#32;
+<span style="color: #f8f8f2">inline</span>&#32;<span style="color: #f92672">=</span>&#32;<span style="color: #66d9ef">FibTest</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">new</span>&#32;
+<span style="color: #f8f8f2">result</span>&#32;<span style="color: #f92672">=</span>&#32;<span style="color: #f8f8f2">inline</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">fib(</span><span style="color: #66d9ef">ARGV</span><span style="color: #f92672">[</span><span style="color: #ae81ff">0</span><span style="color: #f92672">].</span><span style="color: #f8f8f2">to_i)</span>&#32;
+<span style="color: #f8f8f2">puts</span>&#32;<span style="color: #e6db74">"Result: "</span>&#32;<span style="color: #f92672">+</span>&#32;<span style="color: #f8f8f2">result</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">to_s</span>
+</code>
+</pre>
 
-require 'inline'
-
-class FibTest
-  inline do |builder|
-    builder.prefix "
-      int fib_inner (int n) {
-
-        if (n < 2)
-          return n;
-
-        return fib_inner(n - 1) + fib_inner(n - 2);
-      }"
-
-    builder.c "
-      int fib (int n) {
-        return fib_inner(n);
-      }"
-  end
-end
-
-inline = FibTest.new
-result = inline.fib(ARGV[0].to_i)
-puts "Result: " + result.to_s
-~~~
 
 You'll notice we've adapted the code slightly. RubyInline does a lot of translation when it comes to the types of parameters expected by the C functions. Thus, when you want to run a recursive function like `fib()`, it is best to introduce a wrapper function. Here we've moved `fib()` to `fib_inner()` and instead exposed a `fib()` wrapper function to the Ruby world.
 
@@ -154,13 +159,13 @@ The `fib_inner()` function is defined using the `prefix` method, which means tha
 
 Great, so we have a few methods by which to call C code from Ruby. How do they compare, performance-wise? Here's the raw data:
 
-{:.c-comp}
-| Method        | Avg. Runtime (s) |
+| Method        | Avg. Runtime (seconds) |
 | ------------- | ------------------------- |
 | Straight C    | 3.3777779                 |
 | Ruby + FFI    | 3.4948946                 |
 | RubyInline    | 2.9529457                 |
 | Straight Ruby | 64.398319                 |
+{: .c-comp}
 
 Interestingly, RubyInline performs faster than using a compiled C executable. Why is this? When we run the C executable, the OS has to create a new process, allocate some memory for the stack and heap of the program, and then supply it with its arguments. RubyInline avoids a lot of that mess by piggy-backing off of the resources already allocated to the Ruby process. This may not appear to be much of an improvement, but it can be significant with repeated calls over time.
 
@@ -172,18 +177,20 @@ Here's just a quick example of how it works:
 
 `py.rb`
 
-~~~ruby
-> require 'rubypython'
- => true
-> RubyPython.start
- => true
-> numpy = RubyPython.import("numpy")
- => <module 'numpy' from '/(...)/numpy/__init__.pyc'> 
-> arr = numpy.array([1,2,3])
- => array([1, 2, 3])
-> RubyPython.stop
- => true
-~~~
+<pre>
+<code>
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">require</span>&#32;<span style="color: #e6db74">'rubypython'</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #66d9ef">true</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #66d9ef">RubyPython</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">start</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #66d9ef">true</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">numpy</span>&#32;<span style="color: #f92672">=</span>&#32;<span style="color: #66d9ef">RubyPython</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">import(</span><span style="color: #e6db74">"numpy"</span><span style="color: #f8f8f2">)</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">module</span>&#32;<span style="color: #e6db74">'numpy'</span>&#32;<span style="color: #f8f8f2">from</span>&#32;<span style="color: #e6db74">'/(...)/numpy/__init__.pyc'</span><span style="color: #f92672">&gt;</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">arr</span>&#32;<span style="color: #f92672">=</span>&#32;<span style="color: #f8f8f2">numpy</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">array(</span><span style="color: #f92672">[</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">2</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">3</span><span style="color: #f92672">]</span><span style="color: #f8f8f2">)</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #f8f8f2">array(</span><span style="color: #f92672">[</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">,</span>&#32;<span style="color: #ae81ff">2</span><span style="color: #f8f8f2">,</span>&#32;<span style="color: #ae81ff">3</span><span style="color: #f92672">]</span><span style="color: #f8f8f2">)</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #66d9ef">RubyPython</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">stop</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #66d9ef">true</span>
+</code>
+</pre>
 
 You are, of course, limited by the syntax of both languages. For example, you cannot use the succinct array splicing syntax available in numpy ([::2]). This may be annoying to die-hard python developers. However, the entirety of the Python object/module and its methods are available, inheritable, etc.
 
@@ -191,23 +198,25 @@ You are, of course, limited by the syntax of both languages. For example, you ca
 
 As a final note, let's take a brief look at using the R language within Ruby. You can do this using the `rinruby` gem, installed via `gem install rinruby`. Given that you have the R language installed locally, here's how it looks:
 
-~~~ruby
-> require "rinruby"
- => true 
-> sample_size = 10
- => 10 
-> R.eval "x <- rnorm(#{sample_size})"
-# (outputs code being run by R)
-> R.eval "summary(x)"
-.RINRUBY.PARSE.STRING <- rinruby_get_value()
-rinruby_parseable(.RINRUBY.PARSE.STRING)
-rm(.RINRUBY.PARSE.STRING)
-summary(x)
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--0.77660 -0.35550 -0.01425  0.14630  0.67590  1.58500 
-print('RINRUBY.EVAL.FLAG')
- => true 
-~~~
+<pre>
+<code>
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">require</span>&#32;<span style="color: #e6db74">"rinruby"</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #66d9ef">true</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">sample_size</span>&#32;<span style="color: #f92672">=</span>&#32;<span style="color: #ae81ff">10</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #ae81ff">10</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">R</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">eval</span>&#32;<span style="color: #e6db74">"x &lt;- rnorm(#{</span><span style="color: #f8f8f2">sample_size</span><span style="color: #e6db74">})"</span>&#32;
+<span style="color: #75715e"># (outputs code being run by R)</span>&#32;
+<span style="color: #f92672">&gt;</span>&#32;<span style="color: #f8f8f2">R</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">eval</span>&#32;<span style="color: #e6db74">"summary(x)"</span>&#32;
+<span style="color: #f92672">.</span><span style="color: #f8f8f2">RINRUBY</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">PARSE</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">STRING</span>&#32;<span style="color: #f92672">&lt;-</span>&#32;<span style="color: #f8f8f2">rinruby_get_value()</span>&#32;
+<span style="color: #f8f8f2">rinruby_parseable(</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">RINRUBY</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">PARSE</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">STRING)</span>&#32;
+<span style="color: #f8f8f2">rm(</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">RINRUBY</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">PARSE</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">STRING)</span>&#32;
+<span style="color: #f8f8f2">summary(x)</span>&#32;
+    <span style="color: #66d9ef">Min</span><span style="color: #f92672">.</span>&#32;&#32;<span style="color: #ae81ff">1</span><span style="color: #f8f8f2">st</span>&#32;<span style="color: #66d9ef">Qu</span><span style="color: #f92672">.</span>&#32;&#32;&#32;<span style="color: #66d9ef">Median</span>&#32;&#32;&#32;&#32;&#32;<span style="color: #66d9ef">Mean</span>&#32;&#32;<span style="color: #ae81ff">3</span><span style="color: #f8f8f2">rd</span>&#32;<span style="color: #66d9ef">Qu</span><span style="color: #f92672">.</span>&#32;&#32;&#32;&#32;&#32;<span style="color: #66d9ef">Max</span><span style="color: #f92672">.</span>&#32;
+<span style="color: #f92672">-</span><span style="color: #ae81ff">0</span><span style="color: #f92672">.</span><span style="color: #ae81ff">77660</span>&#32;<span style="color: #f92672">-</span><span style="color: #ae81ff">0</span><span style="color: #f92672">.</span><span style="color: #ae81ff">35550</span>&#32;<span style="color: #f92672">-</span><span style="color: #ae81ff">0</span><span style="color: #f92672">.</span><span style="color: #ae81ff">01425</span>&#32;&#32;<span style="color: #ae81ff">0</span><span style="color: #f92672">.</span><span style="color: #ae81ff">14630</span>&#32;&#32;<span style="color: #ae81ff">0</span><span style="color: #f92672">.</span><span style="color: #ae81ff">67590</span>&#32;&#32;<span style="color: #ae81ff">1</span><span style="color: #f92672">.</span><span style="color: #ae81ff">58500</span>&#32;
+<span style="color: #f8f8f2">print(</span><span style="color: #e6db74">'RINRUBY.EVAL.FLAG'</span><span style="color: #f8f8f2">)</span>&#32;
+ <span style="color: #f92672">=&gt;</span>&#32;<span style="color: #66d9ef">true</span> 
+</code>
+</pre>
 
 This is just a quick summary, as found in the [rinruby documentation](https://sites.google.com/a/ddahl.org/rinruby-users/documentation).
 
@@ -226,10 +235,11 @@ Thanks to the following articles for helping me get started:
 
 <style>
   .c-comp {
-    margin: 0 auto 1em;
+    border-collapse: collapse;
+    margin: 1rem auto 1.5rem;
   }
   .c-comp td, .c-comp th {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--ajBorderColor);
       padding: 0.5em;
       text-align: center;
   }
