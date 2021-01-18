@@ -16,9 +16,7 @@ defmodule Site.Highlight do
   # def implements, do: [processed_post: 2]
 
   def rendered_fragment(frag, _args) do
-    IO.inspect(frag)
     frag = Map.update!(frag, :data, &highlight/1)
-    IO.inspect(frag)
     {:ok, frag}
   end
 

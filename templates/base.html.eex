@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<%= asset "css/app.css" %>">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
   </head>
 <%= if @page[:label] do %>
   <body class="page--<%= String.downcase(@page.label) %>">

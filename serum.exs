@@ -12,6 +12,7 @@
     {Site.Subdirectory, []},
     {Serum.Plugins.LiveReloader, only: :dev},
     {Serum.Plugins.PreviewGenerator, args: [length: [chars: 150]]},
-    {Site.Map, args: [for: [:pages, :posts]]}
+    {Site.Feed, []},
+    {Site.Map, args: [for: [:pages, :posts]]},
   ]
 }

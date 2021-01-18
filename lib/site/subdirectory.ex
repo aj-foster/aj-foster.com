@@ -134,11 +134,11 @@ defmodule Site.Subdirectory do
   end
 
   @doc """
-  Update the global cache of page data so the new URLs can be used in later plugins.
+  Update the global cache of post data so the new URLs can be used in later plugins.
   """
-  @spec processed_posts([Serum.Page.t()], any) :: {:ok, [Serum.Page.t()]}
+  @spec processed_posts([Serum.Post.t()], any) :: {:ok, [Serum.Post.t()]}
   def processed_posts(posts, _args) do
-    Serum.GlobalBindings.put(:all_posts, posts)
+    Serum.GlobalBindings.put(:all_posts_with_content, posts)
     {:ok, posts}
   end
 end
