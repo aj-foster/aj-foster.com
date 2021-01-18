@@ -1,0 +1,7 @@
+footer {
+  @extend .cell;
+  @extend .well;
+
+  font-size: 0.75rem;
+  text-align: right;
+}
