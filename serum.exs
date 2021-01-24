@@ -1,6 +1,6 @@
 %{
   site_name: "AJ Foster",
-  site_description: "TODO: Add site description",
+  site_description: "Software, Math, and Robots",
   server_root: "https://aj-foster.com",
   base_url: "/",
   author: "AJ Foster",

@@ -15,7 +15,9 @@ jobs:
       # Cache dependencies and compiled files
       - uses: actions/cache@v2
         with:
-          path: deps
+          path:
+            - _build
+            - deps
           key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
           restore-keys: |
             ${{ runner.os }}-mix-
