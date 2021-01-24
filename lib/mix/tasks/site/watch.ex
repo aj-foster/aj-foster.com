@@ -1,13 +1,12 @@
-defmodule Mix.Tasks.Site.Gen do
+defmodule Mix.Tasks.Site.Watch do
   use Mix.Task
 
-  @shortdoc "Generates the site, including assets"
+  @shortdoc "Starts a development server and watches assets"
 
   @impl true
   def run(args) do
     Mix.Task.run("compile", [])
     {:ok, _} = Application.ensure_all_started(:site)
-    Site.Sass.run()
-    Mix.Tasks.Serum.Build.run(args)
+    Mix.Tasks.Serum.Server.run(args)
   end
 end

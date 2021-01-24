@@ -30,11 +30,11 @@ defmodule Site.Sass do
     case Path.extname(path) do
       ".sass" ->
         IO.puts("[Sass] Processing #{path}")
-        do_sass()
+        run()
 
       ".scss" ->
         IO.puts("[Sass] Processing #{path}")
-        do_sass()
+        run()
 
       _ ->
         :noop
@@ -46,9 +46,9 @@ defmodule Site.Sass do
   def handle_info({:file_event, _, _info}, state), do: {:noreply, state}
 
   # Ignore warning about Sass.compile_file/1; it's a NIF that dialyzer doesn't understand.
-  @dialyzer {:nowarn_function, do_sass: 1}
+  @dialyzer {:nowarn_function, run: 0}
 
-  defp do_sass() do
+  def run() do
     File.cwd!()
     |> Path.join(["styles/", "*.{sass,scss}"])
     |> Path.absname()
