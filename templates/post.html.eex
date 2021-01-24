@@ -8,4 +8,6 @@
     <% end %>
   </ul>
 <% end %>
-<%= @contents %>
+<div class="article">
+  <%= @contents %>
+</div>

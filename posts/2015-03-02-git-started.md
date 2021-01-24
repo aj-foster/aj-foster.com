@@ -169,6 +169,8 @@ I highly suggest you check out [this resource from Code School](https://try.gith
 * Practice! Git, like anything, takes practice. It is worth your time to become familiar with Git now *before* you have to use it in a team setting.
 * GitHub is a website; Git is the program it uses.
 
+Edit (2021-01-24): The Try Git resource mentioned above, unfortunately, no longer exists. However, the site does link to a number of helpful resources.
+
 <style>
     .gs-ledger {
         border-collapse: collapse;

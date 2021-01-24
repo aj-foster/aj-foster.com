@@ -224,14 +224,13 @@ This is just a quick summary, as found in the [rinruby documentation](https://si
 
 We like to write Ruby code, so we should do so whenever possible. If the need to use code written in another language arises, there's no need to adopt that lanugage completely. With a few tools, you can use Ruby as a glue for your libraries and legacy codebases.
 
-Have a comment or correction? Send me a tweet!
-
 Thanks to the following articles for helping me get started:
 
 1. [Calling C/C++ from Ruby](https://www.amberbit.com/blog/2014/6/12/calling-c-cpp-from-ruby/)
 2. [Rubypython](https://github.com/halostatue/rubypython)
 3. [R in Ruby Quick Start](https://sites.google.com/a/ddahl.org/rinruby-users/documentation)
 
+Have a comment or correction? Send me a tweet!
 
 <style>
   .c-comp {

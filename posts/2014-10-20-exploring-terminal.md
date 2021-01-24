@@ -78,6 +78,8 @@ If you are interested in learning more, check out some of these advanced topics:
 * [Changing your prompt](http://itsmetommy.com/2011/02/09/changing-your-shell-prompt/), because doing so is strangely satisfying.
 * [Basics of Shell Scripting](https://supportweb.cs.bham.ac.uk/docs/tutorials/docsystem/build/tutorials/unixscripting/unixscripting.html), because shell (terminal language) scripts can do pretty much anything.
 
+Edit (2021-01-24): The Windows Subsystem for Linux is now a much better resource than Cygwin mentioned above.
+
 <style>
     .image {
         border: 2px solid var(--ajBorderColor);
