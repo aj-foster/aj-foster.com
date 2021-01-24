@@ -69,6 +69,8 @@ defmodule Site.Sass do
           |> Path.basename()
           |> Path.rootname()
 
+        File.mkdir_p!("assets/css")
+
         destination =
           File.cwd!()
           |> Path.join("assets/css")
