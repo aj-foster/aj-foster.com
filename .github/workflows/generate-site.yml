@@ -12,6 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Cache dependencies and compiled files
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          restore-keys: |
+            ${{ runner.os }}-mix-
+
       # Install Elixir
       - name: Install Elixir
         uses: actions/setup-elixir@v1
@@ -27,11 +35,11 @@ jobs:
       - run: mix site.gen
 
       # Publish diffs to GitHub Pages
-      # - name: Deploy Site
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_branch: gh-pages
-      #     publish_dir: ./
-      #     force_orphan: true
-      #     keep_files: true
+      - name: Deploy Site
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./site
+          force_orphan: true
+          keep_files: true

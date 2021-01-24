@@ -3,7 +3,13 @@ defmodule Site.Sass do
   use GenServer
 
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+    case Mix.env() do
+      :dev ->
+        GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+
+      _ ->
+        :ignore
+    end
   end
 
   def init(_opts) do
