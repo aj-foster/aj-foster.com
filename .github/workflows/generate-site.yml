@@ -1,0 +1,37 @@
+name: Generate Diffs
+on:
+  push:
+    branches: [main]
+
+env:
+  MIX_ENV: prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Install Elixir
+      - name: Install Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          otp-version: '23.2'
+          elixir-version: '1.11.3'
+
+      # Install dependencies
+      - run: mix deps.get
+      - run: mix deps.compile
+
+      # Generate site
+      - run: mix site.gen
+
+      # Publish diffs to GitHub Pages
+      # - name: Deploy Site
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: gh-pages
+      #     publish_dir: ./
+      #     force_orphan: true
+      #     keep_files: true
