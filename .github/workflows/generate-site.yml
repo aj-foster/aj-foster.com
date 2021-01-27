@@ -1,4 +1,4 @@
-name: Generate Diffs
+name: Generate Site
 on:
   push:
     branches: [main]
