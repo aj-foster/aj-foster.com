@@ -20,45 +20,79 @@ _Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dr
 
 ### Programming Languages
 
-[![Elixir: Proficient](https://img.shields.io/badge/Elixir-Proficient-4e2a8e?style=flat-square)](https://elixir-lang.org/)
-{: .shields}
+<div class="shield">
+  <p>Proficient:</p>
+  <ul>
+    <li class="light" style="background-color: #4e2a8e">Elixir</li>
+  </ul>
+</div>
 
-![Bash: Competent](https://img.shields.io/badge/Bash-Competent-2b3238?style=flat-square)
-![C: Competent](https://img.shields.io/badge/C-Competent-3745ac?style=flat-square)
-![CSS: Competent](https://img.shields.io/badge/CSS-Competent-2965f1?style=flat-square)
-![Java: Competent](https://img.shields.io/badge/Java-Competent-FFA518?style=flat-square)
-![JavaScript: Competent](https://img.shields.io/badge/JavaScript-Competent-fcdc00?style=flat-square)
-![PHP: Competent](https://img.shields.io/badge/PHP-Competent-4F5B93?style=flat-square)
-![TypeScript: Competent](https://img.shields.io/badge/TypeScript-Competent-3178c6?style=flat-square)
-{: .shields}
+<div class="shield">
+  <p>Competent:</p>
+  <ul>
+    <li class="light" style="background-color: #2b3238">Bash</li>
+    <li class="light" style="background-color: #3745ac">C</li>
+    <li class="light" style="background-color: #2965f1">CSS</li>
+    <li class="dark" style="background-color: #FFA518">Java</li>
+    <li class="dark" style="background-color: #fcdc00">JavaScript</li>
+    <li class="light" style="background-color: #4F5B93">PHP</li>
+    <li class="light" style="background-color: #3178c6">TypeScript</li>
+  </ul>
+</div>
 
-![Python: Advanced Beginner](https://img.shields.io/badge/Python-Adv._Beginner-ffd343?style=flat-square)
-![Ruby: Advanced Beginner](https://img.shields.io/badge/Ruby-Adv._Beginner-CC342D?style=flat-square)
-![Swift: Advanced Beginner](https://img.shields.io/badge/Swift-Adv._Beginner-F05138?style=flat-square)
-{: .shields}
+<div class="shield">
+  <p>Advanced Beginner:</p>
+  <ul>
+    <li class="dark" style="background-color: #ffd343">Python</li>
+    <li class="light" style="background-color: #CC342D">Ruby</li>
+    <li class="light" style="background-color: #F05138">Swift</li>
+  </ul>
+</div>
 
-![C#: Novice](https://img.shields.io/badge/C%23-Novice-4b9c37?style=flat-square)
-![Go: Novice](https://img.shields.io/badge/Go-Novice-007d9c?style=flat-square)
-{: .shields}
+<div class="shield">
+  <p>Novice:</p>
+  <ul>
+    <li class="light" style="background-color: #4b9c37">C#</li>
+    <li class="light" style="background-color: #007d9c">Go</li>
+  </ul>
+</div>
+
 
 ### Technologies
 
-![Docker: Proficient](https://img.shields.io/badge/Docker-Proficient-0073ec?style=flat-square)
-![Git: Proficient](https://img.shields.io/badge/Git-Proficient-f14e32?style=flat-square)
-[![Phoenix: Proficient](https://img.shields.io/badge/Phoenix-Proficient-ff6f61?style=flat-square)](https://www.phoenixframework.org/)
-{: .shields}
+<div class="shield">
+  <p>Proficient:</p>
+  <ul>
+    <li class="light" style="background-color: #0073ec">Docker</li>
+    <li class="light" style="background-color: #f14e32">Git</li>
+    <li class="light" style="background-color: #ff6f61">Phoenix</li>
+  </ul>
+</div>
 
-![React: Competent](https://img.shields.io/badge/React-Competent-61dafb?style=flat-square)
-![Vue.js: Competent](https://img.shields.io/badge/Vue.js-Competent-4fc08d?style=flat-square)
-{: .shields}
+<div class="shield">
+  <p>Competent:</p>
+  <ul>
+    <li class="dark" style="background-color: #61dafb">React</li>
+    <li class="dark" style="background-color: #4fc08d">Vue.js</li>
+  </ul>
+</div>
 
-[![Nerves: Advanced Beginner](https://img.shields.io/badge/Nerves-Adv._Beginner-42a7c6?style=flat-square)](https://www.nerves-project.org/)
-{: .shields}
+<div class="shield">
+  <p>Advanced Beginner:</p>
+  <ul>
+    <li class="dark" style="background-color: #42a7c6">Nerves</li>
+  </ul>
+</div>
+
 
 ### Other
 
-![Misspelling Variables: Expert](https://img.shields.io/badge/Misspelling_Variables-Expert-2b3238?style=flat-square)
-{: .shields}
+<div class="shield">
+  <p>Expert:</p>
+  <ul>
+    <li class="light" style="background-color: #2b3238">Misspelling Variables</li>
+  </ul>
+</div>
 
 
 ## Instruction

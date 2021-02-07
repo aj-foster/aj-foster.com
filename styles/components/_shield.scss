@@ -1,0 +1,34 @@
+.shield {
+  display: flex;
+  font-size: 0.75em;
+  letter-spacing: 0.125px;
+  margin-bottom: 0.5rem;
+}
+
+.shield p {
+  background-color: #555;
+  color: $cl-light-1;
+  margin: 0px;
+  padding: 0.125rem 0.5rem;
+}
+
+.shield ul {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+}
+
+.shield li {
+  list-style: none;
+  margin: 0px;
+  padding: 0.125rem 0.5rem;
+}
+
+.shield li.dark {
+  color: $cl-dark-1;
+  font-weight: bold;
+}
+
+.shield li.light {
+  color: $cl-light-1;
+}
