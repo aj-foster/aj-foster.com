@@ -1,4 +1,5 @@
 .shield {
+  align-items: flex-start;
   display: flex;
   font-size: 0.75em;
   letter-spacing: 0.125px;
@@ -14,6 +15,7 @@
 
 .shield ul {
   display: flex;
+  flex-wrap: wrap;
   margin: 0px;
   padding: 0px;
 }
