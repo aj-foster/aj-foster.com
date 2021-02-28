@@ -24,7 +24,7 @@ jobs:
 
       # Install Elixir
       - name: Install Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-elixir@v1
         with:
           otp-version: '23.2'
           elixir-version: '1.11.3'
