@@ -52,5 +52,6 @@
     <footer>
       Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
     </footer>
+    <script async defer data-domain="aj-foster.com" src="https://plausible.io/js/plausible.js"></script>
   </body>
 </html>
