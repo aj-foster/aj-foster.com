@@ -139,10 +139,17 @@ In 2018, Code School was sunset and courses were migrated to Pluralsight's new I
 
 ### 2020
 
-In 2020, I became an author of my own interactive project and hands-on cloud lab at Pluralsight. Each involved writing challenges, and the project involved implementing automated tests to provide feedback.
+In 2020, I became an author of my own interactive project and hands-on cloud lab at Pluralsight. Each involved writing challenges. The project involved implementing automated tests to provide feedback, and the cloud lab involved writing Terraform to set up a cloud environment for the learner.
 
 | ![ps][] ![proj][] | [_Create a String Manipulation Library in JavaScript_](https://www.pluralsight.com/projects/create-string-manipulation-library-in-javascript) &bull; Author |
 | ![ps][] ![lab][] | _Create a CloudWatch Alarm in AWS_ &bull; Author |
+
+### 2021
+
+In 2021, I authored my first video course at Pluralsight.
+
+| ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) &bull; Author |
+| | |
 
 [cs]: https://assets.aj-foster.com/assets/icons/cs.svg "Code School"
 [ps]: https://assets.aj-foster.com/assets/icons/ps.svg "Pluralsight"
@@ -151,3 +158,4 @@ In 2020, I became an author of my own interactive project and hands-on cloud lab
 [wub]: https://assets.aj-foster.com/assets/icons/wub.svg "Watch Us Build Screencast"
 [proj]: https://assets.aj-foster.com/assets/icons/proj.svg "Interactive Project"
 [lab]: https://assets.aj-foster.com/assets/icons/lab.svg "Hands-on Lab"
+[vc]: https://assets.aj-foster.com/assets/icons/wub.svg "Video Course"
