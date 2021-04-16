@@ -73,6 +73,7 @@ _Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dr
   <p>Competent:</p>
   <ul>
     <li class="dark" style="background-color: #61dafb">React</li>
+    <li class="light" style="background-color: #623ce4">Terraform</li>
     <li class="dark" style="background-color: #4fc08d">Vue.js</li>
   </ul>
 </div>
