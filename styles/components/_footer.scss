@@ -2,6 +2,8 @@ footer {
   @extend .cell;
   @extend .well;
 
+  display: flex;
   font-size: 0.75rem;
   text-align: right;
+  justify-content: space-between;
 }

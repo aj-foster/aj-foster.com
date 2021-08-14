@@ -52,8 +52,15 @@
 <% end %>
 
     <footer>
-      Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      <div class="darkmode">
+        <input type="checkbox" id="darkmode">
+        <label for="darkmode">Toggle Dark Mode</label>
+      </div>
+      <div>
+        Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      </div>
     </footer>
     <script async defer data-domain="aj-foster.com" src="https://p.aj-foster.com/js/index.js"></script>
+    <script async defer src="/assets/js/colors.js"></script>
   </body>
 </html>

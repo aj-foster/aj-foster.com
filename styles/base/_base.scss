@@ -14,29 +14,35 @@ p {
 
 // Light and Dark Modes
 
-:root {
+body {
+  background-color: $cl-dark-background;
+  color: $cl-dark-text;
+
   --ajBackgroundColor: #{$cl-dark-background};
   --ajBorderColor: #{$cl-dark-border};
   --ajTextColor: #{$cl-dark-text};
   --ajLogoColor: #{$cl-light-1};
 }
 
-body {
-  background-color: $cl-dark-background;
-  color: $cl-dark-text;
+body.prefers-light-mode {
+  background-color: $cl-light-background;
+  color: $cl-light-text;
+
+  --ajBackgroundColor: #{$cl-light-background};
+  --ajBorderColor: #{$cl-light-border};
+  --ajTextColor: #{$cl-light-text};
+  --ajLogoColor: #{$cl-light-text};
 }
 
 @media screen and (prefers-color-scheme: light) {
-  :root {
+  body:not(.prefers-dark-mode) {
+    background-color: $cl-light-background;
+    color: $cl-light-text;
+
     --ajBackgroundColor: #{$cl-light-background};
     --ajBorderColor: #{$cl-light-border};
     --ajTextColor: #{$cl-light-text};
     --ajLogoColor: #{$cl-light-text};
-  }
-
-  body {
-    background-color: $cl-light-background;
-    color: $cl-light-text;
   }
 }
 

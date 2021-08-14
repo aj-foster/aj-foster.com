@@ -48,8 +48,14 @@
   white-space: nowrap;
 }
 
-@media screen and (prefers-color-scheme: light) {
+.prefers-light-mode {
   .listing {
+    box-shadow: 0px 2px 4px 0px transparentize($cl-dark-1, 0.8);
+  }
+}
+
+@media screen and (prefers-color-scheme: light) {
+  body:not(.prefers-dark-mode) .listing {
     box-shadow: 0px 2px 4px 0px transparentize($cl-dark-1, 0.8);
   }
 }

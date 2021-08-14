@@ -17,8 +17,14 @@ code.inline {
   padding: 0.125rem;
 }
 
-@media screen and (prefers-color-scheme: light) {
+.prefers-light-mode {
   code.inline {
+    background-color: $cl-light-2;
+  }
+}
+
+@media screen and (prefers-color-scheme: light) {
+  body:not(.prefers-dark-mode) code.inline {
     background-color: $cl-light-2;
   }
 }

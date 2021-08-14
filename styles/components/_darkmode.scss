@@ -1,0 +1,46 @@
+.darkmode {
+  font-size: 1.25rem;
+
+  input {
+    display: none;
+    height: 0px;
+    width: 0px;
+  }
+
+  label {
+    background: $cl-light-3;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: block;
+    height: 1rem;
+    position: relative;
+    text-align-last: left;
+    text-indent: -9999px;
+    width: 2rem;
+  }
+
+  label::after {
+    background: $cl-light-1;
+    border-radius: 0.9rem;
+    content: '\1F317';
+    font-size: 0.9rem;
+    height: 0.9rem;
+    left: 0.05rem;
+    line-height: 0.9rem;
+    position: absolute;
+    text-indent: 0px;
+    top: 0.05rem;
+    transition: 0.25s;
+    width: 0.9rem;
+  }
+
+  input:checked + label {
+    background: $cl-dark-2;
+  }
+
+  input:checked + label::after {
+    background-color: $cl-dark-1;
+    left: calc(100% - 0.05rem);
+    transform: translateX(-100%);
+  }
+}
