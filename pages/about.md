@@ -150,7 +150,7 @@ In 2020, I became an author of my own interactive project and hands-on cloud lab
 In 2021, I authored my first video course at Pluralsight.
 
 | ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) &bull; Author |
-| | |
+| ![ps][] ![vc][] | [_Architecting Elixir Applications with OTP_](https://www.pluralsight.com/courses/elixir-architecting-applications-otp) &bull; Author |
 
 [cs]: https://assets.aj-foster.com/assets/icons/cs.svg "Code School"
 [ps]: https://assets.aj-foster.com/assets/icons/ps.svg "Pluralsight"
