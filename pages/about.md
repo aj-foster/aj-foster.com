@@ -98,27 +98,19 @@ _Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dr
 
 ## Instruction
 
-### 2016
+### 2021
 
-In 2016 and 2017, I implemented interactive challenges for Code School courses on a variety of languages. This involved creating automated tests to provide feedback on code typed in the browser.
+In 2021, I authored my first video courses at Pluralsight.
 
-| ![cs][] ![ic][] | [_Digging Into Django_](https://web.archive.org/web/20161224041648/https://www.codeschool.com/courses/digging-into-django) |
-| ![cs][] ![ic][] | [_On Track With Golang_](https://web.archive.org/web/20161225041941/https://www.codeschool.com/courses/on-track-with-golang) |
-| ![cs][] ![ic][] | _Try PHP_ |
-| ![cs][] ![ic][] | [_Close Encounters With PHP_](https://web.archive.org/web/20170606191758/codeschool.com/courses/close-encounters-with-php) |
+| ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) &bull; Author |
+| ![ps][] ![vc][] | [_Architecting Elixir Applications with OTP_](https://www.pluralsight.com/courses/elixir-architecting-applications-otp) &bull; Author |
 
-### 2017
+### 2020
 
-| ![cs][] ![ic][] | [_Try Elixir_](https://web.archive.org/web/20180220232832/https://www.codeschool.com/courses/try-elixir/) |
-| ![cs][] ![ic][] | [_Mixing It Up With Elixir_](https://web.archive.org/web/20180304114910/https://www.codeschool.com/courses/mixing-it-up-with-elixir) |
-| ![cs][] ![ic][] | [_Try Docker_](https://web.archive.org/web/20170929025049/https://www.codeschool.com/courses/try-docker) |
-| ![cs][] ![wub][] | [_Build a Node App With Postgres and Docker_](https://web.archive.org/web/20171002022830/https://www.codeschool.com/screencasts/build-a-node-app-with-postgres-and-docker) &bull; Co-presenter |
-| ![cs][] ![ic][] | _Try C#_ |
-| ![cs][] ![ic][] | _Keeping It Classy With C#_ |
-| ![cs][] ![ic][] | _Try Laravel_ |
-| ![cs][] ![ic][] | _From Form to Table With Laravel_ |
-| ![cs][] ![ic][] | [_Try Android_](https://web.archive.org/web/20180310021318/https://www.codeschool.com/courses/try-android) |
-| ![cs][] ![ic][] | _Super Sweet Android Time_ |
+In 2020, I became an author of my own interactive project and hands-on cloud lab at Pluralsight. Each involved writing challenges. The project involved implementing automated tests to provide feedback, and the cloud lab involved writing Terraform to set up a cloud environment for the learner.
+
+| ![ps][] ![proj][] | [_Create a String Manipulation Library in JavaScript_](https://www.pluralsight.com/projects/create-string-manipulation-library-in-javascript) &bull; Author |
+| ![ps][] ![lab][] | _Create a CloudWatch Alarm in AWS_ &bull; Author |
 
 ### 2018
 
@@ -138,19 +130,27 @@ In 2018, Code School was sunset and courses were migrated to Pluralsight's new I
 | ![ps][] ![ic][] | [_Java: Creating a Basic Web App_](https://www.pluralsight.com/interactive-courses/java-creating-basic-web-app) |
 | ![ps][] ![ic][] | [_Phoenix: Creating a Basic Web App_](https://www.pluralsight.com/interactive-courses/phoenix-creating-basic-web-app) |
 
-### 2020
+### 2017
 
-In 2020, I became an author of my own interactive project and hands-on cloud lab at Pluralsight. Each involved writing challenges. The project involved implementing automated tests to provide feedback, and the cloud lab involved writing Terraform to set up a cloud environment for the learner.
+In 2016 and 2017, I implemented interactive challenges for Code School courses on a variety of languages. This involved creating automated tests to provide feedback on code typed in the browser.
 
-| ![ps][] ![proj][] | [_Create a String Manipulation Library in JavaScript_](https://www.pluralsight.com/projects/create-string-manipulation-library-in-javascript) &bull; Author |
-| ![ps][] ![lab][] | _Create a CloudWatch Alarm in AWS_ &bull; Author |
+| ![cs][] ![ic][] | [_Try Elixir_](https://web.archive.org/web/20180220232832/https://www.codeschool.com/courses/try-elixir/) |
+| ![cs][] ![ic][] | [_Mixing It Up With Elixir_](https://web.archive.org/web/20180304114910/https://www.codeschool.com/courses/mixing-it-up-with-elixir) |
+| ![cs][] ![ic][] | [_Try Docker_](https://web.archive.org/web/20170929025049/https://www.codeschool.com/courses/try-docker) |
+| ![cs][] ![wub][] | [_Build a Node App With Postgres and Docker_](https://web.archive.org/web/20171002022830/https://www.codeschool.com/screencasts/build-a-node-app-with-postgres-and-docker) &bull; Co-presenter |
+| ![cs][] ![ic][] | _Try C#_ |
+| ![cs][] ![ic][] | _Keeping It Classy With C#_ |
+| ![cs][] ![ic][] | _Try Laravel_ |
+| ![cs][] ![ic][] | _From Form to Table With Laravel_ |
+| ![cs][] ![ic][] | [_Try Android_](https://web.archive.org/web/20180310021318/https://www.codeschool.com/courses/try-android) |
+| ![cs][] ![ic][] | _Super Sweet Android Time_ |
 
-### 2021
+### 2016
 
-In 2021, I authored my first video course at Pluralsight.
-
-| ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) &bull; Author |
-| ![ps][] ![vc][] | [_Architecting Elixir Applications with OTP_](https://www.pluralsight.com/courses/elixir-architecting-applications-otp) &bull; Author |
+| ![cs][] ![ic][] | [_Digging Into Django_](https://web.archive.org/web/20161224041648/https://www.codeschool.com/courses/digging-into-django) |
+| ![cs][] ![ic][] | [_On Track With Golang_](https://web.archive.org/web/20161225041941/https://www.codeschool.com/courses/on-track-with-golang) |
+| ![cs][] ![ic][] | _Try PHP_ |
+| ![cs][] ![ic][] | [_Close Encounters With PHP_](https://web.archive.org/web/20170606191758/codeschool.com/courses/close-encounters-with-php) |
 
 [cs]: https://assets.aj-foster.com/assets/icons/cs.svg "Code School"
 [ps]: https://assets.aj-foster.com/assets/icons/ps.svg "Pluralsight"
