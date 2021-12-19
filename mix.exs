@@ -21,6 +21,7 @@ defmodule Site.MixFile do
   defp deps do
     [
       {:serum, "~> 1.5"},
+      {:earmark, "~> 1.4.19", override: true},
       {:microscope, "1.3.0"},
       {:sass_compiler, "~> 0.1"},
       {:makeup, "~> 1.0"},
