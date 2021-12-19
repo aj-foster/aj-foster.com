@@ -11,7 +11,7 @@ pre > code {
 
 code.inline {
   border-radius: 0.125rem;
-  color: $cl-primary;
+  color: lighten($cl-secondary, 10%);
   font-family: $tf-family-mono;
   font-size: $tf-size-mono;
   padding: 0.125rem;
@@ -20,12 +20,14 @@ code.inline {
 .prefers-light-mode {
   code.inline {
     background-color: $cl-light-2;
+    color: $cl-secondary;
   }
 }
 
 @media screen and (prefers-color-scheme: light) {
   body:not(.prefers-dark-mode) code.inline {
     background-color: $cl-light-2;
+    color: $cl-secondary;
   }
 }
 
