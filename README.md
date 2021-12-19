@@ -7,6 +7,7 @@ It uses the following:
 * Serum, a static site generator written in Elixir
 * GitHub Actions, a free continuous integration/deployment system
 * GitHub Pages, a free hosting service for static websites
+* GitHub Discussions, a free discussion platform
 
 Because of these choices, the site itself is generated automatically when someone pushes to the
 `main` branch — and hosted for free.
