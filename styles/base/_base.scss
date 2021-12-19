@@ -55,3 +55,32 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
+// Font choice => Bold = 600
+
+b, strong {
+  font-weight: 600;
+}
+
+// Blockquote
+
+blockquote {
+  border-left: 4px solid currentColor;
+  font-size: 1.25em;
+  font-style: italic;
+  margin-left: 0.5rem;
+  padding-left: 1rem;
+}
+
+// Table of Contents Fix
+
+li > p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+// Footnote links
+
+sup > a {
+  text-decoration: none;
+}
