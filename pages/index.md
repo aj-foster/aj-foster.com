@@ -6,10 +6,10 @@ label: Home
 
 # Hello there
 
-I'm AJ, a software developer at Pluralsight.
+I'm AJ, a software developer at CodeSandbox.
 My interests in education and software lead me to...
 
-- Create interactive content on Pluralsight's Skills platform
+- Create [educational content](https://www.pluralsight.com/authors/aj-foster) on Pluralsight's Skills platform
 - Volunteer with _FIRST_ Tech Challenge events and teams
 - Build things that move around the room or light up the screen
 
