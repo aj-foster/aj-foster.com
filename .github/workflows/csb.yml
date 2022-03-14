@@ -1,0 +1,7 @@
+on: pull_request
+
+jobs:
+  open_in_codesandbox:
+    name: Open in CodeSandbox
+    steps:
+    - uses: aj-foster/open-in-codesandbox@v1
