@@ -22,7 +22,7 @@ defmodule Site.MixFile do
     [
       {:serum, "~> 1.5"},
       {:earmark, "~> 1.4.23", override: true},
-      {:microscope, "1.3.0"},
+      {:microscope, "1.4.0"},
       {:sass_compiler, "~> 0.1"},
       {:makeup, "~> 1.0"},
       {:makeup_c, ">= 0.0.0"},
