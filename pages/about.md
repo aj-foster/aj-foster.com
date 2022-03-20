@@ -10,8 +10,8 @@ If you're interested in learning more about anything listed here, please reach o
 
 ## Academics
 
-- **BS in Mathematics** &bull; University of Central Florida, 2015
-- **MSc in Mathematical Science** &bull; University of Central Florida, 2016
+- **BS in Mathematics** • University of Central Florida, 2015
+- **MSc in Mathematical Science** • University of Central Florida, 2016
 
 
 ## Skills
@@ -102,15 +102,15 @@ _Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dr
 
 In 2021, I authored my first video courses at Pluralsight.
 
-| ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) &bull; Author |
-| ![ps][] ![vc][] | [_Architecting Elixir Applications with OTP_](https://www.pluralsight.com/courses/elixir-architecting-applications-otp) &bull; Author |
+| ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) • Author |
+| ![ps][] ![vc][] | [_Architecting Elixir Applications with OTP_](https://www.pluralsight.com/courses/elixir-architecting-applications-otp) • Author |
 
 ### 2020
 
 In 2020, I became an author of my own interactive project and hands-on cloud lab at Pluralsight. Each involved writing challenges. The project involved implementing automated tests to provide feedback, and the cloud lab involved writing Terraform to set up a cloud environment for the learner.
 
-| ![ps][] ![proj][] | [_Create a String Manipulation Library in JavaScript_](https://www.pluralsight.com/projects/create-string-manipulation-library-in-javascript) &bull; Author |
-| ![ps][] ![lab][] | _Create a CloudWatch Alarm in AWS_ &bull; Author |
+| ![ps][] ![proj][] | [_Create a String Manipulation Library in JavaScript_](https://www.pluralsight.com/projects/create-string-manipulation-library-in-javascript) • Author |
+| ![ps][] ![lab][] | _Create a CloudWatch Alarm in AWS_ • Author |
 
 ### 2018
 
@@ -137,7 +137,7 @@ In 2016 and 2017, I implemented interactive challenges for Code School courses o
 | ![cs][] ![ic][] | [_Try Elixir_](https://web.archive.org/web/20180220232832/https://www.codeschool.com/courses/try-elixir/) |
 | ![cs][] ![ic][] | [_Mixing It Up With Elixir_](https://web.archive.org/web/20180304114910/https://www.codeschool.com/courses/mixing-it-up-with-elixir) |
 | ![cs][] ![ic][] | [_Try Docker_](https://web.archive.org/web/20170929025049/https://www.codeschool.com/courses/try-docker) |
-| ![cs][] ![wub][] | [_Build a Node App With Postgres and Docker_](https://web.archive.org/web/20171002022830/https://www.codeschool.com/screencasts/build-a-node-app-with-postgres-and-docker) &bull; Co-presenter |
+| ![cs][] ![wub][] | [_Build a Node App With Postgres and Docker_](https://web.archive.org/web/20171002022830/https://www.codeschool.com/screencasts/build-a-node-app-with-postgres-and-docker) • Co-presenter |
 | ![cs][] ![ic][] | _Try C#_ |
 | ![cs][] ![ic][] | _Keeping It Classy With C#_ |
 | ![cs][] ![ic][] | _Try Laravel_ |
