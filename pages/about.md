@@ -11,13 +11,14 @@ You can find me on [the Fediverse](https://mastodon.tech/@aj-foster) and [GitHub
 
 ## Academics
 
-- **BS in Mathematics** • University of Central Florida, 2015
-- **MSc in Mathematical Science** • University of Central Florida, 2016
+- **BS in Mathematics** • University of Central Florida
+- **MSc in Mathematical Science** • University of Central Florida • [Thesis](http://purl.fcla.edu/fcla/etd/CFE0006301)
 
 
 ## Skills
 
-_Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dreyfus_model_of_skill_acquisition)_.
+_Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dreyfus_model_of_skill_acquisition).
+These are languages and technologies I have written professionally or otherwise used in a production-level project._
 
 ### Programming Languages
 
@@ -95,6 +96,21 @@ _Using the [Dreyfus Model of Skill Acquisition](https://en.wikipedia.org/wiki/Dr
     <li class="light" style="background-color: #2b3238">Misspelling Variables</li>
   </ul>
 </div>
+
+
+## Past Work
+
+I currently work at [CodeSandbox](https://codesandbox.io) creating ways to make programming more accessible.
+Along with the rest of the team, we've shipped a new cloud development platform.
+
+Previously, I worked at [Pluralsight](https://www.pluralsight.com).
+My team focused on creating interactive learning experiences for software development and cloud infrastructure.
+This role included time working as a technical lead and product manager.
+I also create content for Pluralsight as a contract author (see below).
+
+My first few years at Pluralsight focused on a separate product from an acquired company called Code School.
+Code School created rich interactive courses for learning various programming languages and frameworks.
+This role included the creation of automated feedback systems for coding exercises.
 
 
 ## Instruction

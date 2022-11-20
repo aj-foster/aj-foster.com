@@ -6,7 +6,7 @@ label: Home
 
 # Hello there
 
-I'm AJ, a software developer at CodeSandbox.
+I'm AJ, a software developer at [CodeSandbox](https://codesandbox.io).
 My interests in education and software lead me to...
 
 - Create [educational content](https://www.pluralsight.com/authors/aj-foster) on Pluralsight's Skills platform
