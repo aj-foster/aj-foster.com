@@ -10,8 +10,6 @@ Most of the context provided by the speakers at the beginning of their talks is 
 
 The length of the notes for each talk has to do with how well my note-taking rhythm fell in phase with the speaker's rhythm; it is not a reflection of how interesting the talks were relative to each other.
 
-Have corrections or additions to make? Feel free to send me an <a href="#" class="email">email</a> or <a href="http://twitter.com/austin_j_foster">tweet</a>.
-
 ---
 
 ### Human First Web Design

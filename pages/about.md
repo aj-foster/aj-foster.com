@@ -4,9 +4,10 @@ group: main
 label: About
 ---
 
-Below are some additional details about my work and accomplishments.
+Below is a brief summary of my work and accomplishments.
 All of this was made possible by the support of incredible teachers, mentors, advisors, and coworkers over the years.
-If you're interested in learning more about anything listed here, please reach out via [social media](https://twitter.com/austin_j_foster/).
+If you want to learn more about anything listed here, please reach out.
+You can find me on [the Fediverse](https://mastodon.tech/@aj-foster) and [GitHub](https://github.com/aj-foster).
 
 ## Academics
 
