@@ -24,10 +24,10 @@ jobs:
 
       # Install Elixir
       - name: Install Elixir
-        uses: erlef/setup-elixir@v1
+        uses: erlef/setup-beam@v1
         with:
-          otp-version: '24.0.6'
-          elixir-version: '1.12.2'
+          version-file: .tool-versions
+          version-type: strict
 
       # Install dependencies
       - run: mix deps.get
