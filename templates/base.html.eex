@@ -15,6 +15,7 @@
     <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="me" href="https://hachyderm.io/@ajf">
   </head>
 <%= if @page[:label] do %>
   <body class="page--<%= String.downcase(@page.label) %>">
