@@ -1,0 +1,16 @@
+.callout {
+  border-radius: 4px;
+  border: 1px solid var(--ajBorderColor);
+  padding: 1rem;
+  position: relative;
+}
+
+.callout.note::before {
+  border: 0.25rem solid var(--ajBackgroundColor);
+  content: "📝";
+  font-size: 1.5rem;
+  line-height: 1em;
+  left: -1rem;
+  position: absolute;
+  top: -1rem;
+}
