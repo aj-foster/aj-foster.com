@@ -115,6 +115,19 @@ This role included the creation of automated feedback systems for coding exercis
 
 ## Instruction
 
+### 2023
+
+In 2023, I expanded beyond my usual video course topic area (Elixir) into Git.
+
+<table><tbody><tr><td>
+<img src="https://assets.aj-foster.com/assets/icons/ps.svg" alt="ps" title="Pluralsight">
+<img src="https://assets.aj-foster.com/assets/icons/wub.svg" alt="vc" title="Video Course">
+</td><td>
+<a href="https://www.pluralsight.com/courses/git-configuration-attributes"><em>Git Configuration and Attributes</em></a> • Author
+</td></tr></tbody>
+</table>
+
+
 ### 2021
 
 In 2021, I authored my first video courses at Pluralsight.
