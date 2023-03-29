@@ -113,6 +113,14 @@ Code School created rich interactive courses for learning various programming la
 This role included the creation of automated feedback systems for coding exercises.
 
 
+## Speaking
+
+* [_How Little Languages Shape the Future_](https://www.youtube.com/watch?v=avblxk98xvo) • Orlando Code Camp 2023
+* _Functional Data Structures_ • Amsterdam Elixir Meetup (17 May 2022)
+* _Functional Data Structures in Elixir_ • Orlando Elixir Meetup (13 October 2021)
+* [_Interactive Coding Challenges and the Future of Learning_](https://www.pluralsight.com/courses/ps-live-2018-get-your-geek-on-software-development) • Pluralsight LIVE 2018
+
+
 ## Instruction
 
 ### 2023
