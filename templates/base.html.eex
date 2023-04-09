@@ -61,7 +61,7 @@
         Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
       </div>
     </footer>
-    <script async defer data-domain="aj-foster.com" src="https://p.aj-foster.com/js/index.js"></script>
+    <script defer data-domain="aj-foster.com" src="https://plausible.io/js/script.js"></script>
     <script async defer src="/assets/js/colors.js"></script>
   </body>
 </html>
