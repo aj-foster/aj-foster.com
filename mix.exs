@@ -24,9 +24,12 @@ defmodule Site.MixFile do
       {:earmark, "~> 1.4.23", override: true},
       {:microscope, "1.4.0"},
       {:sass_compiler, "~> 0.1"},
-      {:makeup, "~> 1.0"},
-      {:makeup_c, ">= 0.0.0"},
-      {:makeup_elixir, ">= 0.0.0"}
+      {:makeup, "~> 1.2"},
+      {:makeup_c, "~> 0.1.1"},
+      {:makeup_elixir, "~> 1.0"},
+      {:makeup_erlang, "~> 1.0"},
+      {:makeup_json, "~> 1.0"},
+      {:makeup_swift, "~> 0.0.2"}
     ]
   end
 end
