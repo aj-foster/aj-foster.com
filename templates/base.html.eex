@@ -35,6 +35,28 @@
 <%= if @page[:label] == "Home" do %>
     <div class="cell well">
       <h2>Writing</h2>
+    <%= for post <- Enum.take(@all_posts, 5) do %>
+      <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = post.date %>
+      <a href="<%= post.url %>" class="listing">
+        <div class="date">
+          <div class="month"><%= month %></div>
+          <div class="day"><%= day %></div>
+          <div class="year"><%= year %></div>
+        </div>
+        <div class="text">
+          <div class="title"><%= post.title %></div>
+          <div class="description"><%= post.extras["preview"] %></div>
+        </div>
+      </a>
+    <% end %>
+    </div>
+    <div class="cell well">
+      <a href="/posts">See all posts</a>
+    </div>
+<% end %>
+
+<%= if @page[:label] == "Posts" do %>
+    <div class="cell well">
     <%= for post <- @all_posts do %>
       <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = post.date %>
       <a href="<%= post.url %>" class="listing">
