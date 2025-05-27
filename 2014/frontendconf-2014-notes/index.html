@@ -1,0 +1,264 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+      <title>Notes from Front-End Design Conference 2014 &bull; AJ Foster</title>
+    
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap&text=0123456789" rel="stylesheet">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="me" href="https://hachyderm.io/@ajf">
+  </head>
+
+  <body>
+
+    <div class="cell well">
+    
+      <section>
+        
+<nav class="nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="https://github.com/aj-foster/">GitHub</a></li>
+    <li><a href="https://hachyderm.io/@ajf">Social</a></li>
+  </ul>
+</nav>
+
+        <h1 id="notes-from-front-end-design-conference-2014">Notes from Front-End Design Conference 2014</h1><p>Posted on Jul 14, 2014. <a href="https://github.com/aj-foster/aj-foster.com/discussions">Discuss on GitHub</a></p><div class="article"><p>
+Please note that these are my personal notes that were not originally intended for public consumption. While I did edit them lightly for mechanics, all of the notes come directly as quotations or paraphrases of the speaker’s own words. My personal commentary is set apart <em>in italics</em>.</p><p>
+Most of the context provided by the speakers at the beginning of their talks is missing from these notes. I chose to focus on the main points and memorable quotations.</p><p>
+The length of the notes for each talk has to do with how well my note-taking rhythm fell in phase with the speaker’s rhythm; it is not a reflection of how interesting the talks were relative to each other.</p><hr class="thin"/><h3 id="-human-first-web-design">
+Human First Web Design</h3><p><strong>Daniel Ryan</strong> - <a href="https://twitter.com/dryan">@dryan</a> - <a href="https://dryan.com/">Website</a></p><p><em>Daniel Ryan worked as the Director of Front-end Development for the 2012 Barack Obama campaign. He related some of the things he learned throughout the campaign process.</em></p><p>
+Design is not just aesthetics; design is a thoughtful process. We’re all designers.</p><p>
+“Frictionless” is better than funneled. He shared a story about a Square fundraising app that failed because it asked too much, made the user work too hard, etc. The recipients read fundraising emails on their phones, but didn’t complete the process because the mobile experience was poor.</p><p>
+Throughout the campaign, they used custom analytics and a bunch of A/B tests. You shouldn’t just test: optimize. Have a strategy. Before you run a test, have a hypothesis about the results.</p><p>
+“Humans are more important than business goals.”</p><p>
+“Being where users are is better than trying to get them where you want them to be.”</p><p>
+The volunteer experience matters too. They created an iPad app to help volunteers get connected to nearby opportunities. It was backed by a Django app that tracked shifts.</p><p>
+“Being smarter is better than being perfect.”</p><p>
+In the process of creating the application, they could have imported the existing spreadsheets of available shifts instead of having an awesome admin interface to input them manually. In general, you should start with a static design and justify every dynamic feature you add. Static sites don’t break like dynamic sites do.</p><p><em>Sidenote: Daniel is hiring python developers.</em></p><p><em>Daniel’s position gave him the unique ability to rapidly test and iterate materials that were consumed by many users over a short period of time. In my opinion, his focus on maintaining simplicity for users, using data for design decisions, and putting humans at the center of the work, is wonderful. As a backend developer, I enjoy his policy of starting with static materials and justifying the need for dynamic content.</em></p><hr class="thin"/><h3 id="-animating-the-web-in-a-post-flash-world">
+Animating the Web in a Post-Flash World</h3><p><strong>Rachel Smith</strong> - <a href="https://twitter.com/rachsmithtweets">@rachsmithtweets</a> - <a href="http://rachsmith.com/">Website</a></p><p><em>Rachel Smith is a front-end developer working for <a href="http://activetheory.net/">Active Theory</a>. She spoke about the decision process that occurs when including animations on client projects.</em></p><p>
+We used to have many flash web sites with lots of motion and interaction; then came a trend of static web sites. Now we have transitional interfaces: how can we incorporate motion to make the experience better for our users?</p><p>
+We should all think about animating more. It helps us communicate a narrative. It gives the user cues about how to use the interface.</p><p>
+There’s a lot of new stuff to sort through and learn. There’s CSS, Canvas, SVG, WebGL.</p><p>
+CSS Animations vs. JavaScript frame-by-frame:</p><ul><li>
+When animating with CSS, the calculations are handed off to a separate thread with the GPU. That means better performance. JS stuff happens on the main browser thread.  </li><li>
+The lack of a need for JavaScript is pretty cool.  </li><li>
+You don’t have much control, though, over CSS animations.  </li><li>
+You <em>can</em> use JavaScript to control the CSS, though.  </li></ul><p>
+Canvas:</p><ul><li>
+You can paint complicated stuff on a Canvas without filling up the DOM.  </li><li>
+It can perform bitmap manipulations.  </li><li>
+Unfortunately, it isn’t crawl-able for SEO purposes.  </li><li>
+It also isn’t stateful, so you have to manually keep track of what it is doing with JavaScript.  </li><li>
+Canvas is good for a scene with a lot of things moving around. Examples: particle demonstrations and games.  </li></ul><p>
+SVG:</p><ul><li>
+Major pro: It’s vector-based.  </li><li>
+It’s crawl-able, because it works with real elements.  </li><li>
+You can animate defined paths.  </li><li>
+It is highly complex, though, which can hurt performance.  </li><li>
+Using SVG is good for scaling icons and animating along defined paths.  </li></ul><p>
+There are no strict rules concerning animation. You have to experiment with it. The two important goals are performance and purpose. If an animation doesn’t serve your overall goal, it’s useless.</p><p>
+Know your browsers, write efficient JavaScript, and know something about motion. Good JavaScript is key: watch memory and garbage collection, have efficient code, and perform event listening / handling wisely. She mentioned using JS object pools (arrays of objects that are recycled) so that garbage collection doesn’t kick in and reduce performance / frame rate.</p><p>
+Libraries don’t matter that much. They can help you do things faster, but if you don’t understand the JavaScript, it won’t turn out very well.</p><p>
+Watching motion graphic examples helps. Try taking examples not from the web, but from TV and video.</p><p><em>I believe one of the most important takeaways from this talk is the idea that animation, as a tool, can add value to your user’s experience. It is no longer an all (flash) or nothing (static) decision to make. Of course, the animations you use should have purpose. Rachel did a good job of giving us a feel for the circumstances in which each method (CSS and JS, Canvas, or SVG) would be effective. Now it’s up to us to try it out and have some fun with it.</em></p><hr class="thin"/><h3 id="-thinking-modular-css">
+Thinking Modular CSS</h3><p><strong>Drew Barontini</strong> - <a href="https://twitter.com/drewbarontini">@drewbarontini</a> - <a href="http://drewbarontini.com/">Website</a></p><p><em>Drew Barontini is a front-end developer at <a href="http://codeschool.com">Code School</a>. As co-creator of <a href="http://mvcss.github.io/">MVCSS</a>, he shared about the thought process that goes behind CSS architecture, with MVCSS as an example.</em></p><p>
+Front-End Development is a thing. Although HTML and CSS are easy to write, they are not easy to write well. They need to be modular. They need to be self-contained. When you write front-end code, think about modules, components, and patterns, instead of pages. Make solutions that are reusable.</p><p>
+Modular design divides a system into small parts. They are independent, and can be reused in different systems. Furthermore, small chunks are more maintainable. Each module has one job, and it is entirely encapsulated.</p><p>
+Example: a cell module <em>only</em> handles width limiting.</p><p>
+Positioning and layout are constant struggles with modular CSS. You have to abstract them outwards and apart from each other.</p><p>
+Some tenants of modular CSS:</p><ul><li>
+IDs are bad. Classes are good, because it flattens the layers of specificity.  </li><li>
+Naming conventions are important, regardless of what they actually are.  </li><li>
+You should have a process of constant evaluation.  </li></ul><p>
+Let’s use MVCSS as an example:</p><ul><li>
+Strict naming convention, like BEM. Modifiers are alternate sets of styles. States are added with JavaScript (ex: an is-hover class). Then there’s context (ex: a has-dropdown class sets position: relative).   </li><li>
+Submodules are scoped to a parent module (ex: btn, btn-a, btn-b).  </li><li>
+Abstract structure: a navigation structure shouldn’t care how it is positioned. You can abstract up to a grid module or something similar.  </li><li>
+Don’t use <a href="http://csswizardry.com/2012/11/code-smells-in-css/#magic-numbers">magic numbers</a>.  </li></ul><p>
+Steps to take:</p><ul><li>
+Identify the patterns you need to work with. Some examples: rows, cells, wells, and grids. Look for common patterns we can use like cards and lists. Look for unique patterns, like Dribbble’s color list. Use a <a href="https://github.com/drewbarontini/front-end-audit">front-end audit</a> to outline the patterns.  </li><li>
+Define stuff by looking at the module’s responsibility. That gives you its name.  </li><li>
+Build it.  </li><li>
+Combine the modules. This is the interesting part.  </li><li>
+Refine and refactor, over and over and over again. Don’t be afraid to be specific and abstract it out as you build.  </li><li>
+Look for weaknesses: magic numbers, fixed widths on elements, unsetting styles, and repeating styles.  </li></ul><p>
+Always be evaluating.</p><p><em>While the talk used MVCSS as an example, the point was to encourage careful thought about CSS architecture. MVCSS may seem like a strict, opinionated setup, but that’s all the better reason to think through the problems it solves yourself. Drew effectively insists that front-end implementation stand on its own as a concern of your project.</em></p><hr class="thin"/><h3 id="-the-right-tool-for-the-job:-designing-in-the-browser-for-agencies">
+The Right Tool for the Job: Designing in the Browser for Agencies</h3><p><strong>Andi Graham</strong> - <a href="https://twitter.com/andigrahambsd">@andigrahambsd</a> - <a href="http://bigseadesign.com/team/andi-graham">Big Sea Profile</a></p><p><em>Andi Graham leads the team at <a href="http://bigseadesign.com/">Big Sea</a>, a digital creative agency. She spoke about how designing in the browser affects the dynamics of client work.</em></p><p>
+We aren’t always able to communicate with clients well enough to maintain our vision. Designing in the browser can help with this.</p><p>
+Designing in the browser:</p><ul><li>
+Eliminates the redundancy of designing things twice (in Photoshop and for the browser).  </li><li>
+Allows you and the client to interact with the design.  </li><li>
+Allows you to make quick changes easily, especially when you use preprocessors.  </li><li>
+Makes the design actually work. You can move parts of the design into the final project.  </li></ul><p>
+What do you lose if you don’t use Photoshop?</p><ul><li>
+You lose some of the aesthetic appeal that you can get from Photoshop.  </li><li>
+It is difficult to design in the browser if you don’t have all of the content.  </li><li>
+HTML and CSS are not design tools.  </li><li>
+Clients can’t necessarily see where things are headed along the way.  </li></ul><p>
+Some steps to take:</p><ul><li>
+Get on the same page with your client. This might involve a kickoff meeting, mood boards, etc. Do gut checks: show sites that might be similar to what the client wants. <em>Check out <a href="http://visage.co/">Visage</a>.</em></li><li>
+Style tiles are cool. All the cool kids do them. Maybe try out digital style guides, because Sass makes that easy.  </li><li>
+Understand the project’s constraints. Designers might not be aware of the constraints, and that isn’t good. You can leverage those constraints when you present (read: explain) your design to the client.  </li><li>
+Show your work. It’s okay for the client to see how ugly the product is at the outset.  </li><li>
+When you show the client your work, help them give feedback. Give them bullet points of what to look at. Make sure your client knows to question things early on, for the sake of your time and their budget.  </li><li>
+As a designer, be involved in client meetings. Keep communication open. Never just send over a proof; make sure you are there to explain and have a conversation about the design.  </li><li>
+Don’t be afraid of Photoshop. Visual problem-solving is hard when you are trying to write code.  </li></ul><p><em>Designing in the browser can be a controversial topic, in my experience. The big takeaway that almost everyone can accept is that designing in the browser changes the dynamics of your project in a way that can improve communication with clients. I’m curious to see if a pseudo-implementation of this policy (i.e. design in Photoshop first internally, then walk the client through the implementation in the browser) might have some of the same benefits. The bottom line is, for me, more communication is always better.</em></p><hr class="thin"/><h3 id="-i-have-no-idea-what-i’m-doing">
+I Have No Idea What I’m Doing</h3><p><strong>Elyse Holladay</strong> - <a href="https://twitter.com/elyseholladay">@elyseholladay</a> - <a href="http://www.elyseholladay.com/">Website</a></p><p><em>Elyse Holladay is a teacher, developer, and designer at <a href="http://www.makersquare.com/">Maker Square</a>. She spoke about addressing our fears and overcoming self-judgment.</em></p><p>
+Sometimes, we focus on our “tigers”: the things that scare us. That isn’t what we should think about.</p><p>
+“Is being good at something the only measure of its worth?” Just because we aren’t good at something doesn’t mean we can’t enjoy it; doesn’t mean that it doesn’t have value.</p><p>
+It’s most important to learn what things we don’t know. The dangerous situation is when we don’t know that we don’t. Note that we still feel bad about those things when we discover them. We shouldn’t feel bad, though.</p><p>
+“We tend to judge others by the end product, and judge ourselves by the struggle we went through to get there.”</p><p>
+Imposter syndrome is a thing. Everyone has it. Be lucky, set goals, work joyously, share your doubts… The biggest hurdle isn’t ability, it’s doubts. Be kind to yourself. Celebrate your wins. Help others.</p><p><em>Elyse began with a story of someone who is running away from a tiger, reaches a cliff, and climbs part-way down some vines that hang there. There are tigers above and below her, but she takes time to eat and enjoy a strawberry hanging next to her. Part of the lesson is to not let our insecurities - the things we don’t know - stop us from using and enjoying the things we do. I definitely agree with the notion that discovering what it is that we don’t know, though frustrating, is extremely important.</em></p><hr class="thin"/><h3 id="-how-to-build-kickass-e-mails">
+How to Build Kickass E-Mails</h3><p><strong>Kevin Mandeville</strong> - <a href="https://twitter.com/kevingotbounce">@kevingotbounce</a> - <a href="http://litmus.com/lp/frontendconf">Talk Resources</a></p><p><em>Kevin Mandeville works for <a href="http://litmus.com/">Litmus</a> designing HTML emails. He spoke about the crucial differences between designing emails and web pages, and how to get started.</em></p><p>
+Email has progressed more slowly than the web due to client fragmentation. At the moment, mobile is in the lead in terms of the clients used to read emails. With that said, the important thing is to know your particular audience. Your demographics might be very different than the average. Email design requires you to choose which clients to support.</p><p>
+How to build emails:</p><ul><li>
+Email design is not web design. The first step is acceptance…  </li><li>
+Use tables, not divs. It’s frustrating, but deal with it.  </li><li>
+Best single piece of advice: “&lt;td&gt; or GTFO (get to fixing Outlook)”.  </li><li>
+Only apply styling to TDs. Exceptions: links, images, spans.  </li><li>
+Keep emails modular.   </li><li>
+One-column design works best for emails. It also performs better analytics-wise.  </li><li>
+Maximum width of 600px.  </li><li>
+Never use margin, always use padding.   </li><li>
+Use HTML attributes when possible (ex: height, width, bgcolor).  </li><li>
+CSS must be inline.  </li><li>
+Use &lt;b&gt;, not strong. Use px, not em or rem. Use full hex codes. Use align, not floats.  </li><li>
+Always align your &lt;td&gt;s.  </li><li>
+iOS needs a &lt;span&gt; to overwrite default link styling.  </li></ul><p>
+Single most misunderstood thing about email: responsive email is not supported everywhere. There’s a difference between device support and application support (devices might have several email rendering engines available).</p><p>
+Single most overlooked thing: the images-off view. 43% of emails are viewed with images off. Never forget alt text.</p><p>
+Images should be display: block. Google caches images… And compresses them. You might not want to compress images before sending them. Don’t use images for buttons. Use bulletproof buttons: see <a href="http://buttons.cm/">buttons.cm</a>.</p><p>
+Use preheader text for better (+30%) open rates. Reset styles can go in the header. If you wrap font face properties in a media tag, they will be ignored by Outlook.</p><p><em>HTML email has become a point of contention in our community because of the unsemantic markup required. Yet, there is a need for individuals who can design and implement it. Unfortunately the stigma (that admittedly, I have helped to perpetuate) does not help the area to improve.</em></p><hr class="thin"/><h3 id="-boxes-&amp;-grids,-oh-my">
+Boxes &amp; Grids, Oh My</h3><p><strong>Noah Stokes</strong> - <a href="https://twitter.com/motherfuton">@motherfuton</a> - <a href="http://esbueno.noahstokes.com/">Actual Website</a></p><p><em>Noah Stokes is a designer / developer at <a href="http://hellobold.com/">Bold</a> and a professional composer of tweets. He spoke about the notion that “responsive web design all looks the same” and what we can do about it.</em></p><p>
+“The web was losing its soul… And I was blaming RWD.”</p><p>
+The soul of a site is the intangible details of its design. While there is a trend towards flat design, that isn’t an excuse for lazy design. Some of the problem lies in decreased budgets in the comp phase of design. Skill sets also play a role.</p><p>
+RWD is still young, so we rely on trends to become comfortable with it. There are a lot of talks about it, but people are still just now starting to get involved.</p><p>
+RWD isn’t taking the soul out of design, the way we implement it is. So what can we do?</p><ul><li>
+Think outside of the box. It can be easy to look at a design and figure out how to implement it. We can get confused about how to implement “different” designs, and give up.  </li><li>
+Think about duplicating HTML for small pieces. Maybe you <em>should</em> use absolute and fixed positioning. Don’t forget about JavaScript too.  </li></ul><p>
+It doesn’t hurt to take a step back and let your subconscious work on it for a while.</p><p>
+Don’t settle. Think outside of the box. Bring back the soul.</p><p><em>After his original frustration, Noah came to a fair understanding of the dynamic between the responsive web and design. It is true that RWD is still a young area, and our way of thinking about it has yet to fully mature. Dealing with its unique problems just might require some less-than-semantic solutions, and that’s okay. If the method adds value to your user’s experience, that is what really matters.</em></p><hr class="thin"/><p><em>The following are talks from day two.</em></p><hr class="thin"/><h3 id="-lessons-from-the-lemonade-stand">
+Lessons from the Lemonade Stand</h3><p><strong>Carl Smith</strong> - <a href="https://twitter.com/carlsmith">@carlsmith</a> - <a href="http://devianthippie.com/">Website</a></p><p><em>Carl Smith is the “advisor” of <a href="http://www.ngenworks.com/">nGen Works</a>. He spoke about the human side of work, and gave some advice about how to manage stress.</em></p><ul><li>
+“Worrying about stress is worse than stress.” Stress is like exercise; it’s self-repairing if you don’t worry about it.  </li><li>
+Sleep is not the enemy.  </li><li>
+Go outside. Go for walks.  </li><li>
+Play games. When you make up games and play them, you are cooperating, you are negotiating, you are competing.  </li><li>
+Smiles are the secret weapon for kids. They hava a big impact, and smiling is addictive.  </li></ul><p><em>Carl related the story of his daughter’s lemonade stand and what he learned from her entrepreneurial spirit. His note about stress is very important: it does happen, and it will repair itself if we allow it.</em></p><hr class="thin"/><h3 id="-intersecting-worlds-of-web-and-education:-a-foray-into-the-digital-frontier">
+Intersecting Worlds of Web and Education: A Foray into the Digital Frontier</h3><p><strong>Erica Walker</strong> - <a href="https://twitter.com/ebwalker101">@ebwalker101</a> - <a href="http://goo.gl/YqJb5S">Slides</a></p><p><em>Erica Walker is a lecturer at Clemson University for graphic communications. She spoke about the differences and connection between formal and community education.</em></p><p>
+What do we mean by community education? It’s informal. This conference is the epitome of community education. It’s about us, and our personal pursuit of education. The problem is that there are many, many places to go. How do you know where to go? We need to promote some sense of direction.</p><p>
+Both formal and community education could play nicely together. Formal education has dedicated class time, a set curriculum, and face-to-face interaction. However, formal education gives students no say in the curriculum, and it is expensive. Community education is available 24/7 and occurs on a self-directed basis. Still, the resources can be hard to sort through. </p><p>
+How can we mix the two together? We need a balance.</p><p><em>Erica touched upon an important issue: there is a large divide between formal education and the industry / community. There are opportunities for greater communication and collaboration between the two.</em></p><hr class="thin"/><h3 id="-styling-forms-semantically-&amp;-accessibly">
+Styling Forms Semantically &amp; Accessibly</h3><p><strong>Amanda Cheung</strong> - <a href="https://twitter.com/acacheung">@acacheung</a> - <a href="http://acacheung.com/">Website</a></p><p><em>Amanda does front-end work at <a href="http://dockyard.com/">DockYard</a>. She spoke about accessibility of forms on the web and demonstrated some of the common issues encountered by screen readers.</em></p><p>
+Accessibility efforts assist people with visual, motor, auditory, and cognitive disabilities. The steps we take to improve accessibility can actually improve the user experience for everyone.</p><p>
+Some simple things: allow the use of tabs to move between inputs. Have related labels for inputs to increase the clickable area. Make sure all selection choices are visible when the list is expanded. Bonus points if the inputs are visually engaging and “on brand.”</p><p>
+You can use abbreviation tags to help accessibility. If you don’t want labels, hide the text in such a way that a screen reader can still see it.</p><p>
+Some known issues: There are issues with tabbing through checkboxes on Safari, and it is difficult to style select dropdowns correctly.</p><p>
+There are some new and exciting input types: telephone, web, email, date, time, and number inputs. Ranges and colors, and even datalists.</p><p><em>Amanda’s attention to accessibility is something we can all learn from. It helps that, in many cases, accessibility falls in line with semantic markup. There are <a href="http://a11yproject.com/">plenty of resources</a> out there to level-up with accessibility.</em></p><hr class="thin"/><h3 id="-let’s-be-brutally-honest-about-operations-and-pricing-for-web-agencies">
+Let’s Be Brutally Honest About Operations and Pricing for Web Agencies</h3><p><strong>Rob Harr</strong> - <a href="https://twitter.com/robertharr">@robertharr</a> - <a href="http://seesparkbox.com/">Sparkbox</a></p><p><em>Rob Harr is the technical director at Sparkbox. He spoke about the day-to-day operations of an agency and gave advice based on his experience.</em></p><p>
+Operations means “getting crap done.” At Sparkbox, they use a micro-cash flow strategy: every Tuesday, they balance the accounts and do an outlook on the budget. In general, the best case scenario is that you have 6 months of runway if clients stop coming.</p><p>
+Your freedom is not free. Being good with your cash today will finance future business. Business forecasting is basically trying to predict the future. Don’t rely on it. </p><p>
+Options on how to price your work:</p><ul><li>
+Fixed pricing. They’ve seen mixed results with this.  </li><li>
+Hourly pricing. This is what they use.  </li><li>
+Value pricing, i.e. figure out what the value of the product to the client is, and charge that.  </li></ul><p>
+There is no right answer. Focus on adding value for your clients. Sparkbox does hourly pricing, and it works alright for them. The best way to price things is a continuous argument between business owners. They key thing is to focus on something that makes you money.</p><p>
+Initial engagement: users are bad at saying what they want, and software people don’t know what to expect. Before jumping in, do some paid discovery: perform a short project to “date” your client. This kind of a project usually doesn’t need as much approval from the client either.</p><p>
+Their rate: $165 per hour. They constantly review it and prototype it with new clients. They do something called collaborative pricing: share a google doc with the budget that the client can edit. There’s a 20% deposit for safety. Weekly invoices help cash flow. </p><p>
+They work for hire. As soon as a piece of software is written, the client owns it. This way there’s no licensing, no liability.</p><p>
+Some good ideas:</p><ul><li>
+Know your terms.   </li><li>
+Get a line of credit before you need it.   </li><li>
+Get professional help. There are people who you can pay to help you with your business.  </li><li>
+Know your legal documents. Check out <a href="http://msabundle.com">msabundle.com</a>.  </li><li>
+Find some owner friends. Every business is going through similar struggles.  </li><li>
+Train your clients to think about your pricing model. For hourly pricing, the clients can see how much effort is being put into every piece of the project.  </li><li>
+Have difficult conversations.  </li><li>
+Decide as a team which parts of a project should be experimented with (ex. trying out new technologies).  </li><li>
+Track your time. Increase your rates. Find better clients. Clients don’t grow with you.  </li><li>
+Plan for taxes all year long.  </li><li>
+Save your cash.  </li></ul><p><em>Rob’s experience at Sparkbox is one example of how to operate a business. His insistence that there is no right answer is probably the best business advice available.</em></p><hr class="thin"/><h3 id="-remote.-commit.-push">
+Remote. Commit. Push</h3><p><strong>Travis Miller</strong> - <a href="https://twitter.com/travismillerweb">@travismillerweb</a> - <a href="http://www.travismillerweb.com/">Website</a></p><p><em>Travis Miller is a developer at SPARK who lives and works in the Bahamas. He spoke about the challenges of working remotely and how to survive with the tools available.</em></p><p><strong>Remote</strong></p><p>
+It is difficult to work remotely while maintaining the feel of working in the office. Travis had to learn a lot: better communication, time management, client relations, creating content.</p><p>
+Seclusion was essential. He had to learn how to work with the limited tools that were available.</p><p><strong>Commit</strong></p><p>
+Committing is difficult. Nothing gets done unless you commit to learning something. Things like Grunt are exactly the kinds of tools you have to use while working remotely. If a computer can do it, let it. Sass is another good example: the code is maintainable, you build with change in mind, and it has a manageable architecture.</p><p>
+Working remotely depends on learning how to use the tools you already have. In his case, Google Drive allowed him to perform rapid prototyping and iterations on UX documents. He uses the collaboration tools in Drive to communicate with the client and perform revisions. Documents can link to each other, which allows you to keep a project’s information together and keep a single folder of bookmarks for each project. Revision history, of course, is another important feature.</p><p>
+The point is, there are incredible tools already at your disposal. When you work remotely, you have to exploit these as much as possible. </p><p>
+Communicating during development is already difficult; try doing it at a distance. Document things as you go to record the context of what you’re working on. Your documentation is like Wilson from Castaway. Travis suggests using Evernote (and Evernote for Chrome). You can take screenshots of what you are working on and add a short description.</p><p>
+The tools you use become your team.</p><p><strong>Push</strong></p><p>
+Part of the push is to get into the habit of using these tools. Another part is changing your outlook to accept the way things are.</p><p>
+Wherever you are in the world, share what you’ve learned. Travis was able to help establish a web community back home in the Bahamas.</p><p>
+Travis was remote, but he was never alone. Commit to being better. Push yourself and the people around you.</p><p><em>Travis’s resolve is a big encouragement. Even for people who do not work remotely, the lessons Travis spoke about can improve the entire development experience.</em></p><hr class="thin"/><h3 id="-no-control:-designing-for-the-cms-driven-web">
+No Control: Designing for the CMS-driven Web</h3><p><strong>Andrew Norcross</strong> - <a href="https://twitter.com/norcross">@norcross</a> - <a href="http://andrewnorcross.com/">Website</a></p><p><em>Andrew Norcross is a developer at Reactiv Studios, as well as a WordPress core contributor. He spoke about the challenges that arise during the design and implementation of CMS-driven sites.</em></p><p>
+Norcross is not a designer; he can implement designs effectively though. Many times there is a gap between how something is designed, and how something is going to be used.</p><p>
+User-driven websites are becoming a much bigger part of the web today. There need to be additional design considerations made, but you don’t necessarily know about them during the design phase. </p><ul><li>
+Users are inexperienced. We often need to take a step back and realize that what we know is very unique to our line of work.  </li><li>
+Content focus is always changing. Examples: a blog post can change based on images, post formatting, videos, etc. The user can do all of those things without asking you, and they will find every edge case you didn’t think of. Magazine layouts are extremely variable. These things make designing very difficult.   </li></ul><p>
+It is worth your time as a designer to know how the content is going to be run (i.e. which CMS). Collaboration is extremely important: as a designer, you should make clear the goal of your design to the person who is gong to implement it. There’s a good chance the implementer can make your life easier by presenting some of the tools available. Maybe keep a notes file or a written style guide to accompany the design.</p><p><em>Norcross, as Dan calls him, knows well the difference between a design and its implementation. His suggestion about making a written style guide to accompany the design seems like an excellent idea, even for non-CMS based projects.</em></p><hr class="thin"/><h3 id="-smacss-your-sass-up">
+SMACSS Your Sass Up</h3><p><strong>Mina Markham</strong> - <a href="https://twitter.com/minamarkham">@minamarkham</a> - <a href="http://mina.is/speaking/smacss-sass/slides.pdf">Slides</a></p><p>
+Sometimes you need to make quick demo sites. These projects are the reason Mina got into modular CSS. You can see Drew Brontini’s talk for more about this. Mina likes to use SMACSS.</p><p>
+It’s a philosophy, not a framework. You can pick and choose the parts you want.</p><p>
+You categorize your CSS: base, layout, modules, states, and themes. This talk focuses on modules, where the bulk of the code lies.</p><p>
+Sass helps the process in a number of ways:</p><ul><li>
+Namespacing with <code class="inline">&amp;</code>. With Sass 3.3, you can use <code class="inline">&amp;-</code> to add suffixes to your selectors.  </li><li>
+Nesting - but be aware of the inception rule. The <code class="inline">&amp;</code> operator helps with this a little, but you probably shouldn’t be nesting too deep regardless.  </li><li><code class="inline">@extend</code> helps in some cases to limit the number of classes you have to add to any given element, especially when dealing with submodules. Note: don’t extend between modules.  </li><li>
+Sass 3.4 has some new selector functions. That’s one cool thing about Sass; it’s constantly evolving.  </li><li>
+File structure. Sass partials and imports help you keep your modular code organized. This helps maintainability. Mina showed her way of organizing files.  </li></ul><p>
+Check out Mina.so/smacss for examples of how she works, and read the SMACSS book if you haven’t checked it out yet.</p><p><em>Mina’s personal journey leading up to her talk is a big encouragement. She’s a great example of what a healthy community can help to create.</em></p><hr class="thin"/><h3 id="-contextually-aware-web-design">
+Contextually Aware Web Design</h3><p><strong>Matthew Carver</strong> - <a href="https://twitter.com/matthew_carver">@matthew_carver</a> - <a href="http://www.matthewcarver.com/">Website</a></p><p><em>Matthew Carver is the technology director at <a href="http://www.bigspaceship.com/">Big Spaceship</a>. He spoke about creating sites that are fully aware of the context in which the user is viewing them.</em></p><p>
+“Context is as important as content.” Responsive web design is all about being contextually aware.</p><p>
+Contextual awareness uses JavaScript to adjust a user’s experience based on available sensors. The expression within a media query is one example of a sensor.</p><p>
+Web design has historically been considered an observed medium, much like television. Contextual awareness comes from computing, and it does exist in the wild: Google uses your data to change your experience, and Apple has the M7 processor to utilize contextual information.</p><p>
+Four parts of the awareness:</p><ul><li>
+User: what do we know about the user? This can include accessibility and things like his/her data connection.  </li><li>
+Task: what is the user’s goal? Maybe you can “clear the path” for that task.  </li><li>
+Environment: where and when is the interaction taking place?  </li><li>
+Technology: we focus on this a lot with responsive design. Beyond screen size, though, you also have to consider how the interactions are taking place (i.e. touch vs. pointer).  </li></ul><p>
+A contextual breakpoint is the point at which the context of the website has changed. For example, a coffee shop might want to change the visual centerpiece (picture of a drink) based on the time of day. The breakpoints in this case are morning, noon, and night.</p><p>
+Matt creates a global sensors JS object to contain all of the contextual breakpoints. Each breakpoint answers true-or-false questions like “is it morning?” That way, you can just say “if sensors.morning, do something.” Even better, use a for loop to iterate through all of the available sensors and add a class to the HTML or body tag. From there you can use CSS to modify the front-end accordingly.</p><p>
+Check out nome.js (link unavailable) for a library of contextual awareness. It covers most everything that is available.</p><p>
+Level 4 media queries open up a lot of new possibilities. One example is the luminosity query: you can augment your CSS based on dim, normal, and washed states. There are also custom query methods that are usable via JS. Pointer defines the size of target area covered by the pointer device (coarse or fine). Hover defines whether it is possible for the user to hover. Finally, there are display quality queries: scan, resolution, and update frequency. </p><p>
+iOS 8 seems to be built around contextual awareness. Physical information is making its way into the digital world. It’s happening, and all it requires is thoughtfulness and imagination.</p><p>
+With all of that said, do consider the “creepiness factor” of the assumptions you are making about your user.</p><p><em>The upcoming possibilities surrounding contextual awareness are quite exciting. Matthew did a good job of setting the tone for how the new sensors can be utilized.</em></p><hr class="thin"/><h3 id="-design-pattern-craftsmanship">
+Design Pattern Craftsmanship</h3><p><strong>Jason Beaird</strong> - <a href="https://twitter.com/jasongraphix">@jasongraphix</a> - <a href="http://jasongraphix.com/">Website</a></p><p><em>Jason Beaird is a front-end designer/developer at <a href="http://mailchimp.com/">MailChimp</a>. He spoke about the use of patterns in sustainable web design.</em></p><p>
+We tend to start with basic elements on the web, restyling things over and over. Jason believes this isn’t necessarily the best way of doing things.</p><p>
+If a project evolves over time, it runs the risk of becoming like a “frankenhouse”. For Mailchimp, a redesign required eliminating many small inconsistencies in markup and naming. They went through and derived all of the patterns they could find.</p><p>
+Using patterns allowed Jason to be a master craftsman again, not just a manual laborer.</p><p>
+Style guides and design standards manuals run in the same vein as pattern libraries, but sometimes they stifle creativity rather than encourage it.</p><p>
+Yet another Mailchimp redesign came in 2013 with a focus on responsive design. The pattern library from this redesign is public. It is meant to be used for a specific project or application, to create LEGO-like markup and style, contain elements that are used 3 or more times, and to be adaptable.</p><p>
+One of the main patterns they use is the slat, similar to Drew Barontini’s “bucket” in MVCSS.</p><p>
+“A good craftsperson builds their own tools.” - Dan Cederholm</p><p><em>The MailChimp <a href="https://ux.mailchimp.com/patterns">pattern library</a> is definitely something to take a look at. Jason’s approach seems slightly more holistic than the modular CSS talks earlier in the conference, though different projects will likely require different types of thinking about front-end architecture.</em></p><hr class="thin"/><h3 id="-a-frontender-builds-a-backend:-learning-to-think-with-your-eyes-closed">
+A Frontender Builds a Backend: Learning to Think with your Eyes Closed</h3><p><strong>Mason Stewart</strong> - <a href="https://twitter.com/masondesu">@masondesu</a> - <a href="http://masondesu.com/">Website</a></p><p><em>Mason Stewart is the Lead Instructor at <a href="http://theironyard.com/">The Iron Yard</a>. He spoke about the differences between front-end and back-end feedback that lead front-enders and back-enders to react differently to tasks in their opposite field.</em></p><p>
+Why is back-end programming so scary to front-enders? It’s intimidating. They say you have to be a “certain kind of person.” But this isn’t how back-enders usually respond… They just do it.</p><p>
+It is important to remember that there isn’t some intellectual gap between front-enders and back-enders. So, we need to dispel the fears. </p><ul><li>
+Step one is to understand the similarities. We create for ourselves a bifurcated reality - a divide, a dichotomy - between front- and back-end that doesn’t really exist. (We build software in an almost perfect world. Things don’t just fall apart due to rust, age, etc. All of programming is similar in this way.)  </li><li>
+Next, understand the differences. The primary difference is the type and degree of feedback. In the front-end, your feedback is primarily visual. JavaScript is a little better about giving informative feedback, but still not that much. Backend errors leave the realm of visual feedback entirely. “We have to learn to be okay with different types, different levels of feedback.”  </li><li>
+Learn to play, and try not to worry. You don’t have to build cool things. Just build something. Relax.  </li></ul><p><em>Mason’s insight into the causes of intimidation for front-enders entering the back-end has the potential to be very helpful. The type and degree of feedback from each realm is indeed very different, and it requires a lot of time to become comfortable with each.</em></p></div>
+      </section>
+    </div>
+
+
+
+
+
+    <footer>
+      <div class="darkmode">
+        <input type="checkbox" id="darkmode">
+        <label for="darkmode">Toggle Dark Mode</label>
+      </div>
+      <div>
+        Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      </div>
+    </footer>
+    <script defer data-domain="aj-foster.com" src="https://plausible.io/js/script.js"></script>
+    <script async defer src="/assets/js/colors.js"></script>
+  </body>
+</html>

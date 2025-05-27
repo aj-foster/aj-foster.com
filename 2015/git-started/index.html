@@ -1,0 +1,153 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+      <title>Getting Started with Git &bull; AJ Foster</title>
+    
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap&text=0123456789" rel="stylesheet">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="me" href="https://hachyderm.io/@ajf">
+  </head>
+
+  <body>
+
+    <div class="cell well">
+    
+      <section>
+        
+<nav class="nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="https://github.com/aj-foster/">GitHub</a></li>
+    <li><a href="https://hachyderm.io/@ajf">Social</a></li>
+  </ul>
+</nav>
+
+        <h1 id="getting-started-with-git">Getting Started with Git</h1><p>Posted on Mar 02, 2015. <a href="https://github.com/aj-foster/aj-foster.com/discussions">Discuss on GitHub</a></p><div class="article"><p><em>This guide is a written / more accessible version of a lecture prepared for PHY 3905, a prototype class for introducing scientific computing. In context, the lecture provides a glimpse at Git and its uses to students who have recently been introduced to programming with Python, the Terminal, and basic shell tasks.</em></p><p>
+In this guide, I hope to:</p><ul><li>
+Give you insight into what the Git is, and what it can do.  </li><li>
+Make an argument for using Git in your projects.  </li><li>
+Explain the basics of using Git.  </li><li>
+Hint to the depth of functionality Git can provide.  </li></ul><h3 id="-background">
+Background</h3><p>
+There are some things that make software development difficult:</p><ul><li>
+Working in a team where individuals are all working on a project at once, or where one or more members of the team are geographically separated from the rest  </li><li>
+Mistakes happen. How do you revert back to a working version of your code?  </li><li>
+When it is time to release your software, how do you keep track of different versions of the code?  </li></ul><p>
+These are just a few of the problems Git helps address.</p><h3 id="-so…-what-is-git?">
+So… What is Git?</h3><p>
+Objectively speaking, Git is a <em>program</em> that keeps track of the changes you make to files in a project. Subjectively, Git is a <em>system</em> and a <em>mindset</em> that allows you to write code smartly. For those who use it fully, Git can even define the way they approach working on a problem.</p><p>
+Think of Git as a ledger that keeps track of your work. While you work on the files in a code project, lines are added, modified, and deleted. Much like the <a href="http://en.wikipedia.org/wiki/Algebraic_notation_%28chess%29">written representation of a chess game</a>, if you know the initial state of a file and how its contents are changed over time, you can reconstruct the changes.</p><table class="gs-ledger"><thead><tr><th style="text-align: left;">
+Date      </th><th style="text-align: left;">
+Commit      </th></tr></thead><tbody><tr><td style="text-align: left;">
+A few days ago      </td><td style="text-align: left;">
+Created a new file called <code class="inline">myScript.sh</code> with contents “…”      </td></tr><tr><td style="text-align: left;">
+Yesterday      </td><td style="text-align: left;">
+Changed <code class="inline">rm -rf</code> to <code class="inline">rm -r</code> on line 6 of <code class="inline">myScript.sh</code>.      </td></tr><tr><td style="text-align: left;">
+Today      </td><td style="text-align: left;">
+Added <code class="inline"># This script does...</code> between lines 1 and 2 in <code class="inline">myScript.sh</code>.      </td></tr></tbody></table><p>
+As you work and edit your files, you periodically “commit” those changes. Each commit has a message attached to it, where you describe the changes you’ve made. Later on, you can look back at the commits you’ve made using <code class="inline">git log</code> to see your progress.</p><h3 id="-why-should-we-bother?">
+Why should we bother?</h3><p>
+Let’s imagine you make a change to your code that breaks everything. Instead of trying to figure out what you did, you can tell Git to revert your files back to a commit where everything worked. Because Git knows about the changes you’ve made, it can <strong>undo those changes automatically</strong>.</p><p>
+Another reason many people use Git is because it allows multiple people to work on the same project all at once. If you were to have multiple working on the same files, changes that one person makes would be overwritten the next time someone else saves. It’s a mess (trust me) and it doesn’t work. With Git, you can give everyone a copy of your project. When people commit their changes and push them to a central location, Git will <strong>automatically merge</strong> the changes. This is extremely important, especially if you find yourself working with people who are not geographically close to you.</p><p>
+Finally, Git keeps you accountable. You and others working on a project can see the changes you make. If you commit some awesome code, everyone will be able to tell it’s yours. If you commit something that breaks the rest of the code, other people on the project will know who to ask about it.</p><h3 id="-so-how-does-it-work?">
+So how does it work?</h3><p>
+Imagine this setup: you are working on a homework assignment - a Python script - for this class. It’s in a folder called <code class="inline">hw100_rob</code>. Let’s jump in and see what’s happening:</p><pre><code>AJFoster :: ~ $ cd hw100_rob
+AJFoster :: hw100_rob $ git status
+fatal: Not a git repository (or any of the parent directories): .git</code></pre><p>
+What happened? We used a command, <code class="inline">git status</code>, to check on the status of our git repository (we’ll see more about what this does later). However, we haven’t created a repository here, so git has nothing to report.</p><blockquote><p><em>To create a git repository, <code class="inline">cd</code> into the project directory and run <code class="inline">git init</code>.</em></p></blockquote><pre><code>AJFoster :: hw100_rob $ git init
+Initialized empty Git repository in .../hw100_rob/.git/
+AJFoster :: hw100_rob $ git status
+On branch master
+
+Initial commit
+
+nothing to commit (create/copy files and use &quot;git add&quot; to track)</code></pre><p>
+Now we have a git repository in the <code class="inline">hw100_rob</code> directory. When you run <code class="inline">git init</code>, Git creates a hidden directory, <code class="inline">.git</code>, in which to store its data. <strong>Don’t mess with this directory</strong>, else you could lose your commit history.</p><p>
+We also ran <code class="inline">git status</code> to see the current status of the files in the directory. Right now, there aren’t any files, so Git has nothing to report. In practice, you’ll be typing <code class="inline">git status</code> a lot as you learn how Git behaves in response to your commands.</p><blockquote><p><em>Use <code class="inline">git status</code> to see the current status of the files in your Git repository.</em></p></blockquote><p>
+Let’s create our homework file. Like a good student, we start by adding a comment at the top with our name and other information.</p><pre><code>AJFoster :: hw100_rob $ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+
+    my_script.py
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)</code></pre><p>
+Hooray! Git recognizes that we’ve created the file. Notice that <code class="inline">my_script.py</code> is listed as an “untracked file”. There may be files in your repository that you do not wish to keep track of. For example, if you are working on a web application and publishing the files using Git, you probably don’t want to include files that contain passwords.</p><p>
+Now we’ll add the file to the repository.</p><blockquote><p><em>Use <code class="inline">git add &lt;filename&gt;</code> to have Git track a file in the repository.</em></p></blockquote><p>
+If we run <code class="inline">git status</code> now, we’ll see that Git is ready to accept our changes (i.e. the addition of <code class="inline">my_script.py</code>) in a commit.</p><pre><code>AJFoster :: hw100_rob $ git add my_script.py 
+AJFoster :: hw100_rob $ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+
+    new file:   my_script.py
+</code></pre><p>
+At this point, <code class="inline">my_script.py</code> is in “staging”. The stage is a place to collect files we’re done editing so that we can commit them together. Since we don’t have any more files to add to this commit, we’ll go ahead and…</p><pre><code>AJFoster :: hw100_rob $ git commit -m &quot;My first commit.&quot;
+[master (root-commit) ae828d5] My first commit.
+ 1 file changed, 3 insertions(+)
+ create mode 100644 my_script.py</code></pre><p>
+This commits all of the staged changes to the repository’s history. If we make changes in the future and want to revert back to the way things are right now, we can. We’ll also be able to look back at the history to see what was changed, along with the message we wrote.</p><blockquote><p><em>Use <code class="inline">git commit -m &quot;&lt;message&gt;&quot;</code> to commit all of the changes in staging with a short commit message.</em></p></blockquote><p>
+Let’s take a look at the log now.</p><pre><code>AJFoster :: hw100_rob $ git log
+commit ae828d5fe0722ca5439f7d358fda941d53832e6f
+Author: AJ Foster &lt;email@example.com&gt;
+Date:   Thu Mar 26 13:03:35 2015 -0400
+
+    My first commit.</code></pre><p>
+In the output, you see a string of characters representing the commit. For our purposes, think of this simply as a unique tag for every set of changes. It also shows the author, and the time of the commit. Lastly, we see the message attached to it.</p><blockquote><p><em>Use <code class="inline">git log</code> to see a log of the commit history. Type <code class="inline">q</code> to exit the log.</em></p></blockquote><h3 id="-is-that-it?">
+Is that it?</h3><p>
+For the most basic usage of Git… yes, that’s all there is to it. You should be aware that there are many aspects of using Git which aren’t covered here:</p><ul><li>
+Etiquette: when working on a team, there are guidelines (which are sometimes not well-documented) about how to use Git in a way that doesn’t create more work for everyone else. For example, you shouldn’t rewrite the history or “push” your code in such a way that it deletes others’ commits.  </li><li>
+Branching: Git has a feature called branching, in which you tell Git to store your current changes in a separate set of history. You can switch back and forth between branches in order to work on something experimental without contaminating the main branch’s history.  </li><li>
+Open-sourcing: Git is one way people package their software so the world can see it. You can post your code (using Git) to a site like GitHub so others can download, modify, and use what you wrote.  </li></ul><h3 id="-how-do-i-get-started?">
+How do I get started?</h3><p>
+I highly suggest you check out <a href="https://try.github.io/">this resource from Code School</a>. It’ll take you though the basic Git tasks, and explain what is happening as you go.</p><h3 id="-important-things-to-remember">
+Important things to remember</h3><ul><li>
+Always run <code class="inline">git status</code> to see the current state of the repository. You’ll learn to do this compulsively as you work.  </li><li>
+Commit often (especially when you are done with a specific task). It’ll be easier to revert back if something goes wrong later.  </li><li>
+Practice! Git, like anything, takes practice. It is worth your time to become familiar with Git now <em>before</em> you have to use it in a team setting.  </li><li>
+GitHub is a website; Git is the program it uses.  </li></ul><p>
+Edit (2021-01-24): The Try Git resource mentioned above, unfortunately, no longer exists. However, the site does link to a number of helpful resources.</p><style>
+      .gs-ledger {
+        border-collapse: collapse;
+        margin: 0 auto 1em;
+    }
+    .gs-ledger td {
+        border-bottom: 1px solid var(--ajBorderColor);
+        padding: 0.5em 0.5em 0;
+    }</style></div>
+      </section>
+    </div>
+
+
+
+
+
+    <footer>
+      <div class="darkmode">
+        <input type="checkbox" id="darkmode">
+        <label for="darkmode">Toggle Dark Mode</label>
+      </div>
+      <div>
+        Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      </div>
+    </footer>
+    <script defer data-domain="aj-foster.com" src="https://plausible.io/js/script.js"></script>
+    <script async defer src="/assets/js/colors.js"></script>
+  </body>
+</html>
