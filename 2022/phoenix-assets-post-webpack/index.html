@@ -1,0 +1,135 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+      <title>Phoenix Static Assets in the Post-Webpack World &bull; AJ Foster</title>
+    
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap&text=0123456789" rel="stylesheet">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="me" href="https://hachyderm.io/@ajf">
+  </head>
+
+  <body>
+
+    <div class="cell well">
+    
+      <section>
+        
+<nav class="nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="https://github.com/aj-foster/">GitHub</a></li>
+    <li><a href="https://hachyderm.io/@ajf">Social</a></li>
+  </ul>
+</nav>
+
+        <h1 id="phoenix-static-assets-in-the-post-webpack-world">Phoenix Static Assets in the Post-Webpack World</h1><p>Posted on Mar 25, 2022. <a href="https://github.com/aj-foster/aj-foster.com/discussions">Discuss on GitHub</a></p><div class="article"><p>
+Over the past few months, the Phoenix core team and the community around Phoenix have developed first-class support for <a href="https://github.com/phoenixframework/esbuild/">esbuild</a> and <a href="https://github.com/phoenixframework/tailwind">Tailwind CSS</a>. Both projects offer an alternative to Webpack, the project used to manage static assets since Phoenix 1.4.</p><p>
+You may remember the upgrade to Webpack from Brunch, another build tool used in earlier versions of Phoenix. In that case, projects moved between relatively similar tools (at least, from an outside perspective) that offered similar functionality relative to the needs of a Phoenix application. The change to esbuild and Tailwind CSS is a bit different, however: it requires moving from one unified tool that compiles, bundles, and moves assets, to a collection of tools that cover those needs in a patchwork fashion.</p><h2 id="-what-is-covered">
+What is Covered</h2><p><em>(as of the time of writing)</em></p><p>
+Many of the common tasks related to static assets are covered in this new paradigm:</p><ul><li>
+esbuild handles compiling and bundling JavaScript (and related) assets    <ul><li>
+It can also bundle CSS, depending on your setup      </li><li>
+I use it for code splitting (although the feature is experimental)      </li><li>
+It will also copy any assets referenced in the JavaScript      </li></ul></li><li>
+Tailwind CSS works with a single CSS file out of the box    <ul><li>
+Using the <code class="inline">postcss-import</code> plugin can extend this to bundling multiple CSS files, which is especially helpful if you need to import stylesheets from dependencies      </li><li>
+It will also copy any assets referenced in the CSS      </li><li>
+esbuild could help with bundling CSS if you invest in a multi-step build process      </li><li>
+Both Tailwind and esbuild can minify the output      </li></ul></li></ul><p>
+With careful configuration, these two standalone CLI tools can cover most use-cases.</p><h2 id="-what-isn’t-covered">
+What isn’t Covered</h2><p>
+In one particular application I work on, there’s a need that wasn’t covered in this new way of working: <strong>copying static assets that aren’t CSS or JavaScript</strong>. Images, favicons, <code class="inline">robots.txt</code> — in this project, these assets still live in <code class="inline">assets/static/</code>, and they need to end up in <code class="inline">priv/static/</code> with the bundled JavaScript and CSS. But how do they get there?</p><blockquote><p><strong>Important Note</strong>: The best answer for your application might be to just move these files to <code class="inline">priv/static/</code>. That’s where they live in newly generated Phoenix applications. If you don’t have a reason for <code class="inline">priv/static/</code> to be completely ignored by version control, consider this option.  </p></blockquote><p>
+In this app, however, keeping files in <code class="inline">priv/static/</code> isn’t the best idea. So something needs to get them there — continuously during development, and once during asset deployment.</p><h2 id="-my-solution">
+My Solution</h2><p>
+I tried to bend the Tailwind and esbuild standalone CLI tools to do the work for me. There are certainly situations in which this could work, depending on your setup. For me, it didn’t feel right to introduce additional imports in my JavaScript just for esbuild to include a file in its process. Similarly, it didn’t make sense to reference the assets in my CSS.</p><p>
+So, I made <a href="https://github.com/aj-foster/phx_copy">something to solve the problem</a>.</p><p><strong>Phoenix Copy</strong> is a small Hex package that operates just like the esbuild and Tailwind standalone tools. Instead of running an external CLI command, however, it uses the <code class="inline">File</code> module to manage files. It has two modes:</p><ol><li>
+“Run once” to copy files during asset deployment, and  </li><li>
+“Watch” to copy files continuously during development.  </li></ol><p>
+My goal in building it was this:</p><pre><code class="makeup elixir"><span class="c1"># config/dev.exs</span><span class="w">
+
+</span><span class="n">config</span><span class="w"> </span><span class="ss">:my_app</span><span class="p">,</span><span class="w"> </span><span class="nc">MyAppWeb.Endpoint</span><span class="p">,</span><span class="w">
+  </span><span class="ss">http</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5796554218-1">[</span><span class="ss">port</span><span class="p">:</span><span class="w"> </span><span class="mi">4000</span><span class="p" data-group-id="5796554218-1">]</span><span class="p">,</span><span class="w">
+  </span><span class="c1"># ...</span><span class="w">
+  </span><span class="ss">watchers</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5796554218-2">[</span><span class="w">
+    </span><span class="ss">asset_copy</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5796554218-3">{</span><span class="nc">Phoenix.Copy</span><span class="p">,</span><span class="w"> </span><span class="ss">:watch</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5796554218-4">[</span><span class="ss">:default</span><span class="p" data-group-id="5796554218-4">]</span><span class="p" data-group-id="5796554218-3">}</span><span class="p">,</span><span class="w">
+    </span><span class="ss">esbuild</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5796554218-5">{</span><span class="nc">Esbuild</span><span class="p">,</span><span class="w"> </span><span class="ss">:install_and_run</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5796554218-6">[</span><span class="ss">:default</span><span class="p">,</span><span class="w"> </span><span class="sx">~w(--sourcemap=inline --watch)</span><span class="p" data-group-id="5796554218-6">]</span><span class="p" data-group-id="5796554218-5">}</span><span class="p">,</span><span class="w">
+    </span><span class="ss">tailwind</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5796554218-7">{</span><span class="nc">Tailwind</span><span class="p">,</span><span class="w"> </span><span class="ss">:install_and_run</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5796554218-8">[</span><span class="ss">:default</span><span class="p">,</span><span class="w"> </span><span class="sx">~w(--watch)</span><span class="p" data-group-id="5796554218-8">]</span><span class="p" data-group-id="5796554218-7">}</span><span class="w">
+  </span><span class="p" data-group-id="5796554218-2">]</span><span class="w">
+
+</span><span class="c1"># mix.exs</span><span class="w">
+
+</span><span class="kd">defp</span><span class="w"> </span><span class="nf">aliases</span><span class="w"> </span><span class="k" data-group-id="5796554218-9">do</span><span class="w">
+  </span><span class="p" data-group-id="5796554218-10">[</span><span class="w">
+    </span><span class="ss">&quot;assets.deploy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5796554218-11">[</span><span class="w">
+      </span><span class="s">&quot;phx.copy default&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;esbuild default --minify&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;tailwind default --minify&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;phx.digest&quot;</span><span class="w">
+    </span><span class="p" data-group-id="5796554218-11">]</span><span class="p">,</span><span class="w">
+    </span><span class="c1"># ...</span><span class="w">
+  </span><span class="p" data-group-id="5796554218-10">]</span><span class="w">
+</span><span class="k" data-group-id="5796554218-9">end</span></code></pre><p>
+Whenever Phoenix calls upon esbuild or Tailwind to manage assets, it can also call upon Phoenix Copy to copy <em>everything else</em> not otherwise covered.</p><h2 id="-construction">
+Construction</h2><p>
+Both of the Phoenix-specific esbuild and Tailwind packages use configuration <strong>profiles</strong>. These allow you to have multiple, named configurations. I love this, because it doesn’t assume that your project has a single bundle of any given asset. I followed this pattern with Phoenix Copy as well: although my project only needs to move files from <code class="inline">assets/static/</code> to <code class="inline">priv/static</code>, others might need more.</p><pre><code class="makeup elixir"><span class="n">config</span><span class="w"> </span><span class="ss">:phoenix_copy</span><span class="p">,</span><span class="w">
+  </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4233322763-1">[</span><span class="w">
+    </span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="nc">Path</span><span class="o">.</span><span class="n">expand</span><span class="p" data-group-id="4233322763-2">(</span><span class="s">&quot;../assets/static/&quot;</span><span class="p">,</span><span class="w"> </span><span class="bp">__DIR__</span><span class="p" data-group-id="4233322763-2">)</span><span class="p">,</span><span class="w">
+    </span><span class="ss">destination</span><span class="p">:</span><span class="w"> </span><span class="nc">Path</span><span class="o">.</span><span class="n">expand</span><span class="p" data-group-id="4233322763-3">(</span><span class="s">&quot;../priv/static/&quot;</span><span class="p">,</span><span class="w"> </span><span class="bp">__DIR__</span><span class="p" data-group-id="4233322763-3">)</span><span class="w">
+  </span><span class="p" data-group-id="4233322763-1">]</span></code></pre><p>
+So far, the configuration is pretty simple: source and destination pairs. Using this information, the package offers two entrypoints:</p><ul><li><code class="inline">run/1</code>, which is used by <code class="inline">mix phx.copy</code>, takes the name of a configuration profile and performs a one-time copy of all the files  </li><li><code class="inline">watch/1</code> takes the name of a configuration profile, runs an initial copy of all files, and then watches for changes in the source directory (copying individual files as needed).  </li></ul><p>
+The watcher proved interesting to build, because the Phoenix Endpoint watcher configuration expects the function to block execution indefinitely. In Elixir we’re pretty comfortable spawning tasks and allowing them to run concurrently; spawning a file watcher and listening for messages <strong>without</strong> a dedicated process is more interesting.</p><p>
+In early release candidates, the watcher module was a <code class="inline">GenServer</code> that managed the file watcher process and listened to its messages. <code class="inline">watch/1</code> would start and link this GenServer process in a task and call <code class="inline">Task.await(task, :infinity)</code>. It wasn’t pretty, but it worked.</p><p>
+Of course, this setup proved hard to test. The indirection of (a) starting a process that (b) starts the file watcher made things slightly more complicated than necessary. <em>So</em>, I thought, <em>let’s remove the middleman</em>.</p><p>
+For the <code class="inline">0.1.0</code> release, the watcher startup looks like this:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">watch</span><span class="p" data-group-id="2032477847-1">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p" data-group-id="2032477847-1">)</span><span class="w"> </span><span class="k" data-group-id="2032477847-2">do</span><span class="w">
+  </span><span class="nc">Logger</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="2032477847-3">(</span><span class="s">&quot;Starting Phoenix.Copy file watcher...&quot;</span><span class="p" data-group-id="2032477847-3">)</span><span class="w">
+  </span><span class="p" data-group-id="2032477847-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">watcher_pid</span><span class="p" data-group-id="2032477847-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FileSystem</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="2032477847-5">(</span><span class="ss">dirs</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2032477847-6">[</span><span class="n">source</span><span class="p" data-group-id="2032477847-6">]</span><span class="p" data-group-id="2032477847-5">)</span><span class="w">
+  </span><span class="nc">FileSystem</span><span class="o">.</span><span class="n">subscribe</span><span class="p" data-group-id="2032477847-7">(</span><span class="n">watcher_pid</span><span class="p" data-group-id="2032477847-7">)</span><span class="w">
+
+  </span><span class="n">handle_messages</span><span class="p" data-group-id="2032477847-8">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">,</span><span class="w"> </span><span class="n">watcher_pid</span><span class="p" data-group-id="2032477847-8">)</span><span class="w">
+</span><span class="k" data-group-id="2032477847-2">end</span></code></pre><p>
+No more intermediate GenServer. Just start the filesystem watcher and then call <code class="inline">handle_messages/3</code>, which looks like this:</p><pre><code class="makeup elixir"><span class="kd">defp</span><span class="w"> </span><span class="nf">handle_messages</span><span class="p" data-group-id="6713286381-1">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">,</span><span class="w"> </span><span class="n">watcher_pid</span><span class="p" data-group-id="6713286381-1">)</span><span class="w"> </span><span class="k" data-group-id="6713286381-2">do</span><span class="w">
+  </span><span class="k">receive</span><span class="w"> </span><span class="k" data-group-id="6713286381-3">do</span><span class="w">
+    </span><span class="p" data-group-id="6713286381-4">{</span><span class="ss">:file_event</span><span class="p">,</span><span class="w"> </span><span class="c">_watcher_pid</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6713286381-5">{</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">events</span><span class="p" data-group-id="6713286381-5">}</span><span class="p" data-group-id="6713286381-4">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="c1"># Copy file...</span><span class="w">
+      </span><span class="n">handle_messages</span><span class="p" data-group-id="6713286381-6">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">,</span><span class="w"> </span><span class="n">watcher_pid</span><span class="p" data-group-id="6713286381-6">)</span><span class="w">
+
+    </span><span class="p" data-group-id="6713286381-7">{</span><span class="ss">:file_event</span><span class="p">,</span><span class="w"> </span><span class="c">_watcher_pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:stop</span><span class="p" data-group-id="6713286381-7">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="c1"># Return, presumably towards the termination of this process.</span><span class="w">
+      </span><span class="no">nil</span><span class="w">
+  </span><span class="k" data-group-id="6713286381-3">end</span><span class="w">
+</span><span class="k" data-group-id="6713286381-2">end</span></code></pre><p>
+Manually calling <code class="inline">receive/1</code> seems so rare in web applications, because we have amazing abstractions like the GenServer module. Sometimes, however — like when you need to block the execution of a calling process while listening for messages — it’s a great tool.</p><p>
+There are still troubles when it comes to testing, and plenty of edge cases I’ve yet to encounter. However, I’m satisfied with the project’s performance with my small sample size of one.</p><h2 id="-conclusion">
+Conclusion</h2><p>
+Phoenix, Elixir, Tailwind CSS, Alpine.js, and LiveView (PETAL) is an increasingly compelling story for developing real-time web applications. I’m delighted to see the Phoenix team embrace these new counterparts with first-class packages wrapping the esbuild and Tailwind CLI tools. For most projects, it’s all you need to have a comprehensive asset pipeline.</p><p>
+For my project, I needed a little more. <a href="https://github.com/aj-foster/phx_copy">Phoenix Copy</a> isn’t for everyone, but it could help you.</p></div>
+      </section>
+    </div>
+
+
+
+
+
+    <footer>
+      <div class="darkmode">
+        <input type="checkbox" id="darkmode">
+        <label for="darkmode">Toggle Dark Mode</label>
+      </div>
+      <div>
+        Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      </div>
+    </footer>
+    <script defer data-domain="aj-foster.com" src="https://plausible.io/js/script.js"></script>
+    <script async defer src="/assets/js/colors.js"></script>
+  </body>
+</html>

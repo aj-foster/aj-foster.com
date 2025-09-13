@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://aj-foster.com/posts/</loc>
+  
+    <priority>0.7</priority>
+  
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/</loc>
+  
+    <priority>1.0</priority>
+    <lastmod>2025-09-13</lastmod>
+  
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/about/</loc>
+  
+    <priority>0.7</priority>
+  
+    <changefreq>monthly</changefreq>
+  </url>
+
+
+  <url>
+    <loc>https://aj-foster.com/2025/handle-sns-messages/</loc>
+    <priority>0.5</priority>
+    <lastmod>2025-05-26</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2023/honeycomb-elixir/</loc>
+    <priority>0.5</priority>
+    <lastmod>2023-02-10</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2022/phoenix-assets-post-webpack/</loc>
+    <priority>0.5</priority>
+    <lastmod>2022-03-25</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2021/migrating-data/</loc>
+    <priority>0.5</priority>
+    <lastmod>2021-12-18</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2021/absinthe-apollo-swift/</loc>
+    <priority>0.5</priority>
+    <lastmod>2021-02-23</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2016/git-commit-atom/</loc>
+    <priority>0.5</priority>
+    <lastmod>2016-06-15</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2015/tombstone/</loc>
+    <priority>0.5</priority>
+    <lastmod>2015-11-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2015/ftc-changes/</loc>
+    <priority>0.5</priority>
+    <lastmod>2015-09-12</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2015/ruby-bindings/</loc>
+    <priority>0.5</priority>
+    <lastmod>2015-06-23</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2015/git-started/</loc>
+    <priority>0.5</priority>
+    <lastmod>2015-03-02</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2014/exploring-terminal/</loc>
+    <priority>0.5</priority>
+    <lastmod>2014-10-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2014/frontendconf-2014-notes/</loc>
+    <priority>0.5</priority>
+    <lastmod>2014-07-14</lastmod>
+  </url>
+
+  <url>
+    <loc>https://aj-foster.com/2014/creativeq-reflection/</loc>
+    <priority>0.5</priority>
+    <lastmod>2014-06-29</lastmod>
+  </url>
+
+</urlset>

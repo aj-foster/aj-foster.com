@@ -1,0 +1,189 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+      <title>Integrating Honeycomb.io with Elixir &bull; AJ Foster</title>
+    
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap&text=0123456789" rel="stylesheet">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="me" href="https://hachyderm.io/@ajf">
+  </head>
+
+  <body>
+
+    <div class="cell well">
+    
+      <section>
+        
+<nav class="nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="https://github.com/aj-foster/">GitHub</a></li>
+    <li><a href="https://hachyderm.io/@ajf">Social</a></li>
+  </ul>
+</nav>
+
+        <h1 id="integrating-honeycomb.io-with-elixir">Integrating Honeycomb.io with Elixir</h1><p>Posted on Feb 10, 2023. <a href="https://github.com/aj-foster/aj-foster.com/discussions">Discuss on GitHub</a></p><div class="article"><p>
+We recently tried <a href="https://honeycomb.io">Honeycomb.io</a> at work for observability.
+A lot has changed in this space over the past year, so it took some work to figure out the right way to do it.
+This article documents the steps we took.</p><p class="note callout">
+If you’re looking for an explanation of observability and how it relates to Elixir, OpenTelemetry, etc., <a href="https://davelucia.com/blog/observing-elixir-with-lightstep">Dave Lucia</a> has a great article for this.
+It even covers some of the steps mentioned here.
+In this article, we’ll focus more on the code.</p><h2 id="-set-up-honeycomb">
+Set Up Honeycomb</h2><p>
+To start, you will need to set up the following <a href="https://honeycomb.io">in Honeycomb</a>:</p><ol><li><p>
+An <strong>account</strong>, if you don’t already have one.
+You can <a href="https://ui.honeycomb.io/signup">sign up for free</a>.    </p></li><li><p>
+An <strong>environment</strong>.
+Honeycomb creates a <code class="inline">test</code> environment by default.    </p></li><li><p>
+An <strong>API key</strong>.
+Honeycomb generates one by default, however you may want to generate an app-specific key instead.
+This requires Team Owner permissions.
+The API key should have “Send Events” permission as well as “Create Datasets” if you want it to implicitly create a new dataset for your app.    </p></li></ol><p>
+We will use the API key later when configuring the exporter.</p><h2 id="-install-dependencies">
+Install Dependencies</h2><p>
+The following packages are required for all installations.</p><p class="note callout"><strong>Note</strong>: It is important to list <code class="inline">:opentelemetry_exporter</code> first.</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="1232585920-1">do</span><span class="w">
+  </span><span class="p" data-group-id="1232585920-2">[</span><span class="w">
+    </span><span class="c1"># ...</span><span class="w">
+    </span><span class="p" data-group-id="1232585920-3">{</span><span class="ss">:opentelemetry_exporter</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="1232585920-3">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="1232585920-4">{</span><span class="ss">:opentelemetry</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="1232585920-4">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="1232585920-5">{</span><span class="ss">:opentelemetry_api</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="1232585920-5">}</span><span class="w">
+  </span><span class="p" data-group-id="1232585920-2">]</span><span class="w">
+</span><span class="k" data-group-id="1232585920-1">end</span></code></pre><p>
+These packages provide the base for collecting and exporting metrics.
+Following are a few packages that help to instrument common Elixir libraries:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="2119833546-1">do</span><span class="w">
+  </span><span class="p" data-group-id="2119833546-2">[</span><span class="w">
+    </span><span class="c1"># ...</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-3">{</span><span class="ss">:opentelemetry_absinthe</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="2119833546-3">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-4">{</span><span class="ss">:opentelemetry_cowboy</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.2.0&quot;</span><span class="p" data-group-id="2119833546-4">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-5">{</span><span class="ss">:opentelemetry_ecto</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="2119833546-5">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-6">{</span><span class="ss">:opentelemetry_liveview</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="2119833546-6">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-7">{</span><span class="ss">:opentelemetry_oban</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="2119833546-7">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-8">{</span><span class="ss">:opentelemetry_phoenix</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="2119833546-8">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-9">{</span><span class="ss">:opentelemetry_redix</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.0&quot;</span><span class="p" data-group-id="2119833546-9">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="2119833546-10">{</span><span class="ss">:opentelemetry_tesla</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="2119833546-10">}</span><span class="w">
+  </span><span class="p" data-group-id="2119833546-2">]</span><span class="w">
+</span><span class="k" data-group-id="2119833546-1">end</span></code></pre><p>
+Thanks to common naming conventions, you can search for other libraries <a href="https://hex.pm/packages?search=opentelemetry&amp;sort=recent_downloads">on Hex.pm</a>.
+If you can’t find what you’re looking for, you could use <code class="inline">:opentelemetry_telemetry</code> to hook into Erlang Telemetry events manually, or consider creating your own package for the community.</p><h2 id="-instrument-libraries">
+Instrument Libraries</h2><p>
+If you choose to install any of the additional packages above, most require a function call in the <code class="inline">start/1</code> function of your <code class="inline">Application</code> module to get set up.</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="7899635932-1">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="7899635932-1">)</span><span class="w"> </span><span class="k" data-group-id="7899635932-2">do</span><span class="w">
+  </span><span class="c1"># ...</span><span class="w">
+  </span><span class="nc">OpentelemetryAbsinthe</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-3">(</span><span class="p" data-group-id="7899635932-3">)</span><span class="w">
+  </span><span class="nc">:opentelemetry_cowboy</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-4">(</span><span class="p" data-group-id="7899635932-4">)</span><span class="w">
+  </span><span class="nc">OpentelemetryEcto</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-5">(</span><span class="p" data-group-id="7899635932-6">[</span><span class="ss">:my_app</span><span class="p">,</span><span class="w"> </span><span class="ss">:repo</span><span class="p" data-group-id="7899635932-6">]</span><span class="p" data-group-id="7899635932-5">)</span><span class="w">
+  </span><span class="nc">OpentelemetryLiveView</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-7">(</span><span class="p" data-group-id="7899635932-7">)</span><span class="w">
+  </span><span class="nc">OpentelemetryOban</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-8">(</span><span class="p" data-group-id="7899635932-8">)</span><span class="w">
+  </span><span class="nc">OpentelemetryPhoenix</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-9">(</span><span class="ss">adapter</span><span class="p">:</span><span class="w"> </span><span class="ss">:cowboy2</span><span class="p" data-group-id="7899635932-9">)</span><span class="w">
+  </span><span class="nc">OpentelemetryRedix</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7899635932-10">(</span><span class="p" data-group-id="7899635932-10">)</span><span class="w">
+</span><span class="k" data-group-id="7899635932-2">end</span></code></pre><p>
+  Be sure to replace <code>:my_app</code> with the name of your OTP application.
+For Phoenix <sup><a href="#footnote-1" id="footnote-1-source">1</a></sup>, you should also ensure you have a call to `Plug.Telemetry` in your Endpoint module:</p><pre><code class="makeup elixir"><span class="n">plug</span><span class="w"> </span><span class="nc">Plug.Telemetry</span><span class="p">,</span><span class="w"> </span><span class="ss">event_prefix</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5042375136-1">[</span><span class="ss">:phoenix</span><span class="p">,</span><span class="w"> </span><span class="ss">:endpoint</span><span class="p" data-group-id="5042375136-1">]</span></code></pre><p>
+And Tesla requires its instrumentation to be inserted as middleware. Of course, you should consult the documentation of each package for the latest installation instructions.</p><h2 id="-configuration">
+Configuration</h2><p>
+Now it’s time to configure the various libraries.</p><h3 id="-release-configuration">
+Release Configuration</h3><p>
+First, we need to instruct OpenTelemetry how to run when running in a Mix Release.
+(If you are not using Mix Releases for your application, you can skip this.)
+Modify the release configuration:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">project</span><span class="w"> </span><span class="k" data-group-id="7577571931-1">do</span><span class="w">
+  </span><span class="p" data-group-id="7577571931-2">[</span><span class="w">
+    </span><span class="c1"># ...</span><span class="w">
+    </span><span class="ss">releases</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7577571931-3">[</span><span class="w">
+      </span><span class="ss">my_app</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7577571931-4">[</span><span class="w">
+        </span><span class="ss">applications</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7577571931-5">[</span><span class="w">
+          </span><span class="ss">opentelemetry_exporter</span><span class="p">:</span><span class="w"> </span><span class="ss">:permanent</span><span class="p">,</span><span class="w">
+          </span><span class="ss">opentelemetry</span><span class="p">:</span><span class="w"> </span><span class="ss">:temporary</span><span class="w">
+        </span><span class="p" data-group-id="7577571931-5">]</span><span class="w">
+      </span><span class="p" data-group-id="7577571931-4">]</span><span class="w">
+    </span><span class="p" data-group-id="7577571931-3">]</span><span class="w">
+  </span><span class="p" data-group-id="7577571931-2">]</span><span class="w">
+</span><span class="k" data-group-id="7577571931-1">end</span></code></pre><p>
+This accomplishes two things: first, it ensures <code class="inline">opentelemetry_exporter</code> and all of its dependencies start first, and second, it allows <code class="inline">opentelemetry</code> to crash without taking down the rest of the application.
+The thinking is that an unobserved but running application is better than a crashed one.</p><h3 id="-resource-attribute-configuration">
+Resource Attribute Configuration</h3><p>
+Next, we can inform OpenTelemetry about the environment in which our application runs.
+This is most likely something we want to do using runtime configuration.
+There are a number of <a href="https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/">resource descriptors</a> available, which can be compiled into a single environment variable <code class="inline">OTEL_RESOURCE_ATTRIBUTES</code><strong>or</strong> passed to the application environment:</p><pre><code class="makeup elixir"><span class="c1"># config/runtime.exs</span><span class="w">
+
+</span><span class="n">config</span><span class="w"> </span><span class="ss">:opentelemetry</span><span class="p">,</span><span class="w"> </span><span class="ss">resource</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3369956065-1">[</span><span class="w">
+  </span><span class="ss">service</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3369956065-2">[</span><span class="w">
+    </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;api&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="ss">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MyApp&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="c1"># ...</span><span class="w">
+  </span><span class="p" data-group-id="3369956065-2">]</span><span class="p">,</span><span class="w">
+  </span><span class="ss">host</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3369956065-3">[</span><span class="w">
+    </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">fetch_env!</span><span class="p" data-group-id="3369956065-4">(</span><span class="s">&quot;HOST&quot;</span><span class="p" data-group-id="3369956065-4">)</span><span class="p">,</span><span class="w">
+    </span><span class="c1"># ...</span><span class="w">
+  </span><span class="p" data-group-id="3369956065-3">]</span><span class="w">
+</span><span class="p" data-group-id="3369956065-1">]</span></code></pre><p>
+For an example of compiling resource attributes into an environment variable, see <a href="https://davelucia.com/blog/observing-elixir-with-lightstep">Dave Lucia’s post</a>.</p><h3 id="-tracer-configuration">
+Tracer Configuration</h3><p>
+Now we need to start connecting the various pieces of machinery we’ve defined.
+By default, we can disable the export of trace information (for development and testing), and turn it on for production.</p><pre><code class="makeup elixir"><span class="c1"># config/config.exs</span><span class="w">
+
+</span><span class="n">config</span><span class="w"> </span><span class="ss">:opentelemetry</span><span class="p">,</span><span class="w">
+  </span><span class="ss">span_processor</span><span class="p">:</span><span class="w"> </span><span class="ss">:batch</span><span class="p">,</span><span class="w">
+  </span><span class="ss">traces_exporter</span><span class="p">:</span><span class="w"> </span><span class="ss">:none</span><span class="w">
+
+</span><span class="c1"># config/prod.exs</span><span class="w">
+
+</span><span class="n">config</span><span class="w"> </span><span class="ss">:opentelemetry</span><span class="p">,</span><span class="w">
+  </span><span class="ss">traces_exporter</span><span class="p">:</span><span class="w"> </span><span class="ss">:otlp</span></code></pre><h3 id="-sampling-configuration">
+Sampling Configuration</h3><p>
+Honeycomb’s pricing is event-based, and they include the following note in <a href="https://docs.honeycomb.io/manage-data-volume/sampling/">their documentation</a>:</p><blockquote><p>
+If your service receives more than 1000 requests per second, sampling should be part of your observability journey.  </p></blockquote><p>
+With OpenTelemetry, we can configure a sampler that will both limit the number of events sent to Honeycomb and ensure that reported traces are complete.
+This requires determining whether to sample a trace based on the root trace ID, and ensuring that all child spans follow the same decision.</p><p>
+Luckily, this functionality is built in.
+In the following configuration, we use a parent-based sampler to ensure that all child spans match the sampling decision of their parent.
+Then, for the root span, we use a trace ID-based ratio to keep a percentage of traces.</p><pre><code class="makeup elixir"><span class="n">config</span><span class="w"> </span><span class="ss">:opentelemetry</span><span class="p">,</span><span class="w">
+  </span><span class="ss">sampler</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7562688022-1">{</span><span class="ss">:parent_based</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7562688022-2">%{</span><span class="ss">root</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7562688022-3">{</span><span class="ss">:trace_id_ratio_based</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p" data-group-id="7562688022-3">}</span><span class="p" data-group-id="7562688022-2">}</span><span class="p" data-group-id="7562688022-1">}</span></code></pre><p>
+This <code class="inline">sampler</code> key can be added to an existing <code class="inline">opentelemetry</code> configuration block.
+A float between <code class="inline">0.0</code> and <code class="inline">1.0</code> defines how many traces to keep: <code class="inline">0.0</code> for none, <code class="inline">0.1</code> for keeping 10% of all traces, and <code class="inline">1.0</code> for keeping all of them.</p><p>
+Samplers adhere to the <code class="inline">:otel_sampler</code> behaviour.
+In the future, you can create your own sampler module that behaves differently depending on the root span’s name, for example, or the outcome of the request.</p><h3 id="-honeycomb-configuration">
+Honeycomb Configuration</h3><p>
+Finally, we can tell our application about Honeycomb.
+Because this involves an API key, we likely want to do this using runtime configuration:</p><pre><code class="makeup elixir"><span class="c1"># config/runtime.exs</span><span class="w">
+
+</span><span class="n">config</span><span class="w"> </span><span class="ss">:opentelemetry_exporter</span><span class="p">,</span><span class="w">
+  </span><span class="ss">otlp_protocol</span><span class="p">:</span><span class="w"> </span><span class="ss">:http_protobuf</span><span class="p">,</span><span class="w">
+  </span><span class="ss">otlp_endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://api.honeycomb.io:443&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="ss">otlp_headers</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5077550449-1">[</span><span class="w">
+    </span><span class="p" data-group-id="5077550449-2">{</span><span class="s">&quot;x-honeycomb-team&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">fetch_env!</span><span class="p" data-group-id="5077550449-3">(</span><span class="s">&quot;HONEYCOMB_API_KEY&quot;</span><span class="p" data-group-id="5077550449-3">)</span><span class="p" data-group-id="5077550449-2">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="5077550449-4">{</span><span class="s">&quot;x-honeycomb-dataset&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyApp&quot;</span><span class="p" data-group-id="5077550449-4">}</span><span class="w">
+  </span><span class="p" data-group-id="5077550449-1">]</span></code></pre><p>
+The next time the application starts in production, it will begin sending data to Honeycomb.</p><h2 id="-conclusion">
+Conclusion</h2><p>
+OpenTelemetry is relatively new in the Erlang and Elixir ecosystem.
+If you find yourself working with it, there’s a great opportunity to contribute documentation and guides.</p><p>
+Good luck on your observability journey!</p><hr class="thin"/><ol class="my-8"><li id="footnote-1"><p class="mb-4">Although it is not currently clear from the documentation, the Phoenix library will automatically check for trace-related headers on incoming REST requests and respect that data. This means you can start collecting distributed traces across multiple services. (You will have to supply those headers to outgoing requests, when necessary.) <a href="#footnote-1-source">Back</a></p></li></ol></div>
+      </section>
+    </div>
+
+
+
+
+
+    <footer>
+      <div class="darkmode">
+        <input type="checkbox" id="darkmode">
+        <label for="darkmode">Toggle Dark Mode</label>
+      </div>
+      <div>
+        Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      </div>
+    </footer>
+    <script defer data-domain="aj-foster.com" src="https://plausible.io/js/script.js"></script>
+    <script async defer src="/assets/js/colors.js"></script>
+  </body>
+</html>

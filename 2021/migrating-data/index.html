@@ -1,0 +1,176 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+      <title>Migrating Data with Elixir &bull; AJ Foster</title>
+    
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap&text=0123456789" rel="stylesheet">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="me" href="https://hachyderm.io/@ajf">
+  </head>
+
+  <body>
+
+    <div class="cell well">
+    
+      <section>
+        
+<nav class="nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="https://github.com/aj-foster/">GitHub</a></li>
+    <li><a href="https://hachyderm.io/@ajf">Social</a></li>
+  </ul>
+</nav>
+
+        <h1 id="migrating-data-with-elixir">Migrating Data with Elixir</h1><p>Posted on Dec 18, 2021. <a href="https://github.com/aj-foster/aj-foster.com/discussions">Discuss on GitHub</a></p><div class="article"><p>
+  Recently I completed a rewrite of an application<sup><a href="#footnote-1" id="footnote-1-source">1</a></sup>, and needed to migrate the existing data. Below I&#39;ll review the process and discuss some important things I learned along the way.</p><p><strong>Table of Contents</strong></p><ul><li><a href="#-setting-the-stage"><strong>Setting the Stage</strong></a>: background information about the application and the task at hand  </li><li><a href="#-do-painful-things-more-often"><strong>Do Painful Things More Often</strong></a>: turning one-time data migration into a daily task    <ul><li><a href="#-migrator-overview"><strong>Migrator Overview</strong></a>: overall structure and setup of the migration application      </li><li><a href="#-translating-ids"><strong>Translating IDs</strong></a>: maintaining foreign key integrity across different schemas      </li><li><a href="#-execution"><strong>Execution</strong></a>: some notes on the actual implementation of the migration application      </li></ul></li><li><a href="#-persisting-id-translations"><strong>Persisting ID Translations</strong></a>: resolving a referential integrity issue outside the database    <ul><li><a href="#-stability-from-the-migration-logic"><strong>Stability from the Migration Logic</strong></a>: changing the migration code to support ID stability      </li><li><a href="#-stability-from-crashes"><strong>Stability from Crashes</strong></a>: changing the translation cache storage to support ID stability      </li></ul></li><li><a href="#-migrating-files"><strong>Migrating Files</strong></a>: addressing the migration of file attachments  </li></ul><p>
+Let’s get started.</p><hr class="thin"/><h2 id="-setting-the-stage">
+Setting the Stage</h2><p>
+My first programming-related job was part of a creative services team at a university. Student-funded groups, whose purposes ranged from volunteerism and fundraising to entertainment, needed graphic and web design services to attract students. To facilitate these services, the creative services team used an electronic queue.</p><p>
+This queue went through several iterations over the years. In 2014 I created my first iteration of the application with <a href="https://github.com/aj-foster/CreativeQ">CreativeQ</a>, a Ruby on Rails app that taught me many valuable lessons about software design. As is often the case, while learning and adopting a new technology (Elixir), I was excited to try it out by rewriting the queue. This started in 2017 and took many years of occasional work.</p><p>
+Towards the end, I faced the task of migrating data from the old version. This was tricky for a few reasons:</p><ol><li>
+Data schemas were different. Even the types used for IDs changed for some tables.  </li><li>
+Data had been normalized. A record from one table in the old database may translate into one (or more!) of several different tables in the new database.  </li><li>
+Not everything resided in a database. Related files would be migrated from disk storage to S3-style object storage.  </li></ol><p>
+Starting from scratch with a new, empty database wasn’t an option, so it was time to figure out a migration strategy.</p><hr class="thin"/><h2 id="-do-painful-things-more-often">
+Do Painful Things More Often</h2><p><a href="https://martinfowler.com/bliki/FrequencyReducesDifficulty.html">Martin Fowler wrote</a> about a phrase we hear in the realm of software:</p><blockquote><p>
+If it hurts, do it more often.  </p></blockquote><p>
+Migrating data was going to be a painful task. I was dreading the process and how much downtime it might require. As the saying goes, this was a great time to consider what it might look like to perform data migrations more often.</p><p>
+In hindsight, this was already starting to happen: development of the new version required example data to validate whether the interactions made sense in the context of a real workflow (as opposed to all of the fake graphic and web requests I created over the years). Furthermore, users could benefit from being able to try the system early — with real data — and give feedback before the switch-over.</p><p>
+So I gave myself the following prompt: create a system to migrate data to the new version of the application <strong>every day</strong>. This created a necessary and beneficial change in thinking. SQL queries and scripts weren’t going to be enough. I needed an application that could migrate data in an automated and repeatable way.</p><h3 id="-migrator-overview">
+Migrator Overview</h3><p>
+I created a basic <code class="inline">mix</code> project to perform the migration. It only needs a few dependencies: Ecto (via <code class="inline">ecto_sql</code> and <code class="inline">postgrex</code>) to read from the old PostgreSQL database and write to the new one.</p><p>
+The main application structure (<code class="inline">lib/</code>) looks like this:</p><pre><code>lib
+├── migrator
+│   ├── application.ex
+│   ├── new
+│   │   ├── schema1.ex
+│   │   ├── schema2.ex
+│   │   │   ├── schema2_embed1.ex
+│   │   │   └── schema2_embed2.ex
+│   │   ├── ...
+│   │   └── schema3.ex
+│   ├── new.ex
+│   ├── old
+│   │   ├── schema1.ex
+│   │   ├── ...
+│   │   └── schema2.ex
+│   ├── old.ex
+│   ├── timer.ex
+│   └── translator.ex
+└── migrator.ex</code></pre><p>
+Let’s break it down.</p><h4 id="-“contexts”-and-schemas">
+“Contexts” and Schemas</h4><p><code class="inline">Migrator.New</code> and <code class="inline">Migrator.Old</code> provide data access functions like you would find in a context module generated by Phoenix. For the old data, these functions only list records. For the new data, they only create, update, and truncate records. Beneath each of these modules are the Ecto schemas for each database table. Unlike in a working Phoenix application, these schemas read and write to each field as literally as possible. For example, here’s one of the schema modules for the <strong>new</strong> data:</p><pre><code class="makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">Migrator.New.Group</span><span class="w"> </span><span class="k" data-group-id="3179603021-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Ecto.Schema</span><span class="w">
+  </span><span class="kn">import</span><span class="w"> </span><span class="nc">Ecto.Changeset</span><span class="w">
+
+  </span><span class="n">schema</span><span class="w"> </span><span class="s">&quot;groups&quot;</span><span class="w"> </span><span class="k" data-group-id="3179603021-2">do</span><span class="w">
+    </span><span class="n">field</span><span class="p" data-group-id="3179603021-3">(</span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="p">,</span><span class="w"> </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="3179603021-3">)</span><span class="w">
+
+    </span><span class="n">field</span><span class="p" data-group-id="3179603021-4">(</span><span class="ss">:inserted_at</span><span class="p">,</span><span class="w"> </span><span class="ss">:utc_datetime_usec</span><span class="p" data-group-id="3179603021-4">)</span><span class="w">
+    </span><span class="n">field</span><span class="p" data-group-id="3179603021-5">(</span><span class="ss">:updated_at</span><span class="p">,</span><span class="w"> </span><span class="ss">:utc_datetime_usec</span><span class="p" data-group-id="3179603021-5">)</span><span class="w">
+  </span><span class="k" data-group-id="3179603021-2">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">changeset</span><span class="p" data-group-id="3179603021-6">(</span><span class="p">%</span><span class="bp">__MODULE__</span><span class="p" data-group-id="3179603021-7">{</span><span class="p" data-group-id="3179603021-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">attrs</span><span class="p" data-group-id="3179603021-6">)</span><span class="w"> </span><span class="k" data-group-id="3179603021-8">do</span><span class="w">
+    </span><span class="n">group</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">cast</span><span class="p" data-group-id="3179603021-9">(</span><span class="n">attrs</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3179603021-10">[</span><span class="ss">:id</span><span class="p">,</span><span class="w"> </span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:inserted_at</span><span class="p">,</span><span class="w"> </span><span class="ss">:updated_at</span><span class="p" data-group-id="3179603021-10">]</span><span class="p" data-group-id="3179603021-9">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">validate_required</span><span class="p" data-group-id="3179603021-11">(</span><span class="p" data-group-id="3179603021-12">[</span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:inserted_at</span><span class="p">,</span><span class="w"> </span><span class="ss">:updated_at</span><span class="p" data-group-id="3179603021-12">]</span><span class="p" data-group-id="3179603021-11">)</span><span class="w">
+  </span><span class="k" data-group-id="3179603021-8">end</span><span class="w">
+</span><span class="k" data-group-id="3179603021-1">end</span></code></pre><p>
+Notice there is no <code class="inline">timestamps/1</code> call; instead, it manually specifies the <code class="inline">inserted_at</code> and <code class="inline">updated_at</code> fields. This may seem like a trivial change, but it eliminates normally-helpful behavior on the part of Ecto that might overwrite the migrated data with automatically-generated timestamps. In other places, I’ve also replaced calls to <code class="inline">belongs_to</code> and other associations with explicit <code class="inline">field</code> calls, like <code class="inline">field(:group_id, :integer)</code>. This gives the application full control over the data entering the database.</p><p>
+Schema modules for the old data don’t require changeset functions, only <code class="inline">schema</code> and <code class="inline">field</code> calls.</p><h4 id="-migrator">
+Migrator</h4><p>
+The main <code class="inline">Migrator</code> module contains the logic for moving data from old tables to new ones. The main <code class="inline">run</code> function:</p><ol><li>
+Truncates data from the new tables, then  </li><li>
+Lists all of the data from an old table, and  </li><li>
+Creates or updates records in the new tables as appropriate.  </li></ol><p>
+Performing this logic at the Elixir level allows it to make transformations that wouldn’t be easy in SQL alone. For example, the application can read the contents of a comment and determine whether it represents a user-generated comment or a system-generated audit message. This module is rich in <code class="inline">case</code> statements, with each branch ending in a call to <code class="inline">Repo.insert</code> or <code class="inline">Repo.update</code>.</p><h4 id="-timer">
+Timer</h4><p>
+Rather than use a third-party library like <code class="inline">quantum</code>, I decided to create a simple GenServer process to schedule migrations daily. On startup, this GenServer schedules a migration for midnight UTC the next day. Following each run, it schedules another one for 24 hours later. It isn’t perfect, but it does the job.</p><h4 id="-translator">
+Translator</h4><p>
+The final module is <code class="inline">Migrator.Translator</code>, which deserves its own section.</p><h3 id="-translating-ids">
+Translating IDs</h3><p>
+While implementing the migration logic, trouble struck almost immediately. Requests for a graphic or web design — the main record in the system — had integer IDs in the old system and binary IDs in the new system. By default, simply copying data couldn’t ensure that all of the records referencing requests with a foreign key (e.g. comments with a <code class="inline">request_id</code> column) would maintain their references.</p><p>
+In hindsight, it would have been perfectly reasonable to copy the old request IDs into a separate column in the new table. Later, a migration on the new database could change the foreign key relationships. But I wanted the migrator to <em>just handle it</em>, and to avoid changing the new schema for the sake of the migration. So instead, there’s a translator.</p><p><code class="inline">Migrator.Translator</code> is a simple GenServer that manages an <a href="https://elixirschool.com/en/lessons/storage/ets">Erlang Term Storage (ETS)</a> table. It has functions like this:</p><pre><code class="makeup elixir"><span class="n">add_group</span><span class="p" data-group-id="8143284546-1">(</span><span class="n">old_id</span><span class="p">,</span><span class="w"> </span><span class="n">new_id</span><span class="p" data-group-id="8143284546-1">)</span><span class="w">
+</span><span class="n">get_group</span><span class="p" data-group-id="8143284546-2">(</span><span class="n">old_id</span><span class="p" data-group-id="8143284546-2">)</span><span class="w">
+</span><span class="n">add_user</span><span class="p" data-group-id="8143284546-3">(</span><span class="n">old_id</span><span class="p">,</span><span class="w"> </span><span class="n">new_id</span><span class="p" data-group-id="8143284546-3">)</span><span class="w">
+</span><span class="n">get_user</span><span class="p" data-group-id="8143284546-4">(</span><span class="n">old_id</span><span class="p" data-group-id="8143284546-4">)</span></code></pre><p>
+Hidden inside the module, the ETS table stores records like <code class="inline">{{:group, 2}, 10}</code> (denoting that the old table’s group 2 is the new table’s group 10). When the migrator encounters a foreign key, it runs it through the translator before saving. <code class="inline">nil</code> values naturally return <code class="inline">nil</code>. In the end, referential integrity between tables is preserved.</p><h4 id="-asynchronicity">
+Asynchronicity</h4><p>
+Whenever you use a GenServer like this, you have to consider the impact of its sequential processing of messages on the data. For example, will it be possible for the migrator to ask for an ID from the table before the GenServer has processed the message to store that ID? Will the processing of messages be a bottleneck for the rest of the application?</p><p>
+In this case, since the migration “run” occurs sequentially in a single process, we don’t need to worry too much about what the translator is doing. Even if the migration process were to asynchronously <code class="inline">cast</code> a large backlog of ID insertions to the translator, it will give the translator time to catch up by using <code class="inline">call</code> to retrieve IDs later on. Erlang guarantees messaging ordering between a given pair of processes, so the <code class="inline">call</code> message will definitely be handled after the <code class="inline">cast</code> messages are finished.</p><p>
+What we <strong>should avoid</strong>, however, is using <code class="inline">cast</code> to insert ID pairings and then bypassing the GenServer altogether to retrieve data from the ETS table. While this is possible — with Erlang guaranteeing atomic reads and writes on the ETS table even with multiple processes reading — it could cause a situation where the migrator process reads data before the translator has written it.</p><p>
+The safest thing to do is use <code class="inline">call</code> everywhere. This does create a bottleneck: the migration process will only be able to create records as fast as the translator can insert and retrieve IDs from the ETS table. However, this creates a healthy back-pressure in the system. For a migration running daily, it doesn’t need to be incredibly fast. (In reality, working with the database will probably be the slowest part of the routine.) If using <code class="inline">call</code> guarantees that it won’t create a large backlog of messages for the translator, possibly causing a future <code class="inline">call</code> to timeout, that’s an acceptable trade-off here.</p><h3 id="-execution">
+Execution</h3><p>
+  Getting started with the migrator was easy: create some schemas that match the exact structure of existing database tables. Throw some OTP at the problem with a few GenServers<sup><a href="#footnote-2" id="footnote-2-source">2</a></sup>, and you&#39;re well on your way.</p><p>
+At nearly 600 lines of code, the migration logic was slightly more involved than anticipated for an application of the queue’s size and complexity. Performing the migration daily gave me the opportunity to refine the logic over an extended period of time. As folks continued to use the old version of the app in new and interesting ways, small tweaks to the migrator gradually improved the new experience.</p><hr class="thin"/><h2 id="-persisting-id-translations">
+Persisting ID Translations</h2><p>
+As mentioned above, the migration application used an ETS table to maintain mappings from old to new IDs. The original goal was to retain referential integrity within the context of a single migration: comments of request #1 should have request #1’s new ID in their <code class="inline">request_id</code> column on the other side. However, as the migration moved closer to the final rounds of testing, a new issue arose: how do we deal with files attached to requests?</p><p>
+In the process of completing a request, members of the creative services group may upload numerous drafts as attachments. Previously these files were stored on-disk where the application was hosted. The new version uses an S3-compatible object storage. Regardless of how the files get migrated (see <strong>Migrating Files</strong> below), there was a problem: the randomly-generated binary request IDs were changing every day. Request IDs become part of the file’s path, so after 24 hours, all of the files would need to be moved. This wasn’t going to work.</p><p>
+Now, in addition to maintaining referential integrity within a single migration, the migrator needed to provide referential stability across runs. This required two changes.</p><h3 id="-stability-from-the-migration-logic">
+Stability from the Migration Logic</h3><p>
+The first issue to address was the migrator code itself. Because IDs were assumed to be unstable between runs, every new record was inserted with a <code class="inline">nil</code> ID (allowing the database to sequence or generate an ID). Even if the translator already had an ID saved for that record from a previous run, the migrator would generate a new one and overwrite the cache.</p><p>
+Resolving this took a few steps:</p><ol><li>
+First, ensure every schema’s changeset function includes <code class="inline">:id</code> in the list of fields given to <code class="inline">Ecto.Changeset.cast/4</code>. Otherwise, the preset ID would be ignored.  </li><li>
+Check for an existing ID translation before each record insertion. Using <code class="inline">nil</code> as the default value works for new records.  </li></ol><p>
+It might also be a good practice (though not strictly necessary) to avoid re-inserting the same ID mapping in the translator.</p><h4 id="-resetting-postgresql-sequences">
+Resetting PostgreSQL Sequences</h4><p>
+Now that the migrator no longer relies on the database to generate primary keys for most records, I decided to reset the ID-generating sequences (for tables using integers as primary keys) after each migration. This way, there’s no chance of the database attempting to generate an ID that collides with an existing record.</p><p>
+Thanks to <a href="https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync">the internet</a>, I used the following (with the <code class="inline">groups</code> table as an example):</p><pre><code class="makeup elixir"><span class="nc">Migrator.New.Repo</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="4495443257-1">(</span><span class="w">
+  </span><span class="s">&quot;SELECT setval(&#39;groups_id_seq&#39;, COALESCE((SELECT MAX(id) + 1 FROM groups), 1), false);&quot;</span><span class="w">
+</span><span class="p" data-group-id="4495443257-1">)</span></code></pre><p>
+Tables with generated binary IDs have nothing to worry about.</p><h3 id="-stability-from-crashes">
+Stability from Crashes</h3><p>
+The ETS table storing the ID mappings was great, but it would be lost if the Erlang node (or even just the translator process) crashed for any reason. This included new deployments of the migrator code, in the absence of hot-code reloading.</p><p>
+My solution? Use DETS.</p><p>
+Disk-based Erlang Term Storage (DETS) looks a lot like ETS, except the underlying table is also saved to a file on disk. In my particular case, it was possible to save this file in such a way that it would persist between deployments of the migrator.</p><p>
+DETS looks deceptively simple to use:</p><pre><code class="makeup elixir"><span class="c1"># Replace...</span><span class="w">
+</span><span class="n">table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">:ets</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="2228685686-1">(</span><span class="ss">:translation_cache</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2228685686-2">[</span><span class="ss">:named_table</span><span class="p" data-group-id="2228685686-2">]</span><span class="p" data-group-id="2228685686-1">)</span><span class="w">
+</span><span class="c1"># with...</span><span class="w">
+</span><span class="p" data-group-id="2228685686-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">table</span><span class="p" data-group-id="2228685686-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">:dets</span><span class="o">.</span><span class="n">open_file</span><span class="p" data-group-id="2228685686-4">(</span><span class="ss">:translation_cache</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2228685686-5">[</span><span class="p" data-group-id="2228685686-6">{</span><span class="ss">:file</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;/path/to/translator.dets&#39;</span><span class="p" data-group-id="2228685686-6">}</span><span class="p" data-group-id="2228685686-5">]</span><span class="p" data-group-id="2228685686-4">)</span><span class="w">
+
+</span><span class="c1"># Replace...</span><span class="w">
+</span><span class="nc">:ets</span><span class="o">.</span><span class="n">insert</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nc">:ets</span><span class="o">.</span><span class="n">lookup</span><span class="o">/</span><span class="mi">2</span><span class="w">
+</span><span class="c1"># with...</span><span class="w">
+</span><span class="nc">:dets</span><span class="o">.</span><span class="n">insert</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nc">:dets</span><span class="o">.</span><span class="n">lookup</span><span class="o">/</span><span class="mi">2</span></code></pre><p>
+(The <code class="inline">.dets</code> extension is my own affectation.)</p><p>
+Of course, the details are a bit more involved, and anyone considering using DETS should read <a href="https://www.erlang.org/doc/man/dets.html">the documentation</a> carefully. However, in this particular use-case, it worked.</p><p>
+With the code now looking for existing IDs before inserting records, and the data persisted to disk between deployments (and crashes) of the migrator, IDs became stable. Any given file could be moved to the S3-compatible storage just once.</p><hr class="thin"/><h2 id="-migrating-files">
+Migrating Files</h2><p>
+While the migration application handled PostgreSQL data nicely, migrating attached files from disk to S3 storage was another task. As part of this migration, the files were placed into a new folder structure as well (based on request IDs rather than comment IDs).</p><p>
+I won’t include many details of this part in this post, because they aren’t particularly interesting and they are so specific to the needs of the queue. However, let me plug this:</p><p><strong>Elixir’s <a href="https://livebook.dev/">Livebook</a> is an amazing tool for facilitating routine tasks.</strong></p><p>
+In a <code class="inline">.livemd</code> file, I now have detailed instructions and code snippets that walk me through the process of downloading CSV files with ID translations and structuring my filesystem properly. Then the executable code blocks read in the CSVs (thanks to <code class="inline">nimble_csv</code>), move the files appropriately, and prepare them for syncing to S3-like storage. There’s no need to rely on my memory between instances of moving files. Livebook makes the process as repeatable as possible.</p><hr class="thin"/><h2 id="-conclusion">
+Conclusion</h2><p>
+Migrating data from the old version of the queue to the new version was a painful task, so I chose to do it more often. A small Ecto-based Elixir application handled the PostgreSQL data with referential integrity and stability. A Livebook file guided me through the migration of files from one storage to another. Beta testers saw up-to-date data every day, and up-to-date files with much less effort.</p><p>
+This project reinforces the idea that Elixir is a fantastic “glue” language. Whether it is coordinating runs of a purpose-built binary, managing external services or hardware, or migrating data between systems, Elixir can help. It has the right abstractions to both give you control and get out of your way.</p><p>
+As a result, migrating data doesn’t hurt anymore.</p><hr class="thin"/><ol class="my-8"><li id="footnote-1"><p class="mb-4">Consider this a +1 to the sentiment that rewriting an application from scratch <strong>(a)</strong> sounds better than it is, <strong>(b)</strong> takes longer than expected, and <strong>(c)</strong> leaves existing users of the application dissatisfied while the rewrite occurs. <a href="#footnote-1-source">Back</a></p></li><li id="footnote-2"><p class="mb-4">Using a GenServer (or more generally, spawning a new process) is not the best solution for everything. But it is an awfully quick solution for many things. <a href="#footnote-2-source">Back</a></p></li></ol></div>
+      </section>
+    </div>
+
+
+
+
+
+    <footer>
+      <div class="darkmode">
+        <input type="checkbox" id="darkmode">
+        <label for="darkmode">Toggle Dark Mode</label>
+      </div>
+      <div>
+        Created with ♥︎ by AJ Foster. <a href="https://github.com/aj-foster/aj-foster.com/">Source</a>
+      </div>
+    </footer>
+    <script defer data-domain="aj-foster.com" src="https://plausible.io/js/script.js"></script>
+    <script async defer src="/assets/js/colors.js"></script>
+  </body>
+</html>
