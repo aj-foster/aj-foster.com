@@ -254,7 +254,7 @@ Valid signing certificates are hosted at `sns.[region].amazonaws.com`, so we can
   defp validate_signing_cert_url(signing_cert_url) do
     valid_hostname? =
       URI.parse(signing_cert_url).host
-      |> String.match?(~r/sns\.[a-zA-z0-9\-]+\.amazonaws\.com/)
+      |> String.match?(~r/^sns\.[a-zA-Z0-9\-]+\.amazonaws\.com$/)
 
     if valid_hostname? do
       :ok
