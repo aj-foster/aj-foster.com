@@ -5,13 +5,13 @@ preview: Thoughts and examples of using the tombstone in typography on the web.
 category: Guide
 ---
 
-If you search for information on this topic, you're likely to get a bunch of articles on the typography found on tombstones (a very interesting topic). So just to be clear: this article concerns the typographic symbol called the *tombstone*, which is used to mark the end of various written pieces.
+If you search for information on this topic, you're likely to get a bunch of articles on the typography found on tombstones (a very interesting topic). So just to be clear: this article concerns the typographic symbol called the _tombstone_, which is used to mark the end of various written pieces.
 
 ### A little history
 
-Although many people (myself included) know the tombstone from mathematics as the "end of proof" or "Q.E.D." symbol, it was first used to mark the end of articles in magazines and other written contexts. As [a quick search](https://en.wikipedia.org/wiki/Tombstone_%28typography%29) will point out, the symbol might also be called the *Halmos* after the individual who apparently introduced it to mathematics.
+Although many people (myself included) know the tombstone from mathematics as the "end of proof" or "Q.E.D." symbol, it was first used to mark the end of articles in magazines and other written contexts. As [a quick search](https://en.wikipedia.org/wiki/Tombstone_%28typography%29) will point out, the symbol might also be called the _Halmos_ after the individual who apparently introduced it to mathematics.
 
-It appears the tombstone has only partially made the transition into web publications. A quick survey of the [top 50](http://www.journalism.org/media-indicators/digital-top-50-online-news-entities-2015/) online news sites (for this, ad blocking software is recommended) reveals that almost nobody uses it, with the exception of a round red dot from the UK publisher [The Independent](http://www.independent.co.uk) and the company logo from [NBC News](http://www.nbcnews.com/). Most others simply end an article with a copyright remark or our dear friend, the comment section. *(If you see the tombstone or another similar end-mark in use, I'd love to add examples at the end of this article.)*
+It appears the tombstone has only partially made the transition into web publications. A quick survey of the [top 50](https://web.archive.org/web/20151125113916/http://www.journalism.org/media-indicators/digital-top-50-online-news-entities-2015/) online news sites (for this, ad blocking software is recommended) reveals that almost nobody uses it, with the exception of a round red dot from the UK publisher [The Independent](https://web.archive.org/web/20170301061543/http://www.independent.co.uk/news/uk/home-news/uk-aims-to-be-major-player-in-space-technology-as-briton-prepares-to-blast-into-orbit-a6771796.html) and the company logo from [NBC News](https://web.archive.org/web/20151120003951/http://www.nbcnews.com/tech/tech-news/hold-second-un-kicks-leap-second-decision-down-road-n466206). Most others simply end an article with a copyright remark or our dear friend, the comment section. _(If you see the tombstone or another similar end-mark in use, I'd love to add examples at the end of this article.)_
 
 ### Evaluating its purpose
 
@@ -98,7 +98,8 @@ If you use or see the tombstone on the web, I'd love to hear about it. Happy wri
 <div class="addendum">
     <p>Additions &amp; Errata</p>
     <ul>
-        <li>(11/22/2015) <a href="https://twitter.com/johndjameson">John D. Jameson</a> pointed out that <a href="http://www.clickhole.com/">ClickHole</a> uses a circular mark at the end of articles on their site.</li>
-        <li>(1/10/2019) Marc Müller mentioned that <a href="https://blog.google/products/android/introducing-new-google-fit/">a recent Google Blog post</a> used a mark with class "tombstone."</li>
+        <li>(11/22/2015) <a href="https://johndjameson.com/">John D. Jameson</a> pointed out that <a href="https://web.archive.org/web/20150209140023/http://www.clickhole.com/article/crisis-leadership-no-one-group-friends-stepped-dec-1856">ClickHole</a> uses a circular mark at the end of articles on their site.</li>
+        <li>(1/10/2019) Marc Müller mentioned that <a href="https://web.archive.org/web/20200309083944/https://blog.google/products/android/introducing-new-google-fit/">a recent Google Blog post</a> used a mark with class "tombstone."</li>
+        <li>(9/7/2026) Links in this article have been updated to preserve examples via the Internet Archive.
     </ul>
 </div>
