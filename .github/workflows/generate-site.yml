@@ -10,10 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      # Cache dependencies and compiled files
-      - uses: actions/cache@v3
+      - uses: actions/cache@v6
         with:
           path: |
             _build
@@ -22,26 +21,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-mix-
 
-      # Install Elixir
       - name: Install Elixir
         uses: erlef/setup-beam@v1
         with:
           version-file: .tool-versions
           version-type: strict
 
-      # Install dependencies
       - run: mix deps.get
       - run: mix deps.compile
-
-      # Generate site
       - run: mix site.gen
 
-      # Publish diffs to GitHub Pages
-      - name: Deploy Site
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./site
-          force_orphan: true
-          keep_files: true
+          path: ./site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
