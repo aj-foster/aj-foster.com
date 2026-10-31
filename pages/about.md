@@ -2,6 +2,10 @@
 title: About
 group: main
 label: About
+permalink: /about/
+sitemap:
+  priority: 0.7
+  changefreq: monthly
 ---
 
 Below is a brief summary of my work and accomplishments.
@@ -143,6 +147,8 @@ In 2023, I expanded beyond my usual video course topic area (Elixir) into Git.
 
 In 2021, I authored my first video courses at Pluralsight.
 
+| | |
+| --- | --- |
 | ![ps][] ![vc][] | [_Elixir: The Big Picture_](https://www.pluralsight.com/courses/elixir-big-picture) • Author |
 | ![ps][] ![vc][] | [_Architecting Elixir Applications with OTP_](https://www.pluralsight.com/courses/elixir-architecting-applications-otp) • Author |
 
@@ -150,6 +156,8 @@ In 2021, I authored my first video courses at Pluralsight.
 
 In 2020, I became an author of my own interactive project and hands-on cloud lab at Pluralsight. Each involved writing challenges. The project involved implementing automated tests to provide feedback, and the cloud lab involved writing Terraform to set up a cloud environment for the learner.
 
+| | |
+| --- | --- |
 | ![ps][] ![proj][] | [_Create a String Manipulation Library in JavaScript_](https://www.pluralsight.com/projects/create-string-manipulation-library-in-javascript) • Author |
 | ![ps][] ![lab][] | _Create a CloudWatch Alarm in AWS_ • Author |
 
@@ -157,6 +165,8 @@ In 2020, I became an author of my own interactive project and hands-on cloud lab
 
 In 2018, Code School was sunset and courses were migrated to Pluralsight's new Interactive Course offering. My work involved migrating the content and re-implementing many of the interactive challenges to support the new platform.
 
+| | |
+| --- | --- |
 | ![cs][] ![ic][] | _On Fire With Phoenix_ |
 | ![ps][] ![ic][] | [_ASP.NET Core: Creating a Basic Web App_](https://www.pluralsight.com/interactive-courses/aspdotnet-basic-web-app) |
 | ![ps][] ![ic][] | [_ASP.NET Core: Using Entity Framework and Working with User Data_](https://www.pluralsight.com/interactive-courses/aspdotnet-entity-framework-user-data) |
@@ -175,6 +185,8 @@ In 2018, Code School was sunset and courses were migrated to Pluralsight's new I
 
 In 2016 and 2017, I implemented interactive challenges for Code School courses on a variety of languages. This involved creating automated tests to provide feedback on code typed in the browser.
 
+| | |
+| --- | --- |
 | ![cs][] ![ic][] | [_Try Elixir_](https://web.archive.org/web/20180220232832/https://www.codeschool.com/courses/try-elixir/) |
 | ![cs][] ![ic][] | [_Mixing It Up With Elixir_](https://web.archive.org/web/20180304114910/https://www.codeschool.com/courses/mixing-it-up-with-elixir) |
 | ![cs][] ![ic][] | [_Try Docker_](https://web.archive.org/web/20170929025049/https://www.codeschool.com/courses/try-docker) |
@@ -188,6 +200,8 @@ In 2016 and 2017, I implemented interactive challenges for Code School courses o
 
 ### 2016
 
+| | |
+| --- | --- |
 | ![cs][] ![ic][] | [_Digging Into Django_](https://web.archive.org/web/20161224041648/https://www.codeschool.com/courses/digging-into-django) |
 | ![cs][] ![ic][] | [_On Track With Golang_](https://web.archive.org/web/20161225041941/https://www.codeschool.com/courses/on-track-with-golang) |
 | ![cs][] ![ic][] | _Try PHP_ |

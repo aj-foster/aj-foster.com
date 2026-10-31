@@ -1,9 +1,11 @@
 ---
 title: Absinthe and Apollo in Swift
-layout: article
 date: 2021-02-23
 preview: Apollo in Swift, Absinthe in Elixir, sending GraphQL over websockets.
 category: Reflection
+permalink: /2021/absinthe-apollo-swift/
+sitemap:
+  priority: 0.5
 ---
 
 [Absinthe](https://github.com/absinthe-graphql/absinthe) is a GraphQL server for the Elixir language, which interacts nicely with the [Phoenix](https://phoenixframework.org/) web framework to serve GraphQL queries over HTTP and websockets. I've used Absinthe in my paid work, and recently started using it for a side project where subscriptions will be very helpful. If you aren't familiar, GraphQL subscriptions allow you to ask the server to send updates when certain things happen, rather than repeatedly asking for updates.

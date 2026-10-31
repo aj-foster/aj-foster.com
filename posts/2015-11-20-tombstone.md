@@ -2,6 +2,9 @@
 title: Tombstones in Typography
 date: 2015-11-20
 preview: Thoughts and examples of using the tombstone in typography on the web.
+permalink: /2015/tombstone/
+sitemap:
+  priority: 0.5
 category: Guide
 ---
 

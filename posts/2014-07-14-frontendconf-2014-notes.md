@@ -2,6 +2,9 @@
 title: Notes from Front-End Design Conference 2014
 date: 2014-07-14
 preview: July 10-11, 2014 in St. Petersburg, Florida
+permalink: /2014/frontendconf-2014-notes/
+sitemap:
+  priority: 0.5
 ---
 
 Please note that these are my personal notes that were not originally intended for public consumption. While I did edit them lightly for mechanics, all of the notes come directly as quotations or paraphrases of the speaker's own words. My personal commentary is set apart *in italics*.
@@ -197,7 +200,7 @@ How to build emails:
 
 * Email design is not web design. The first step is acceptance...
 * Use tables, not divs. It's frustrating, but deal with it.
-* Best single piece of advice: "<td> or GTFO (get to fixing Outlook)".
+* Best single piece of advice: "&lt;td&gt; or GTFO (get to fixing Outlook)".
 * Only apply styling to TDs. Exceptions: links, images, spans.
 * Keep emails modular. 
 * One-column design works best for emails. It also performs better analytics-wise.
@@ -205,9 +208,9 @@ How to build emails:
 * Never use margin, always use padding. 
 * Use HTML attributes when possible (ex: height, width, bgcolor).
 * CSS must be inline.
-* Use <b>, not strong. Use px, not em or rem. Use full hex codes. Use align, not floats.
-* Always align your <td>s.
-* iOS needs a <span> to overwrite default link styling.
+* Use &lt;b&gt;, not strong. Use px, not em or rem. Use full hex codes. Use align, not floats.
+* Always align your &lt;td&gt;s.
+* iOS needs a &lt;span&gt; to overwrite default link styling.
 
 Single most misunderstood thing about email: responsive email is not supported everywhere. There's a difference between device support and application support (devices might have several email rendering engines available).
 

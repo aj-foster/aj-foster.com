@@ -1,9 +1,11 @@
 ---
 title: Writing Commit Messages in Atom
-layout: article
 date: 2016-06-15
 preview: A better way to use Atom as your Git commit message editor.
 category: Guide
+permalink: /2016/git-commit-atom/
+sitemap:
+  priority: 0.5
 ---
 
 **Edit (8-14-2016)**: The previous version of the Init Script for Atom did not handle file paths with spaces in them. A simple replacement (space => backslash space) does the trick.

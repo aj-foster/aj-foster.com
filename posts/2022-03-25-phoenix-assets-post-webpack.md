@@ -1,9 +1,11 @@
 ---
 title: Phoenix Static Assets in the Post-Webpack World
-layout: article
 date: 2022-03-25
 preview: Creating a small package to help with copying static assets in a Phoenix application.
 category: Reflection
+permalink: /2022/phoenix-assets-post-webpack/
+sitemap:
+  priority: 0.5
 ---
 
 Over the past few months, the Phoenix core team and the community around Phoenix have developed first-class support for [esbuild](https://github.com/phoenixframework/esbuild/) and [Tailwind CSS](https://github.com/phoenixframework/tailwind). Both projects offer an alternative to Webpack, the project used to manage static assets since Phoenix 1.4.

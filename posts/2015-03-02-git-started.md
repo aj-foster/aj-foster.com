@@ -2,6 +2,9 @@
 title: Getting Started with Git
 date: 2015-03-02
 preview: Notes from my lecture for PHY 3905 in Spring 2015.
+permalink: /2015/git-started/
+sitemap:
+  priority: 0.5
 category: Guide
 ---
 

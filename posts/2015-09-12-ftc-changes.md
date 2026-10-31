@@ -2,6 +2,9 @@
 title: End of the old FTA
 date: 2015-09-12
 preview: Reflection on my volunteer role as the FIRST Tech Challenge changes.
+permalink: /2015/ftc-changes/
+sitemap:
+  priority: 0.5
 category: Reflection
 ---
 

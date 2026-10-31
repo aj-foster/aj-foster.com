@@ -2,6 +2,9 @@
 title: Terminal Basics
 date: 2014-10-20
 preview: Notes from my talk "Exploring Terminal" for Design & Code at UCF.
+permalink: /2014/exploring-terminal/
+sitemap:
+  priority: 0.5
 category: Guide
 ---
 

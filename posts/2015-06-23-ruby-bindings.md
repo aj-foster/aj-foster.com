@@ -2,6 +2,9 @@
 title: Using Other Lanugages in Ruby
 date: 2015-06-23
 preview: Notes from my presentation at the University Ruby meetup at Cloudspace.
+permalink: /2015/ruby-bindings/
+sitemap:
+  priority: 0.5
 category: Guide
 ---
 

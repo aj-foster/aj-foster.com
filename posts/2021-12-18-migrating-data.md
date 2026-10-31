@@ -1,9 +1,11 @@
 ---
 title: Migrating Data with Elixir
-layout: article
 date: 2021-12-18
 preview: Migrating data to a new version of an application using Elixir.
 category: Reflection
+permalink: /2021/migrating-data/
+sitemap:
+  priority: 0.5
 ---
 
 <p>Recently I completed a rewrite of an application<sup><a href="#footnote-1" id="footnote-1-source">1</a></sup>, and needed to migrate the existing data. Below I'll review the process and discuss some important things I learned along the way.</p>

@@ -1,9 +1,11 @@
 ---
 title: Handling AWS SNS Messages in Elixir
-layout: article
 date: 2025-05-26
 preview: An example of handling Amazon Web Services Simple Notification Service messages in an Elixir / Phoenix application.
 category: Guide
+permalink: /2025/handle-sns-messages/
+sitemap:
+  priority: 0.5
 ---
 
 I recently wanted to accept messages from an Amazon Web Services [Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) topic in an Elixir / Phoenix application.

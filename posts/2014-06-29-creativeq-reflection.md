@@ -2,6 +2,9 @@
 title: CreativeQ Project Reflection
 date: 2014-06-29
 preview: Reflecting on the development of my first production Rails application.
+permalink: /2014/creativeq-reflection/
+sitemap:
+  priority: 0.5
 category: Reflection
 ---
 

@@ -1,9 +1,11 @@
 ---
 title: Integrating Honeycomb.io with Elixir
-layout: article
 date: 2023-02-10
 preview: Focused directions for integrating Honeycomb.io into your Elixir application with OpenTelemetry for observability.
 category: Reflection
+permalink: /2023/honeycomb-elixir/
+sitemap:
+  priority: 0.5
 ---
 
 We recently tried [Honeycomb.io](https://honeycomb.io) at work for observability.

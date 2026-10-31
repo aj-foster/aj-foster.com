@@ -2,6 +2,10 @@
 title: Hello
 group: main
 label: Home
+permalink: /
+sitemap:
+  priority: 1.0
+  changefreq: monthly
 ---
 
 # Hello there
