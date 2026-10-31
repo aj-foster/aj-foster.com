@@ -6,7 +6,9 @@ defmodule Mix.Tasks.Site.Watch do
   @impl true
   def run(args) do
     Mix.Task.run("compile", [])
+    Application.put_env(:tableau, :server, true)
     {:ok, _} = Application.ensure_all_started(:site)
-    Mix.Tasks.Serum.Server.run(args)
+    Site.Sass.run()
+    Mix.Task.run("tableau.server", args)
   end
 end

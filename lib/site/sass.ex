@@ -19,7 +19,7 @@ defmodule Site.Sass do
       |> Path.absname()
 
     watcher =
-      case FileSystem.start_link(dirs: [dir]) do
+      case FileSystem.start_link(backend: :fs_poll, dirs: [dir]) do
         {:ok, pid} -> pid
         :ignore -> nil
       end
@@ -55,35 +55,9 @@ defmodule Site.Sass do
   @dialyzer {:nowarn_function, run: 0}
 
   def run() do
-    File.cwd!()
-    |> Path.join(["styles/", "*.{sass,scss}"])
-    |> Path.absname()
-    |> Path.wildcard()
-    |> Enum.each(fn
-      "_" <> _rest ->
-        nil
+    Mix.Task.rerun("sass", ["default", "--no-source-map"])
 
-      path ->
-        file_no_extension =
-          path
-          |> Path.basename()
-          |> Path.rootname()
-
-        File.mkdir_p!("assets/css")
-
-        destination =
-          File.cwd!()
-          |> Path.join("assets/css")
-          |> Path.join(file_no_extension <> ".css")
-          |> Path.absname()
-
-        with {:ok, sass} <- Sass.compile_file(path),
-             :ok <- File.write(destination, sass) do
-          IO.puts("[Sass] Wrote #{destination}")
-        else
-          error ->
-            IO.inspect(error, label: "[Sass] Error")
-        end
-    end)
+    File.mkdir_p!("site/assets")
+    File.cp_r!("assets", "site/assets")
   end
 end

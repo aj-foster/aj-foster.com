@@ -7,7 +7,8 @@ defmodule Mix.Tasks.Site.Gen do
   def run(args) do
     Mix.Task.run("compile", [])
     {:ok, _} = Application.ensure_all_started(:site)
+    File.rm_rf!("site")
     Site.Sass.run()
-    Mix.Tasks.Serum.Build.run(args)
+    Mix.Task.run("tableau.build", args)
   end
 end

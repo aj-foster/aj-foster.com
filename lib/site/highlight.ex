@@ -2,39 +2,15 @@ defmodule Site.Highlight do
   @moduledoc """
   Taken from https://github.com/dashbitco/nimble_publisher/blob/v0.1.1/lib/nimble_publisher/highlighter.ex
 
-  Serum Plugin that adds syntax highlighing for supported languages.
+  Adds syntax highlighting for supported Markdown code fences.
   """
-
-  @behaviour Serum.Plugin
-
-  def name, do: "Highlighter"
-  def version, do: "1.0.0"
-  def elixir, do: "~> 1.11"
-  def serum, do: "~> 1.5"
-  def description, do: "Syntax highlighter for select languages"
-  def implements, do: [rendered_fragment: 2]
-  # def implements, do: [processed_post: 2]
-
-  def rendered_fragment(frag, _args) do
-    frag = Map.update!(frag, :data, &highlight/1)
-    {:ok, frag}
-  end
-
-  # def processed_post(post, _args) do
-  #   IO.inspect(post.html)
-  #   post = Map.update!(post, :html, &highlight/1)
-  #   IO.inspect(post.html)
-  #   {:ok, post}
-  # end
-
-  # Everything below is copied.
 
   @doc """
   Highlights all code block in an already generated HTML document.
   """
   def highlight(html) do
     Regex.replace(
-      ~r/<pre><code(?:\s+class="(\w*)")?>([^<]*)<\/code><\/pre>/,
+      ~r/<pre><code(?:\s+class="([\w -]*)")?>([^<]*)<\/code><\/pre>/,
       html,
       &highlight_code_block(&1, &2, &3)
     )
@@ -49,7 +25,13 @@ defmodule Site.Highlight do
 
   defp pick_language_and_lexer(""), do: {"text", nil, []}
 
-  defp pick_language_and_lexer(lang) do
+  defp pick_language_and_lexer(class) do
+    lang =
+      class
+      |> String.split()
+      |> List.first("")
+      |> String.replace_prefix("language-", "")
+
     case Makeup.Registry.fetch_lexer_by_name(lang) do
       {:ok, {lexer, opts}} -> {lang, lexer, opts}
       :error -> {lang, nil, []}
