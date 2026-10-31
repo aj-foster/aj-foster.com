@@ -5,7 +5,7 @@ defmodule Site.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Site.Sass
+      Site.Assets
     ]
 
     opts = [strategy: :one_for_one, name: Site.Supervisor]

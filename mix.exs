@@ -24,7 +24,6 @@ defmodule Site.MixFile do
       {:mdex, "~> 0.14.6", override: true},
       {:html_entities, "~> 0.5.2"},
       {:file_system, "~> 1.0"},
-      {:dart_sass, "~> 0.8"},
       {:makeup, "~> 1.2"},
       {:makeup_c, "~> 0.1.1"},
       {:makeup_elixir, "~> 1.0"},

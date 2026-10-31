@@ -24,6 +24,3 @@ site-*.tar
 
 # The generated site.
 /site/
-
-# Remove compiled CSS.
-/assets/css/

@@ -1,12 +1,5 @@
 import Config
 
-config :dart_sass,
-  version: "1.97.3",
-  default: [
-    args: ~w(styles/app.scss assets/css/app.css --no-source-map),
-    cd: Path.expand("..", __DIR__)
-  ]
-
 config :tableau, :config,
   url: "https://aj-foster.com",
   out_dir: "site",
@@ -48,7 +41,6 @@ config :tableau, :reloader,
     ~r"posts/.*\.md",
     ~r"templates/.*\.eex",
     ~r"includes/.*\.eex",
-    ~r"styles/.*\.scss",
     ~r"assets/.*"
   ]
 

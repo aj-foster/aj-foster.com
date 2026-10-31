@@ -9,8 +9,9 @@ GitHub Pages.
 
 After installing the Erlang and Elixir versions in `.tool-versions`:
 
-- `mix site.gen` compiles the styles and generates the complete site in `site/`.
-- `mix site.watch` starts Tableau's local development server and recompiles Sass on changes.
+- `mix site.gen` copies the assets and generates the complete site in `site/`.
+- `mix site.watch` starts Tableau's local development server and watches assets. CSS edits are
+  copied into the served site immediately without restarting the server.
 
 Pushing to `main` is still the publishing step; the existing GitHub Actions workflow runs
 `mix site.gen` and deploys the generated output.
@@ -21,8 +22,8 @@ Pushing to `main` is still the publishing step; the existing GitHub Actions work
 - Both use Markdown with YAML front matter. Give each post a `date`, `preview`, and explicit
   `permalink` so old links remain stable if its title changes.
 - Keep post permalinks in the existing `/year/slug/` format.
-- Static files in `files/` and compiled assets are copied into the generated site.
+- Static files in `files/` and source assets in `assets/` are copied into the generated site.
 - `mix site.gen` creates an RSS 2.0 feed at `/feed.xml` and a sitemap at `/sitemap.xml`.
 
-The site uses Tableau's MDEx converter and Makeup for syntax highlighting. Styles are
-compiled from `styles/app.scss` with Dart Sass.
+The site uses Tableau's MDEx converter and Makeup for syntax highlighting. Styles are plain CSS
+in `assets/css/app.css`; this is also the stylesheet served at `/assets/css/app.css`.
