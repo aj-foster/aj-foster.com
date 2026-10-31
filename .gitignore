@@ -22,7 +22,7 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 site-*.tar
 
-# The default directory which Serum builds the website into.
+# The generated site.
 /site/
 
 # Remove compiled CSS.
