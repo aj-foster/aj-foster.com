@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= if @page.title do %>
-      <title><%= @page.title %> &bull; <%= @site.name %></title>
+    <%= if @page[:title] do %>
+      <title><%= @page.title %> &bull; AJ Foster</title>
     <% else %>
-      <title><%= @site.name %></title>
+      <title>AJ Foster</title>
     <% end %>
-    <link rel="stylesheet" href="<%= asset "css/app.css" %>">
+    <link rel="stylesheet" href="/assets/css/app.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap&text=0123456789" rel="stylesheet">
-    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
+    <link href="/feed.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS feed" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="me" href="https://hachyderm.io/@ajf">
@@ -24,20 +24,21 @@
 <% end %>
     <div class="cell well">
     <%= if @page[:group] == "main" do %>
-      <%= include "aj" %>
+      <%= Site.Partials.logo() %>
     <% end %>
       <section>
-        <%= include "nav" %>
-        <%= @contents %>
+        <%= Site.Partials.navigation() %>
+        <%= render(@inner_content) %>
       </section>
     </div>
 
 <%= if @page[:label] == "Home" do %>
     <div class="cell well">
       <h2>Writing</h2>
-    <%= for post <- Enum.take(@all_posts, 5) do %>
-      <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = post.date %>
-      <a href="<%= post.url %>" class="listing">
+    <%= for post <- Enum.take(@posts, 5) do %>
+      <% date = Calendar.strftime(post.date, "%b %d, %Y") %>
+      <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = date %>
+      <a href="<%= post.permalink %>" class="listing">
         <div class="date">
           <div class="month"><%= month %></div>
           <div class="day"><%= day %></div>
@@ -45,7 +46,7 @@
         </div>
         <div class="text">
           <div class="title"><%= post.title %></div>
-          <div class="description"><%= post.extras["preview"] %></div>
+          <div class="description"><%= post[:preview] || "" %></div>
         </div>
       </a>
     <% end %>
@@ -57,9 +58,10 @@
 
 <%= if @page[:label] == "Posts" do %>
     <div class="cell well">
-    <%= for post <- @all_posts do %>
-      <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = post.date %>
-      <a href="<%= post.url %>" class="listing">
+    <%= for post <- @posts do %>
+      <% date = Calendar.strftime(post.date, "%b %d, %Y") %>
+      <% <<month::binary-3, " ", day::binary-2, ", ", year::binary-4>> = date %>
+      <a href="<%= post.permalink %>" class="listing">
         <div class="date">
           <div class="month"><%= month %></div>
           <div class="day"><%= day %></div>
@@ -67,7 +69,7 @@
         </div>
         <div class="text">
           <div class="title"><%= post.title %></div>
-          <div class="description"><%= post.extras["preview"] %></div>
+          <div class="description"><%= post[:preview] || "" %></div>
         </div>
       </a>
     <% end %>

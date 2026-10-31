@@ -7,6 +7,10 @@
     font-size: 1em;
   }
 
+  table thead {
+    display: none;
+  }
+
   table td:first-child {
     line-height: 1.25;
     padding-top: 0.375rem;
