@@ -20,6 +20,7 @@ defmodule Site.MixFile do
   defp deps do
     [
       {:tableau, "~> 0.30"},
+      {:temple, "~> 0.14.1"},
       # Use the patched MDEx release until Tableau relaxes its current version constraint.
       {:mdex, "~> 0.14.6", override: true},
       {:html_entities, "~> 0.5.2"},
