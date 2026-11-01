@@ -39,8 +39,7 @@ config :tableau, :reloader,
   patterns: [
     ~r"pages/.*\.md",
     ~r"posts/.*\.md",
-    ~r"templates/.*\.eex",
-    ~r"includes/.*\.eex",
+    ~r"lib/.*\.ex",
     ~r"assets/.*"
   ]
 
