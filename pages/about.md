@@ -49,6 +49,7 @@ These are languages and technologies I have written professionally or otherwise 
 <div class="shield">
   <p>Advanced Beginner:</p>
   <ul>
+    <li class="light" style="background-color: #007d9c">Go</li>
     <li class="dark" style="background-color: #ffd343">Python</li>
     <li class="light" style="background-color: #CC342D">Ruby</li>
     <li class="light" style="background-color: #F05138">Swift</li>
@@ -59,7 +60,6 @@ These are languages and technologies I have written professionally or otherwise 
   <p>Novice:</p>
   <ul>
     <li class="light" style="background-color: #4b9c37">C#</li>
-    <li class="light" style="background-color: #007d9c">Go</li>
   </ul>
 </div>
 
@@ -115,6 +115,17 @@ I also create content for Pluralsight as a contract author (see below).
 My first few years at Pluralsight focused on a separate product from an acquired company called Code School.
 Code School created rich interactive courses for learning various programming languages and frameworks.
 This role included the creation of automated feedback systems for coding exercises.
+
+
+## Service
+
+As an unpaid volunteer, I have served in the following capacities:
+
+* **August 2025 – _Present_**: Program Delivery Partner for the _FIRST_ Tech Challenge program in Florida, overseeing 100+ volunteer and 50+ events serving 250+ teams of middle- and high-school students across the state
+* **April 2025 – _Present_**: Global Key Volunteer for Technology in _FIRST_ Tech Challenge, leading technology-focused volunteers around the world
+* **August 2023 – _Present_**: President and Director of the Orlando Robotics Foundation, a recognized 501(c)(3) non-profit organization serving educational robotics programs in Florida
+* **August 2022 – April 2024**: Regional Lead Technical Crew for _FIRST_ Tech Challenge, leading technology-focused volunteers across Florida
+* **October 2015 – _Present_**: _FIRST_ Technical Advisor for the Orlando Robotics League, providing planning and event-day support for _FIRST_ Tech Challenge events in Orlando
 
 
 ## Speaking
